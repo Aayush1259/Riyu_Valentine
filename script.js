@@ -32,6 +32,90 @@ const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platfor
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
 /* ═══════════════════════════════════════════════════════════════
+   MOBILE SHAKE ANIMATION HELPER (JS fallback for iOS/older browsers)
+═══════════════════════════════════════════════════════════════ */
+let shakeInterval = null;
+let shakeFrame = 0;
+const shakeFrames = [
+    { x: 0, r: 0 },
+    { x: -8, r: -0.5 },
+    { x: 8, r: 0.5 },
+    { x: -6, r: -0.3 },
+    { x: 6, r: 0.3 },
+    { x: -4, r: 0 },
+    { x: 4, r: 0 },
+    { x: -2, r: 0 },
+    { x: 2, r: 0 },
+    { x: 0, r: 0 }
+];
+
+function startJSShake() {
+    if (shakeInterval) return; // Already shaking
+    const container = document.getElementById('container');
+    if (!container) return;
+    
+    shakeFrame = 0;
+    shakeInterval = setInterval(() => {
+        const frame = shakeFrames[shakeFrame % shakeFrames.length];
+        container.style.transform = `translate3d(${frame.x}px, 0, 0) rotate(${frame.r}deg)`;
+        shakeFrame++;
+    }, 50); // 20fps for shake
+}
+
+function stopJSShake() {
+    if (shakeInterval) {
+        clearInterval(shakeInterval);
+        shakeInterval = null;
+    }
+    const container = document.getElementById('container');
+    if (container) {
+        container.style.transform = '';
+    }
+}
+
+// Helper to trigger shake - uses both CSS class and JS fallback
+function triggerShake(enable) {
+    if (enable) {
+        document.body.classList.add('screen-shake');
+        // iOS and some mobile browsers need JS fallback
+        if (isMobile) {
+            startJSShake();
+        }
+    } else {
+        document.body.classList.remove('screen-shake');
+        stopJSShake();
+    }
+}
+
+// Helper to shake a specific card element (for wrong answers)
+function shakeCard(cardElement) {
+    if (!cardElement) return;
+    
+    // Add CSS class for animation
+    cardElement.classList.add('shake');
+    
+    // JS fallback for mobile
+    if (isMobile) {
+        let frame = 0;
+        const cardShakeFrames = [0, -8, 8, -8, 8, -6, 6, -4, 4, -2, 2, 0];
+        const originalTransform = cardElement.style.transform;
+        
+        const shakeIt = setInterval(() => {
+            if (frame >= cardShakeFrames.length) {
+                clearInterval(shakeIt);
+                cardElement.style.transform = originalTransform;
+                return;
+            }
+            cardElement.style.transform = `translate3d(${cardShakeFrames[frame]}px, 0, 0)`;
+            frame++;
+        }, 50);
+    }
+    
+    // Remove class after animation
+    setTimeout(() => cardElement.classList.remove('shake'), 600);
+}
+
+/* ═══════════════════════════════════════════════════════════════
    INITIALIZATION
 ═══════════════════════════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
@@ -181,7 +265,7 @@ function handleStep(n) {
                     console.log('Intro music not available');
                 });
             }
-            document.body.classList.remove('screen-shake');
+            triggerShake(false);
         }
         // Steps 16-20: Panic phase - play panic.mp3
         else if (n >= 16 && n <= 20) {
@@ -194,7 +278,7 @@ function handleStep(n) {
                     console.log('Panic music not available');
                 });
             }
-            document.body.classList.add('screen-shake');
+            triggerShake(true);
         }
         // Steps 21+: Calm/Dream phase - play ours.mp3
         else if (n >= 21) {
@@ -207,14 +291,14 @@ function handleStep(n) {
                     console.log('Background music not available');
                 });
             }
-            document.body.classList.remove('screen-shake');
+            triggerShake(false);
         }
     } else {
         // Visual effects only (no music)
         if (n >= 16 && n <= 20) {
-            document.body.classList.add('screen-shake');
+            triggerShake(true);
         } else {
-            document.body.classList.remove('screen-shake');
+            triggerShake(false);
         }
     }
     
@@ -285,7 +369,7 @@ function admitQueen(yes) {
         
         if (queenDenials >= 3) {
             const card = document.getElementById('s4');
-            if (card) card.classList.add('shake');
+            shakeCard(card);
             setTimeout(() => go(5), 600);
         }
     }
