@@ -749,20 +749,32 @@ function initGameControls() {
         if (catcher) catcher.style.left = catcherX + '%';
     });
     
-    // Touch controls
+    // Touch controls - improved for mobile
     const gameZone = document.getElementById('gameZone');
     if (gameZone) {
+        // Prevent default touch behaviors
+        gameZone.addEventListener('touchstart', e => {
+            if (!S.playing) return;
+            e.preventDefault();
+            handleTouch(e, gameZone);
+        }, { passive: false });
+        
         gameZone.addEventListener('touchmove', e => {
             if (!S.playing) return;
             e.preventDefault();
-            
-            const rect = gameZone.getBoundingClientRect();
-            catcherX = ((e.touches[0].clientX - rect.left) / rect.width) * 100;
-            catcherX = Math.max(10, Math.min(90, catcherX));
-            
-            const catcher = document.getElementById('catcher');
-            if (catcher) catcher.style.left = catcherX + '%';
+            handleTouch(e, gameZone);
         }, { passive: false });
+    }
+}
+
+function handleTouch(e, gameZone) {
+    const rect = gameZone.getBoundingClientRect();
+    catcherX = ((e.touches[0].clientX - rect.left) / rect.width) * 100;
+    catcherX = Math.max(10, Math.min(90, catcherX));
+    
+    const catcher = document.getElementById('catcher');
+    if (catcher) {
+        catcher.style.left = catcherX + '%';
     }
 }
 
@@ -777,6 +789,10 @@ function startGame() {
     const bad = ['🍕', '🍔', '🍟', '🌭', '🍩', '🍪'];
     const gameZone = document.getElementById('gameZone');
     
+    if (!gameZone) return;
+    
+    const gameHeight = gameZone.getBoundingClientRect().height;
+    
     function spawn() {
         if (!S.playing || !gameZone) return;
         
@@ -786,37 +802,62 @@ function startGame() {
         f.textContent = isGood ? good[Math.floor(Math.random() * good.length)] : bad[Math.floor(Math.random() * bad.length)];
         f.dataset.good = isGood;
         f.style.left = (10 + Math.random() * 80) + '%';
-        f.style.animationDuration = (2 + Math.random()) + 's';
+        
+        const duration = 2 + Math.random();
+        f.style.webkitAnimationDuration = duration + 's';
+        f.style.animationDuration = duration + 's';
+        
         gameZone.appendChild(f);
         
-        f.addEventListener('animationend', () => {
-            const fRect = f.getBoundingClientRect();
-            const catcher = document.getElementById('catcher');
-            if (!catcher) { f.remove(); return; }
+        // Use both animationend and a timeout fallback for mobile
+        let handled = false;
+        
+        const handleFoodEnd = () => {
+            if (handled) return;
+            handled = true;
             
-            const cRect = catcher.getBoundingClientRect();
-            
-            if (fRect.left < cRect.right && fRect.right > cRect.left && fRect.bottom > cRect.top) {
-                if (f.dataset.good === 'true') {
-                    S.score++;
-                    toast('+1 Healthy! 🥬');
-                } else {
-                    S.score = Math.max(0, S.score - 1);
-                    toast('-1 Oily! 😣');
-                }
-                
-                const scoreEl = document.getElementById('score');
-                if (scoreEl) scoreEl.textContent = S.score;
+            checkCatch(f);
+            if (f.parentNode) f.remove();
+        };
+        
+        // CSS animation end event
+        f.addEventListener('animationend', handleFoodEnd);
+        f.addEventListener('webkitAnimationEnd', handleFoodEnd);
+        
+        // Fallback timeout (slightly longer than animation)
+        setTimeout(handleFoodEnd, (duration + 0.1) * 1000);
+    }
+    
+    function checkCatch(f) {
+        const fRect = f.getBoundingClientRect();
+        const catcher = document.getElementById('catcher');
+        if (!catcher) return;
+        
+        const cRect = catcher.getBoundingClientRect();
+        
+        // Check if food is in catch zone
+        const overlap = fRect.left < cRect.right && 
+                        fRect.right > cRect.left && 
+                        fRect.bottom > cRect.top - 20;
+        
+        if (overlap) {
+            if (f.dataset.good === 'true') {
+                S.score++;
+                toast('+1 Healthy! 🥬');
+            } else {
+                S.score = Math.max(0, S.score - 1);
+                toast('-1 Oily! 😣');
             }
             
-            f.remove();
-            
-            if (S.score >= 5) {
-                S.playing = false;
-                toast('Great diet! 🎉');
-                setTimeout(() => go(31), 1000);
-            }
-        });
+            const scoreEl = document.getElementById('score');
+            if (scoreEl) scoreEl.textContent = S.score;
+        }
+        
+        if (S.score >= 5) {
+            S.playing = false;
+            toast('Great diet! 🎉');
+            setTimeout(() => go(31), 1000);
+        }
     }
     
     const loop = setInterval(() => {
