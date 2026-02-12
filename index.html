@@ -24,7 +24,7 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="styles.css?v=2.1">
+    <link rel="stylesheet" href="styles.css?v=2.2">
 </head>
 
 <body>
@@ -526,14 +526,30 @@
 
     <!-- Step 34: Dinner -->
     <div id="s34" class="card dream hidden">
-        <h1>🍽️ Tonight's Menu</h1>
+        <h1>🍽️ Your Favourite Dishes</h1>
         <p>Choose wisely:</p>
         <div class="btn-group" style="flex-direction: column; gap: 10px; width: 100%;">
             <button class="btn ghost" style="pointer-events: none; width: 100%;">🍕 Pizza (pimple risk: HIGH)</button>
             <button class="btn ghost" style="pointer-events: none; width: 100%;">🍔 Manchurian (tempting but...)</button>
-            <button class="btn gold" onclick="go(35)" style="width: 100%;"><span>🍽️ Spinach Pasta + Broccoli Soup ⭐</span></button>
+            <button class="btn gold" onclick="go('34b')" style="width: 100%;"><span>🍽️ Spinach Pasta + Broccoli Soup ⭐</span></button>
             <button class="btn ghost" style="pointer-events: none; width: 100%;">☕ Starbucks (later for dessert)</button>
         </div>
+    </div>
+
+    <!-- Step 34b: Handmade Food Sad -->
+    <div id="s34b" class="card dream hidden">
+        <h1>😢 oh wait...</h1>
+        <p class="text-lg" style="margin-bottom: 16px;">I thought you like my <span class="gold">handmade food</span>...</p>
+        <p style="opacity: 0.7;">*sad chef noises* 👨‍🍳💔</p>
+        <button class="btn" onclick="go('34c')"><span>Aww no no! I do! 🥺</span></button>
+    </div>
+
+    <!-- Step 34c: Soft Transition -->
+    <div id="s34c" class="card dream hidden">
+        <h1>🥰 That's better!</h1>
+        <p class="text-lg">Okay fine... I'll cook <span class="pink">both</span>!</p>
+        <p style="margin-top: 12px; opacity: 0.8;">Restaurant food + TimTim's special recipes 👨‍🍳✨</p>
+        <button class="btn" onclick="go(35)"><span>Best of both worlds 💝</span></button>
     </div>
 
     <!-- Step 35: Promise -->
@@ -743,7 +759,7 @@
     </div>
 
     <!-- JavaScript -->
-    <script src="script.js?v=2.1"></script>
+    <script src="script.js?v=2.2"></script>
 </body>
 
 </html>

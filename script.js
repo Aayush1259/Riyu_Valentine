@@ -22,7 +22,7 @@ const S = {
 };
 
 const TEA = ['water', 'masala', 'tea', 'milk'];
-const PETS = ['🐱', '🐰', '🐶', '🐶'];  // Cat, Rabbit (her current fav!), and 2 dogs
+const PETS = ['🐱', '🐰', '🐶', '🐶','🐱'];  // Cat, Rabbit (her current fav!), and 2 dogs
 const EMOJIS = '😀😂🥰😎🤔😴🤗😇🥳😈👻💀🤖👽😺🐶🐱🦊🐻🐼🐨🐯🦁🐮🐷🐸🐔🐧🦄🐝🦋🌸🌺🍀🍄🌙⭐🔥💧🍎🍊🍋🍇🍓🍒🎸🎺🎨'.split('');
 
 /* ═══════════════════════════════════════════════════════════════
@@ -129,6 +129,20 @@ document.addEventListener('DOMContentLoaded', () => {
     initEmojis();
     initSignature();
     initGameControls();
+    
+    // Add Enter key support for CAPTCHA and security question inputs
+    const inputHandlers = [
+        { id: 'captchaIn', fn: checkCaptcha },
+        { id: 'q1In', fn: () => checkQ(1) },
+        { id: 'q2In', fn: () => checkQ(2) },
+        { id: 'q3In', fn: () => checkQ(3) },
+        { id: 'q4In', fn: () => checkQ(4) },
+        { id: 'q5In', fn: () => checkQ(5) }
+    ];
+    inputHandlers.forEach(({ id, fn }) => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('keydown', e => { if (e.key === 'Enter') fn(); });
+    });
     
     // Music prompt is visible by default - user must click to start
     // This satisfies mobile browser autoplay policy
