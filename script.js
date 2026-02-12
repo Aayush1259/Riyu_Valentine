@@ -570,81 +570,96 @@ function startSpiral() {
     }, 160);
 }
 
-// Step 18: Floating Fear Thoughts
-let fearInterval = null;
+// Step 18: Pop The Fear Thoughts - Full screen interactive
+let fearCount = 0;
+let fearSpawnInterval = null;
+
 function startFearThoughts() {
     const fears = [
-        { text: '📚 Low grades → No internship', big: false },
+        { text: '📚 Low grades!', big: false },
         { text: '🦳 White hair at 23?!', big: false },
         { text: '😴 Dark circles...', big: false },
         { text: '📉 GPA dropping!', big: false },
         { text: '✈️ DEPORTED?! 😱', big: true },
-        { text: 'No VISA renewal...', big: true },
+        { text: 'No VISA renewal', big: true },
         { text: 'Failing classes?', big: false },
-        { text: 'No internship offer', big: false },
+        { text: 'No internship!', big: false },
         { text: 'Parents disappointed?', big: false },
-        { text: 'STRESS OVERLOAD', big: true },
+        { text: 'STRESS!', big: true },
         { text: 'Career ruined?!', big: true },
-        { text: 'Send her back!', big: true }
+        { text: 'SEND HER BACK!', big: true },
+        { text: '💔 Future gone?', big: false },
+        { text: 'No sleep...', big: false },
+        { text: 'DEADLINES!', big: true }
     ];
     
-    const container = document.getElementById('fearContainer');
-    if (!container) return;
+    fearCount = 15;
     
-    container.innerHTML = '';
+    // Update counter display
+    const countEl = document.getElementById('fearNum');
+    if (countEl) countEl.textContent = fearCount;
+    
+    // Clear existing fear thoughts
+    document.querySelectorAll('.fear-thought').forEach(f => f.remove());
     
     // Clear any existing interval
-    if (fearInterval) clearInterval(fearInterval);
+    if (fearSpawnInterval) clearInterval(fearSpawnInterval);
     
-    let idx = 0;
-    const containerWidth = container.offsetWidth || 280;
-    const containerHeight = container.offsetHeight || 200;
-    
-    function spawnFear() {
-        if (idx >= fears.length) {
-            // Loop back for continuous effect
-            idx = 0;
-        }
-        
-        const fear = fears[idx];
-        const thought = document.createElement('div');
-        thought.className = 'fear-thought' + (fear.big ? ' fear-big' : '');
-        thought.textContent = fear.text;
-        
-        // Random position within container bounds
-        const maxX = Math.max(10, containerWidth - 150);
-        const maxY = Math.max(10, containerHeight - 50);
-        thought.style.left = (Math.random() * maxX) + 'px';
-        thought.style.top = (Math.random() * maxY) + 'px';
-        
-        // Random animation delay for staggered effect
-        thought.style.animationDelay = (Math.random() * 0.3) + 's';
-        
-        container.appendChild(thought);
-        
-        // Remove after animation completes
+    // Spawn fears one by one across the entire screen
+    fears.forEach((fear, i) => {
         setTimeout(() => {
-            if (thought.parentNode) thought.remove();
-        }, 4500);
-        
-        idx++;
-    }
+            if (S.step !== 18) return; // Stop if we left this step
+            
+            const thought = document.createElement('div');
+            thought.className = 'fear-thought' + (fear.big ? ' fear-big' : '');
+            thought.textContent = fear.text;
+            
+            // Random position across ENTIRE screen
+            const maxX = window.innerWidth - 180;
+            const maxY = window.innerHeight - 80;
+            thought.style.left = (20 + Math.random() * Math.max(50, maxX - 40)) + 'px';
+            thought.style.top = (60 + Math.random() * Math.max(100, maxY - 120)) + 'px';
+            
+            // Make it clickable to pop
+            thought.onclick = function() {
+                // Pop animation
+                this.style.transform = 'scale(1.3)';
+                this.style.opacity = '0';
+                this.style.pointerEvents = 'none';
+                
+                setTimeout(() => this.remove(), 300);
+                
+                fearCount--;
+                const countEl = document.getElementById('fearNum');
+                if (countEl) countEl.textContent = fearCount;
+                
+                // When all fears are popped, advance
+                if (fearCount <= 0) {
+                    setTimeout(() => go(19), 600);
+                }
+            };
+            
+            document.body.appendChild(thought);
+        }, i * 350); // Stagger spawn
+    });
     
-    // Spawn initial thoughts
-    spawnFear();
-    setTimeout(spawnFear, 300);
-    setTimeout(spawnFear, 600);
-    
-    // Continue spawning
-    fearInterval = setInterval(spawnFear, 800);
-    
-    // Clean up when leaving this step
+    // Auto-advance after 20 seconds if user hasn't popped all
     setTimeout(() => {
-        if (S.step !== 18 && fearInterval) {
-            clearInterval(fearInterval);
-            fearInterval = null;
+        if (S.step === 18 && fearCount > 0) {
+            // Clean up remaining and advance
+            document.querySelectorAll('.fear-thought').forEach(f => f.remove());
+            go(19);
         }
-    }, 10000);
+    }, 20000);
+}
+
+// Clean up fear thoughts when leaving step 18
+function cleanupFearThoughts() {
+    if (fearSpawnInterval) {
+        clearInterval(fearSpawnInterval);
+        fearSpawnInterval = null;
+    }
+    document.querySelectorAll('.fear-thought').forEach(f => f.remove());
 }
 
 // Step 19: Clouds
