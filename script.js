@@ -22,7 +22,7 @@ const S = {
 };
 
 const TEA = ['water', 'masala', 'tea', 'milk'];
-const PETS = ['🐱', '�', '🐶', '🐶'];  // Cat, Rabbit (her current fav!), and 2 dogs
+const PETS = ['🐱', '🐰', '🐶', '🐶'];  // Cat, Rabbit (her current fav!), and 2 dogs
 const EMOJIS = '😀😂🥰😎🤔😴🤗😇🥳😈👻💀🤖👽😺🐶🐱🦊🐻🐼🐨🐯🦁🐮🐷🐸🐔🐧🦄🐝🦋🌸🌺🍀🍄🌙⭐🔥💧🍎🍊🍋🍇🍓🍒🎸🎺🎨'.split('');
 
 /* ═══════════════════════════════════════════════════════════════
@@ -118,6 +118,12 @@ document.addEventListener('DOMContentLoaded', () => {
     fixViewportHeight();
     window.addEventListener('resize', debounce(fixViewportHeight, 100));
     window.addEventListener('orientationchange', () => setTimeout(fixViewportHeight, 100));
+    
+    // Detect iOS and add class for simplified rendering
+    if (isIOS) {
+        document.body.classList.add('ios-device');
+        document.documentElement.classList.add('ios-device');
+    }
     
     initParticles();
     initEmojis();

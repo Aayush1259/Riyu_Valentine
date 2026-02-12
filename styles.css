@@ -1824,3 +1824,110 @@ button, .btn, a, input, [onclick] {
     25% { margin-left: -5px; }
     75% { margin-left: 5px; }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   🍎 iOS RADICAL FIX - Completely simplified rendering
+   Applied via JavaScript class detection
+══════════════════════════════════════════════════════════════ */
+
+/* iOS: Remove ALL backdrop-filter effects */
+.ios-device .card {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%) !important;
+    border: 2px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+.ios-device .card::before {
+    display: none !important;
+}
+
+/* iOS: Terminal cards */
+.ios-device .card.terminal {
+    background: linear-gradient(135deg, #0a1f0a 0%, #0d2818 100%) !important;
+    border-color: rgba(74, 222, 128, 0.4) !important;
+}
+
+/* iOS: Panic cards - solid red background */
+.ios-device .card.panic {
+    background: linear-gradient(135deg, #3d0a0a 0%, #2a0505 100%) !important;
+    border-color: rgba(255, 80, 80, 0.5) !important;
+    box-shadow: 0 0 40px rgba(255, 0, 0, 0.3) !important;
+}
+
+/* iOS: Calm cards */
+.ios-device .card.calm {
+    background: linear-gradient(135deg, #1a1a3e 0%, #2d1b4e 100%) !important;
+    border-color: rgba(167, 139, 250, 0.4) !important;
+}
+
+/* iOS: Dream cards */
+.ios-device .card.dream {
+    background: linear-gradient(135deg, #2e1a2e 0%, #3e1640 100%) !important;
+    border-color: rgba(255, 45, 106, 0.4) !important;
+}
+
+/* iOS: Ensure all content is visible */
+.ios-device .card * {
+    position: relative;
+    z-index: 2;
+}
+
+.ios-device .card h1,
+.ios-device .card p,
+.ios-device .card button,
+.ios-device .card span,
+.ios-device .card input,
+.ios-device .card div {
+    opacity: 1 !important;
+    visibility: visible !important;
+    color: inherit;
+}
+
+/* iOS: Panic shake using margin (no transforms!) */
+.ios-device.screen-shake .card {
+    animation: iosCardShake 0.25s linear infinite !important;
+    -webkit-animation: iosCardShake 0.25s linear infinite !important;
+}
+
+@-webkit-keyframes iosCardShake {
+    0% { margin-left: 0; margin-right: 0; }
+    25% { margin-left: -8px; margin-right: 8px; }
+    50% { margin-left: 0; margin-right: 0; }
+    75% { margin-left: 8px; margin-right: -8px; }
+    100% { margin-left: 0; margin-right: 0; }
+}
+
+@keyframes iosCardShake {
+    0% { margin-left: 0; margin-right: 0; }
+    25% { margin-left: -8px; margin-right: 8px; }
+    50% { margin-left: 0; margin-right: 0; }
+    75% { margin-left: 8px; margin-right: -8px; }
+    100% { margin-left: 0; margin-right: 0; }
+}
+
+/* iOS: Remove background orbs animation to prevent glitches */
+.ios-device body::before,
+.ios-device body::after {
+    animation: none !important;
+    -webkit-animation: none !important;
+}
+
+/* iOS: Ensure buttons work */
+.ios-device .btn {
+    background: linear-gradient(135deg, rgba(255, 45, 106, 0.3), rgba(177, 78, 255, 0.3)) !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+}
+
+.ios-device .btn.terminal {
+    background: transparent !important;
+}
+
+.ios-device .btn.danger {
+    background: linear-gradient(135deg, rgba(255, 50, 50, 0.4), rgba(200, 30, 30, 0.4)) !important;
+}
+
+.ios-device .btn.yes {
+    background: linear-gradient(135deg, #fff, #ffe0ea) !important;
+}
