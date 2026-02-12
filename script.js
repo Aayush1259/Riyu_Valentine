@@ -1115,6 +1115,38 @@ function drawConnectionLine(dot) {
     svg.appendChild(line);
 }
 
+// Step 27: Dream Destinations
+function toggleDestination(el) {
+    el.classList.toggle('on');
+    checkAllDestinations();
+}
+
+function checkAllDestinations() {
+    const toggles = document.querySelectorAll('#travelToggles .toggle-switch');
+    const onCount = document.querySelectorAll('#travelToggles .toggle-switch.on').length;
+    const status = document.getElementById('travelStatus');
+    const hint = document.getElementById('travelHint');
+    const btn = document.getElementById('travelBtn');
+    
+    if (status) status.textContent = onCount + '/4 destinations selected';
+    
+    if (onCount >= 4) {
+        // All selected!
+        if (btn) btn.classList.remove('hidden');
+        if (hint) hint.classList.add('hidden');
+        if (status) {
+            status.textContent = 'All destinations locked in! 🎉';
+            status.style.color = 'var(--neon-mint)';
+        }
+        toast('Pack your bags! ✈️💕');
+    } else {
+        if (btn) btn.classList.add('hidden');
+        if (onCount > 0 && onCount < 4 && hint) {
+            hint.classList.remove('hidden');
+        }
+    }
+}
+
 // Step 28: Book
 function saveBook() {
     const input = document.getElementById('bookIn');

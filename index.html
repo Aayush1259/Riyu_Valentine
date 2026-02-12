@@ -448,22 +448,24 @@
     <!-- Step 27: Dream Destinations -->
     <div id="s27" class="card dream hidden">
         <h1>🌍 Dream Destinations</h1>
-        <p>Your travel bucket list:</p>
-        <div class="toggle-list">
+        <p>Toggle ON the places you want to visit with me!</p>
+        <div class="toggle-list" id="travelToggles">
             <div class="toggle-row"><span>🗽 NYC, USA (shopping!)</span>
-                <div class="toggle-switch on" onclick="this.classList.toggle('on')"></div>
+                <div class="toggle-switch" onclick="toggleDestination(this)"></div>
             </div>
             <div class="toggle-row"><span>🏔️ Darjeeling (tea & views)</span>
-                <div class="toggle-switch on" onclick="this.classList.toggle('on')"></div>
+                <div class="toggle-switch" onclick="toggleDestination(this)"></div>
             </div>
             <div class="toggle-row"><span>🌃 Seattle Space Needle</span>
-                <div class="toggle-switch on" onclick="this.classList.toggle('on')"></div>
+                <div class="toggle-switch" onclick="toggleDestination(this)"></div>
             </div>
             <div class="toggle-row"><span>🏖️ Beverly Hills tour</span>
-                <div class="toggle-switch on" onclick="this.classList.toggle('on')"></div>
+                <div class="toggle-switch" onclick="toggleDestination(this)"></div>
             </div>
         </div>
-        <button class="btn" onclick="go(28)"><span>We'll visit ALL! ✈️</span></button>
+        <p id="travelStatus" class="gold">0/4 destinations selected</p>
+        <p id="travelHint" class="hidden" style="color: #ff6b6b; font-size: 0.85rem;">Select ALL destinations! We're visiting everywhere! 😊</p>
+        <button class="btn hidden" id="travelBtn" onclick="go(28)"><span>We'll visit ALL! ✈️</span></button>
     </div>
 
     <!-- Step 28: Why I Love You -->
