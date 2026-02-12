@@ -41,7 +41,7 @@
         <source src="panic.mp3" type="audio/mpeg">
     </audio>
     <audio id="bgMusic" loop preload="auto">
-        <source src="ours.mp3" type="audio/mpeg">
+        <source src="./Perfect (Acoustic).mp3" type="audio/mpeg">
     </audio>
 
     <!-- Music Prompt (required for mobile) -->
@@ -203,7 +203,8 @@
             </div>
             <div id="charlieText"
                 style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.9); border-radius: 16px; opacity: 0; transition: opacity 0.5s; padding: 16px; text-align: center; pointer-events: none;">
-                <span class="gold font-display">But does he make you broccoli soup? Does he call you Drama Queen? 💛</span>
+                <span class="gold font-display">But does he make you broccoli soup? Does he call you Drama Queen?
+                    💛</span>
             </div>
         </div>
         <p style="font-size: 0.85rem; opacity: 0.6;">Tap the musician to reveal truth...</p>
@@ -253,11 +254,16 @@
     <div id="s13" class="card hidden">
         <h1>📊 Personality Decode</h1>
         <p>Running deep analysis...</p>
-        <div style="background: rgba(0,0,0,0.2); padding: clamp(16px, 4vw, 24px); border-radius: 16px; margin: 16px 0; text-align: left; width: 100%;">
-            <p style="margin: 10px 0;"><span style="opacity: 0.6;">Sweetness Index:</span> <span class="mint">47.3%</span></p>
-            <p style="margin: 10px 0;"><span style="opacity: 0.6;">Chaos Factor:</span> <span class="pink">52.7%</span></p>
-            <p style="margin: 10px 0;"><span style="opacity: 0.6;">Drama Coefficient:</span> <span class="gold">∞ (overflow)</span></p>
-            <p style="margin: 10px 0;"><span style="opacity: 0.6;">Lovability:</span> <span class="purple">OFF THE CHARTS 💜</span></p>
+        <div
+            style="background: rgba(0,0,0,0.2); padding: clamp(16px, 4vw, 24px); border-radius: 16px; margin: 16px 0; text-align: left; width: 100%;">
+            <p style="margin: 10px 0;"><span style="opacity: 0.6;">Sweetness Index:</span> <span
+                    class="mint">47.3%</span></p>
+            <p style="margin: 10px 0;"><span style="opacity: 0.6;">Chaos Factor:</span> <span class="pink">52.7%</span>
+            </p>
+            <p style="margin: 10px 0;"><span style="opacity: 0.6;">Drama Coefficient:</span> <span class="gold">∞
+                    (overflow)</span></p>
+            <p style="margin: 10px 0;"><span style="opacity: 0.6;">Lovability:</span> <span class="purple">OFF THE
+                    CHARTS 💜</span></p>
         </div>
         <button class="btn" onclick="go(14)"><span>Accurate. Continue →</span></button>
     </div>
@@ -303,19 +309,20 @@
         <div id="spiralBox" style="font-size: clamp(1rem, 3vw, 1.3rem); color: #ff6b6b; min-height: 100px;"></div>
     </div>
 
-    <!-- Step 18: Fear - Pop the thoughts! -->
+    <!-- Step 18: Fear - Shatter the glass fears! -->
     <div id="s18" class="card panic hidden">
-        <h1 class="panic" style="font-size: clamp(1.8rem, 6vw, 2.5rem) !important;">THE WORST FEARS</h1>
-        <p style="color: #ff6b6b; font-size: 1rem;">Tap the thoughts to make them go away!</p>
-        <p class="gold" style="font-size: 1.2rem;">Remaining: <span id="fearNum">15</span></p>
-        <p style="color: #ff6b6b; font-size: 0.9rem; opacity: 0.7; margin-top: 8px;">Everything is falling apart!</p>
+        <h1 class="panic" style="font-size: clamp(1.8rem, 6vw, 2.5rem) !important;">🔨 SHATTER!</h1>
+        <p style="color: #ff6b6b; font-size: 1rem;">Your fears are trapped in glass!</p>
+        <p style="color: #ffd93d; font-size: 0.9rem;">👊 TAP RAPIDLY to crack & break them!</p>
+        <p class="gold" style="font-size: 1.2rem; margin-top: 8px;">Shattered: <span id="fearNum">0</span>/10</p>
     </div>
 
-    <!-- Step 19: Pop Clouds -->
+    <!-- Step 19: Pop Worries -->
     <div id="s19" class="card panic hidden">
-        <h1 class="panic">💨 Pop The Worries!</h1>
-        <p style="color: #ff6b6b;">Tap all the anxiety clouds to clear your mind!</p>
-        <p class="gold">Remaining: <span id="cloudNum">12</span></p>
+        <h1 class="panic">🎈 POP!</h1>
+        <p style="color: #ff6b6b;">Anxiety balloons everywhere!</p>
+        <p style="color: #ffd93d; font-size: 0.9rem;">👆 TAP each balloon 4x to pop it!</p>
+        <p class="gold">Remaining: <span id="cloudNum">8</span></p>
     </div>
 
     <!-- Step 20: Call -->
@@ -334,6 +341,17 @@
         <p>I'm not going anywhere. Ever.</p>
         <button class="btn" style="background: var(--hydrangea);" onclick="enterCalm()"><span>Let's breathe together
                 →</span></button>
+    </div>
+
+    <!-- Step 21b: Grounding (New) -->
+    <div id="s21b" class="card calm hidden">
+        <h1 style="color: var(--hydrangea); -webkit-text-fill-color: var(--hydrangea);">🌿 Ground Yourself</h1>
+        <div class="grounding-box">
+            <p style="color: var(--hydrangea); margin-bottom: 15px;">Tap the 5 <span class="mint">Sunflowers</span> 🌻
+            </p>
+            <div class="grounding-items" id="groundingItems"></div>
+        </div>
+        <p class="gold" id="groundingMsg">0/5 Found</p>
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════
@@ -360,9 +378,21 @@
         <p class="text-lg" id="breathLabel" style="color: var(--hydrangea); margin-top: 24px;">Inhale...</p>
         <p style="opacity: 0.6; font-size: 0.9rem;">4s inhale → 5s hold → 10s exhale</p>
         <p class="gold" id="breathTime">19s remaining</p>
-        <p id="breathScold" class="hidden" style="color: #ff6b6b; font-size: 0.95rem; margin-top: 8px;">I know you didn't do it... 😤<br>Please actually breathe this time!</p>
-        <button class="btn hidden" id="breathBtn" style="background: var(--hydrangea);" onclick="go(24)"><span>I feel
+        <button class="btn" id="breathBtn" style="background: var(--hydrangea);" onclick="trySkipBreath()"><span>I feel
                 calmer 💜</span></button>
+    </div>
+
+    <!-- Step 23b: Scold for skipping -->
+    <div id="s23b" class="card calm hidden">
+        <h1 style="color: #ff6b6b; -webkit-text-fill-color: #ff6b6b;">😤 Riyu...</h1>
+        <div style="font-size: 3rem; margin: 16px 0;">🙄</div>
+        <p class="text-lg" style="color: #ff6b6b;">I KNOW you didn't actually do it.</p>
+        <p style="margin-top: 12px; opacity: 0.8;">You just clicked the button without breathing, didn't you?</p>
+        <p style="margin-top: 20px; font-style: italic; opacity: 0.9;">Please... for me... actually breathe this time.
+            🥺</p>
+        <p style="margin-top: 8px; font-size: 0.85rem; opacity: 0.7;">I'll know if you skip again!</p>
+        <button class="btn" style="background: var(--hydrangea); margin-top: 20px;"
+            onclick="goBackToBreath()"><span>Okay fine... I'll do it properly 😔</span></button>
     </div>
 
     <!-- Step 24: Affirmations -->
@@ -371,10 +401,12 @@
         <div style="background: rgba(167, 139, 250, 0.1); padding: clamp(20px, 5vw, 28px); border-radius: 20px;">
             <p class="text-lg" style="color: #fff; margin: 14px 0;">You are <span class="gold">BRILLIANT</span>.</p>
             <p class="text-lg" style="color: #fff; margin: 14px 0;">You are <span class="mint">UNSTOPPABLE</span>.</p>
-            <p class="text-lg" style="color: #fff; margin: 14px 0;">You are <span class="pink">MY FUTURE STAR</span>.</p>
+            <p class="text-lg" style="color: #fff; margin: 14px 0;">You are <span class="pink">MY FUTURE STAR</span>.
+            </p>
             <p class="text-lg" style="color: #fff; margin: 14px 0;">You are <span class="purple">LOVED</span>.</p>
         </div>
-        <p style="font-size: 0.85rem; margin-top: 16px; opacity: 0.7; font-style: italic;">And yes, even when you say "ehh ehh" 😊</p>
+        <p style="font-size: 0.85rem; margin-top: 16px; opacity: 0.7; font-style: italic;">And yes, even when you say
+            "ehh ehh" 😊</p>
         <button class="btn" style="background: var(--hydrangea);" onclick="go(25)"><span>Thank you, TimTim
                 🥺</span></button>
     </div>
@@ -442,7 +474,8 @@
             <svg class="heritage-lines" id="heritageLines"></svg>
         </div>
         <p class="gold" id="mapMsg"><span id="rootCount">0</span>/4 roots connected to 💛</p>
-        <p id="heritageComplete" class="hidden" style="color: var(--neon-mint); font-size: 0.95rem;">All your cultures... chose to love me 🥺💕</p>
+        <p id="heritageComplete" class="hidden" style="color: var(--neon-mint); font-size: 0.95rem;">All your
+            cultures... chose to love me 🥺💕</p>
     </div>
 
     <!-- Step 27: Dream Destinations -->
@@ -450,28 +483,47 @@
         <h1>🌍 Dream Destinations</h1>
         <p>Toggle ON the places you want to visit with me!</p>
         <div class="toggle-list" id="travelToggles">
-            <div class="toggle-row"><span>🗽 NYC, USA (shopping!)</span>
+            <div class="toggle-row">
+                <div class="dest-info">
+                    <span class="dest-name">🗽 NYC, USA</span>
+                    <span class="dest-reason">Shopping & apartment near Times Square 💫</span>
+                </div>
                 <div class="toggle-switch" onclick="toggleDestination(this)"></div>
             </div>
-            <div class="toggle-row"><span>🏔️ Darjeeling (tea & views)</span>
+            <div class="toggle-row">
+                <div class="dest-info">
+                    <span class="dest-name">🌃 Seattle</span>
+                    <span class="dest-reason">Space Needle & quality time together 💜</span>
+                </div>
                 <div class="toggle-switch" onclick="toggleDestination(this)"></div>
             </div>
-            <div class="toggle-row"><span>🌃 Seattle Space Needle</span>
+            <div class="toggle-row">
+                <div class="dest-info">
+                    <span class="dest-name">🏖️ Beverly Hills</span>
+                    <span class="dest-reason">Tour & our future dream house 🏠</span>
+                </div>
                 <div class="toggle-switch" onclick="toggleDestination(this)"></div>
             </div>
-            <div class="toggle-row"><span>🏖️ Beverly Hills tour</span>
+            <div class="toggle-row">
+                <div class="dest-info">
+                    <span class="dest-name">🏔️ Darjeeling</span>
+                    <span class="dest-reason">Tea gardens & mountain views ☕</span>
+                </div>
                 <div class="toggle-switch" onclick="toggleDestination(this)"></div>
             </div>
         </div>
         <p id="travelStatus" class="gold">0/4 destinations selected</p>
-        <p id="travelHint" class="hidden" style="color: #ff6b6b; font-size: 0.85rem;">Select ALL destinations! We're visiting everywhere! 😊</p>
+        <p id="travelHint" class="hidden" style="color: #ff6b6b; font-size: 0.85rem;">Select ALL destinations! We're
+            visiting everywhere! 😊</p>
         <button class="btn hidden" id="travelBtn" onclick="go(28)"><span>We'll visit ALL! ✈️</span></button>
     </div>
 
     <!-- Step 28: Why I Love You -->
     <div id="s28" class="card dream hidden">
-        <h1>💖 The Girl I Love</h1>
-        <p style="opacity: 0.7; font-size: 0.9rem; margin-bottom: 8px;">Every facet of you shines ✨</p>
+        <h1
+            style="color: var(--neon-pink); -webkit-text-fill-color: var(--neon-pink); background: none; text-shadow: 0 0 20px rgba(255,45,106,0.5); margin-bottom: 4px;">
+            💖 The Girl I Love</h1>
+        <p style="opacity: 0.8; font-size: 0.95rem; color: #fff;">Every facet of you shines ✨</p>
         <div class="trait-grid">
             <div class="trait-card">
                 <span class="trait-emoji">🎤</span>
@@ -514,8 +566,9 @@
                 <span class="trait-desc">Those dreamy eyes when she's with me</span>
             </div>
         </div>
-        <p style="font-size: 0.9rem; margin-top: 16px; opacity: 0.9; font-style: italic;">"She's not just talented. She's <span class="gold">magic</span>." ✨</p>
-        <button class="btn gold" style="margin-top: 12px;" onclick="go(29)"><span>You see all that in me? 🥺</span></button>
+        <p style="font-size: 0.95rem; opacity: 0.9; font-style: italic;">"She's not just talented. She's <span
+                class="gold">magic</span>." ✨</p>
+        <button class="btn gold" onclick="go(29)"><span>You see all that in me? 🥺</span></button>
     </div>
 
     <!-- Step 29: Book -->
@@ -552,9 +605,12 @@
     <!-- Step 32: Insecurity -->
     <div id="s32" class="card dream hidden">
         <h1>😔 The Fear</h1>
-        <p style="font-size: clamp(1rem, 2.8vw, 1.2rem); color: var(--neon-pink);">"When you're topping Billboard charts..."</p>
-        <p style="font-size: clamp(1rem, 2.8vw, 1.2rem); color: var(--neon-pink);">"Playing glass piano in sold-out shows..."</p>
-        <p style="font-size: clamp(1.1rem, 3vw, 1.3rem); color: var(--neon-pink); margin-top: 12px;">"...will you still have time for me?"</p>
+        <p style="font-size: clamp(1rem, 2.8vw, 1.2rem); color: var(--neon-pink);">"When you're topping Billboard
+            charts..."</p>
+        <p style="font-size: clamp(1rem, 2.8vw, 1.2rem); color: var(--neon-pink);">"Playing glass piano in sold-out
+            shows..."</p>
+        <p style="font-size: clamp(1.1rem, 3vw, 1.3rem); color: var(--neon-pink); margin-top: 12px;">"...will you still
+            have time for me?"</p>
         <button class="btn" onclick="go(33)"><span>Let me answer that →</span></button>
     </div>
 
@@ -577,16 +633,20 @@
         <p>Choose wisely:</p>
         <div class="btn-group" style="flex-direction: column; gap: 10px; width: 100%;">
             <button class="btn ghost" style="pointer-events: none; width: 100%;">🍕 Pizza (pimple risk: HIGH)</button>
-            <button class="btn ghost" style="pointer-events: none; width: 100%;">🍔 Manchurian (tempting but...)</button>
-            <button class="btn gold" onclick="go('34b')" style="width: 100%;"><span>🍽️ Spinach Pasta + Broccoli Soup ⭐</span></button>
-            <button class="btn ghost" style="pointer-events: none; width: 100%;">☕ Starbucks (later for dessert)</button>
+            <button class="btn ghost" style="pointer-events: none; width: 100%;">🍔 Manchurian (tempting
+                but...)</button>
+            <button class="btn gold" onclick="go('34b')" style="width: 100%;"><span>🍽️ Spinach Pasta + Broccoli Soup
+                    ⭐</span></button>
+            <button class="btn ghost" style="pointer-events: none; width: 100%;">☕ Starbucks (later for
+                dessert)</button>
         </div>
     </div>
 
     <!-- Step 34b: Handmade Food Sad -->
     <div id="s34b" class="card dream hidden">
         <h1>😢 oh wait...</h1>
-        <p class="text-lg" style="margin-bottom: 16px;">I thought you like my <span class="gold">handmade food</span>...</p>
+        <p class="text-lg" style="margin-bottom: 16px;">I thought you like my <span class="gold">handmade food</span>...
+        </p>
         <p style="opacity: 0.7;">*sad chef noises* 👨‍🍳💔</p>
         <button class="btn" onclick="go('34c')"><span>Aww no no! I do! 🥺</span></button>
     </div>
@@ -638,81 +698,94 @@
     <div id="s38" class="card dream hidden">
         <h1 class="romantic">📸 Us</h1>
         <div class="photo-frame"
-            style="width: min(220px, 55vw); height: min(220px, 55vw); background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple)); border-radius: 20px; margin: 20px auto; display: flex; align-items: center; justify-content: center; font-size: clamp(3rem, 10vw, 4rem); position: relative; overflow: hidden;">
-            <!-- Replace this div with: <img src="our-photo.jpg" style="width:100%;height:100%;object-fit:cover;"> -->
-            <span style="font-size: clamp(4rem, 12vw, 5rem);">💑</span>
+            style="width: min(240px, 60vw); height: min(280px, 70vw); background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple)); border-radius: 20px; margin: 20px auto; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: 0 20px 50px rgba(255,45,106,0.3), 0 0 0 3px rgba(255,255,255,0.1);">
+            <img src="image.jpeg" style="width:100%;height:100%;object-fit:cover;border-radius:17px;">
         </div>
-        <p style="font-style: italic; opacity: 0.7;">(Our best photo goes here)</p>
+        <p style="font-style: italic; opacity: 0.8; color: var(--hydrangea);">My favorite human 💜</p>
         <button class="btn" onclick="go(39)"><span>We look adorable 🥰</span></button>
     </div>
 
     <!-- Step 39: Letter -->
     <div id="s39" class="card dream hidden">
-        <h1 class="romantic">💌 A Letter</h1>
-        <div class="envelope" id="envelope" onclick="openLetter()"></div>
-        <p id="letterHint">Click to open...</p>
-        <div class="letter-box hidden" id="letterBox" style="max-height: 60vh; overflow-y: auto; text-align: left; line-height: 1.7;">
-            <p style="text-align: center; margin-bottom: 16px;"><span class="pink" style="font-size: 1.1rem;">For My Riyu</span></p>
-            
-            <p>I am not a poet like you.<br>
-            I cannot spin pain into beautiful verses,<br>
-            Or make the ink bleed with emotion the way you do.<br>
-            I am not a dancer who moves with grace,<br>
-            Nor a singer who can carry a tune.</p>
-            
-            <p>I am just a simple guy from <span class="gold">Vadodara</span>,<br>
-            Just a common international student,<br>
-            Trying to find his footing in this big, foreign world.</p>
-            
-            <p style="margin-top: 16px;">But I remember the moment the map changed.<br>
-            It didn't start with a grand gesture.<br>
-            It started with a T-shirt that said <span class="pink">"Me-Now"</span>,<br>
-            And a spark I didn't even know was lighting up my dark.</p>
-            
-            <p>Then came the day under the tree.<br>
-            You sat there, heavy with a sadness<br>
-            that quieted my loud <span class="gold">"Drama Queen"</span>.<br>
-            And I—the introvert who usually hides in the corner—<br>
-            Did something my shy heart never thought it could do.</p>
-            
-            <p style="text-align: center;"><span class="purple" style="font-size: 1.1rem;">I danced.</span></p>
-            
-            <p>I had no rhythm. I had no moves.<br>
-            But I stepped out of my comfort zone,<br>
-            Desperate just to see that child-like smile<br>
-            break through the clouds.</p>
-            
-            <p style="margin-top: 16px;">I thought I was the hero that day.<br>
-            I thought I was the one saving you.<br>
-            But oh, my <span class="pink">Humpy Dumpy Minion</span>,<br>
-            how the tables turned.</p>
-            
-            <p>When the doubt about the US crept in,<br>
-            When the fear of jobs and the future weighed me down,<br>
-            <span class="gold">You became the gravity.</span><br>
-            You were the shoulder when I felt heavy.<br>
-            You were the first person I could spill my deepest secrets to,<br>
-            Natural as breathing, without fear, without hiding.</p>
-            
-            <p>I still feel the warmth of our <span class="pink">first hug</span>,<br>
-            The quiet safety of our <span class="purple">first kiss</span>.<br>
-            It didn't just feel like comfort;<br>
-            It felt like I had finally arrived <span class="gold">home</span>.</p>
-            
-            <p style="margin-top: 16px;">So let the panic come.<br>
-            Let the fierce <span class="pink">"Panda Face"</span> bite its nails about grades.<br>
-            I may not be a writer, or a dancer, or a star,<br>
-            But I am your <span class="gold">Chef</span>.<br>
-            Your <span class="mint">Therapist</span>.<br>
-            Your <span class="purple">Makkar</span>.</p>
-            
-            <p>I promise to hold you when the world feels too big,<br>
-            And I promise to keep dancing—<span class="pink">clumsy and true</span>—<br>
-            Every single time you need a smile.</p>
-            
-            <p style="text-align: right; margin-top: 24px;">Forever yours,<br><span class="gold" style="font-family: 'Dancing Script', cursive; font-size: 1.3rem;">Your TimTim 🐒</span></p>
+        <h1 class="romantic">A Letter For You</h1>
+
+        <div class="love-letter-scene" id="letterScene">
+            <!-- The Envelope -->
+            <div class="envelope-3d" id="envelope3d">
+                <div class="envelope-body">
+                    <div class="envelope-back"></div>
+                    <div class="envelope-letter" id="envelopeLetter">
+                        <div class="letter-teaser">💌</div>
+                    </div>
+                    <div class="envelope-front-left"></div>
+                    <div class="envelope-front-right"></div>
+                    <div class="envelope-flap" id="envelopeFlap"></div>
+                </div>
+
+                <!-- Wax Seal -->
+                <div class="wax-seal" id="waxSeal" onclick="breakSeal()">
+                    <div class="seal-inner">💕</div>
+                    <div class="seal-text">TAP</div>
+                </div>
+            </div>
+
+            <p class="seal-hint" id="sealHint">✨ Tap the seal to open ✨</p>
         </div>
-        <button class="btn hidden" id="letterBtn" onclick="go(40)"><span>I'm not crying... 😭</span></button>
+
+        <!-- Particles container -->
+        <div class="seal-particles" id="sealParticles"></div>
+
+        <div class="letter-box hidden" id="letterBox">
+            <div class="paper-content">
+                <div class="paper-header">
+                    <span class="paper-date">February 14, 2026</span>
+                </div>
+
+                <h2 class="handwritten-title">My Dearest Riyu,</h2>
+
+                <div class="handwritten-body">
+                    <p>I am not a poet like you.<br>
+                        I cannot spin pain into beautiful verses,<br>
+                        Or make the ink bleed with emotion the way you do.<br>
+                        I am not a dancer who moves with grace,<br>
+                        Nor a singer who can carry a tune.</p>
+
+                    <p>I am just a simple guy from <span class="highlight">Vadodara</span>,<br>
+                        Just a common international student,<br>
+                        Just "TimTim" from your phone screen.</p>
+
+                    <p>But when I look at you...<br>
+                        I see <span class="highlight">Everything</span>.</p>
+
+                    <p>I see the girl who fights her own mind and wins everyday.<br>
+                        I see the artist who colors my grey world.<br>
+                        I see the future I want to wake up to.</p>
+
+                    <p>You worry you're "too much".<br>
+                        Too emotional. Too chaotic. Too needy.<br>
+                        But baby...<br>
+                        <span class="highlight">You are just enough.</span>
+                    </p>
+
+                    <p>So here is my promise, in writing,<br>
+                        sealed with a digital kiss:</p>
+
+                    <p class="promise-quote">"I will hold your chaos as gently as I hold your hands.<br>
+                        I will be your calm in the panic.<br>
+                        And I will love you...<br>
+                        Even when you don't love yourself."</p>
+                </div>
+
+                <div class="paper-footer">
+                    <span class="yours">Forever Yours,</span>
+                    <span class="signature">Aayush</span>
+                    <div class="ink-splatter"></div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn hidden" id="letterBtn" onclick="go(40)" style="margin-top: 20px;"><span>I'm Crying 🥺
+                (Continue)</span></button>
     </div>
 
     <!-- Step 40: Buildup -->
@@ -729,7 +802,8 @@
         <p class="text-xl pink" style="margin: 28px 0;">Will you be my Valentine? 💝</p>
         <div class="btn-group" style="position: relative; min-height: 80px;">
             <button class="btn yes" onclick="sayYes()"><span>YES! 💕</span></button>
-            <button class="btn no" id="noBtn" onmouseenter="dodgeNo()" ontouchstart="dodgeNo()"><span>No</span></button>
+            <button class="btn no" id="noBtn" onmouseenter="dodgeNo()" ontouchstart="dodgeNo()"
+                onclick="dodgeNo(); return false;"><span>No</span></button>
         </div>
     </div>
 
@@ -737,13 +811,24 @@
     <div id="s42" class="card dream hidden">
         <h1>📜 Terms of Love</h1>
         <div class="contract-box">
-            <div class="contract-item"><input type="checkbox" checked disabled><span>I will love TimTim (that's you, Aayush!) unconditionally</span></div>
-            <div class="contract-item"><input type="checkbox" checked disabled><span>I will watch Gilmore Girls & Little Things on loop together</span></div>
-            <div class="contract-item"><input type="checkbox" checked disabled><span>I accept my Drama Queen title 👑</span></div>
-            <div class="contract-item"><input type="checkbox" checked disabled><span>I will let him make Nani's broccoli soup</span></div>
-            <div class="contract-item"><input type="checkbox" checked disabled><span>I will say "ehh ehh" forever 😊</span></div>
-            <div class="contract-item"><input type="checkbox" checked disabled><span>Seattle Space Needle date: Confirmed 🌆</span></div>
-            <div class="contract-item"><input type="checkbox" checked disabled><span>We will chase Billboard charts together ✨</span></div>
+            <div class="contract-item"><input type="checkbox" checked disabled><span>I will love TimTim (that's you,
+                    Aayush!) unconditionally</span></div>
+            <div class="contract-item"><input type="checkbox" checked disabled><span>I will watch Gilmore Girls & Little
+                    Things on loop together</span></div>
+            <div class="contract-item"><input type="checkbox" checked disabled><span>I accept my Drama Queen title
+                    👑</span></div>
+            <div class="contract-item"><input type="checkbox" checked disabled><span>I will let him make Nani's broccoli
+                    soup</span></div>
+            <div class="contract-item"><input type="checkbox" checked disabled><span>I will say "ehh ehh" forever
+                    😊</span></div>
+            <div class="contract-item"><input type="checkbox" checked disabled><span>NYC apartment near Times Square:
+                    Confirmed 🗽</span></div>
+            <div class="contract-item"><input type="checkbox" checked disabled><span>Seattle Space Needle date:
+                    Confirmed 🌆</span></div>
+            <div class="contract-item"><input type="checkbox" checked disabled><span>Beverly Hills dream house:
+                    Confirmed 🏠</span></div>
+            <div class="contract-item"><input type="checkbox" checked disabled><span>We will chase Billboard charts
+                    together ✨</span></div>
         </div>
         <button class="btn" onclick="go(43)"><span>I Accept All Terms 💕</span></button>
     </div>
@@ -765,29 +850,32 @@
 
     <!-- Step 44: Receipt -->
     <div id="s44" class="card dream hidden">
-        <h1>🧾 Official Receipt</h1>
+        <h1
+            style="color: #ff2d6a; -webkit-text-fill-color: #ff2d6a; background: none; text-shadow: 0 0 20px rgba(255,45,106,0.5); font-size: clamp(1.5rem, 5vw, 2rem);">
+            🧾 Official Receipt</h1>
         <div class="receipt">
             <h3>💕 LOVE RECEIPT 💕</h3>
-            <div class="receipt-row"><span>Date:</span><span>Feb 14, 2026</span></div>
-            <div class="receipt-row"><span>Location:</span><span>Beverly Hills (soon™️)</span></div>
-            <div class="receipt-row"><span>Customer:</span><span>Riyu ♫</span></div>
-            <div class="receipt-row"><span>Server:</span><span>TimTim/Makkar 🐒</span></div>
-            <hr style="margin: 8px 0; border-style: dashed;">
+            <div class="receipt-row"><span>📅 Date:</span><span>Feb 14, 2026</span></div>
+            <div class="receipt-row"><span>📍 Location:</span><span>Beverly Hills</span></div>
+            <div class="receipt-row"><span>👑 Customer:</span><span>Riyu ♫</span></div>
+            <div class="receipt-row"><span>🐒 Server:</span><span>TimTim</span></div>
+            <hr style="margin: 8px 0; border-style: dashed; border-color: #ff2d6a60;">
             <div class="receipt-row"><span>∞ Spinach Pasta</span><span>🍽️</span></div>
-            <div class="receipt-row"><span>∞ Broccoli Soup (Nani recipe)</span><span>🍲</span></div>
+            <div class="receipt-row"><span>∞ Broccoli Soup</span><span>🍲</span></div>
             <div class="receipt-row"><span>1x Starbucks date</span><span>☕</span></div>
-            <div class="receipt-row"><span>1x Seattle Space Needle</span><span>🌆</span></div>
+            <div class="receipt-row"><span>1x NYC apartment</span><span>🗽</span></div>
+            <div class="receipt-row"><span>1x Seattle Needle</span><span>🌆</span></div>
             <div class="receipt-row"><span>∞ Late night talks</span><span>🌙</span></div>
-            <div class="receipt-row"><span>∞ Gilmore Girls marathons</span><span>📺</span></div>
+            <div class="receipt-row"><span>∞ Gilmore Girls</span><span>📺</span></div>
             <div class="receipt-row"><span>∞ "ehh ehh" moments</span><span>😊</span></div>
-            <div class="receipt-row"><span>1x Beverly Hills dream</span><span>🏠</span></div>
-            <div class="receipt-row"><span>∞ Billboard chart prayers</span><span>🎵</span></div>
-            <div class="receipt-row"><span>1x Glass Piano concert</span><span>🎹</span></div>
+            <div class="receipt-row"><span>1x Beverly Hills house</span><span>🏠</span></div>
+            <div class="receipt-row"><span>∞ Billboard prayers</span><span>🎵</span></div>
+            <div class="receipt-row"><span>1x Piano concert</span><span>🎹</span></div>
             <div class="receipt-row"><span>1x Forever</span><span>❤️</span></div>
-            <hr style="margin: 8px 0; border-style: dashed;">
-            <div class="receipt-row receipt-total"><span>TOTAL:</span><span>PRICELESS</span></div>
-            <p style="font-size: 0.7rem; opacity: 0.5; margin-top: 8px; text-align: center;">Valid: Lifetime • No
-                refunds • Non-transferable</p>
+            <hr style="margin: 8px 0; border-style: dashed; border-color: #ff2d6a60;">
+            <div class="receipt-row receipt-total"><span>💝 TOTAL:</span><span>PRICELESS</span></div>
+            <p style="font-size: 0.6rem; opacity: 0.6; margin-top: 8px; text-align: center; color: #666;">Valid:
+                Lifetime • No refunds</p>
         </div>
         <button class="btn" onclick="go(45)"><span>Best Receipt Ever 🥺</span></button>
     </div>
@@ -801,8 +889,8 @@
             "Don't you worry your pretty little mind,<br>
             People throw rocks at things that shine..."
         </p>
-        <p style="margin-top: 20px;">Forever Yours,<br><span class="gold font-display">Your TimTim (Makkar 🐒)</span></p>
-        <button class="btn" onclick="location.reload()"><span>Restart Journey 🔄</span></button>
+        <p style="margin-top: 20px;">Forever Yours,<br><span class="gold font-display">Your TimTim (Makkar 🐒)</span>
+        </p>
     </div>
 
     <!-- JavaScript -->

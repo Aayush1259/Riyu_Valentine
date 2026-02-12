@@ -50,7 +50,7 @@ const S = {
 };
 
 const TEA = ['water', 'masala', 'tea', 'milk'];
-const PETS = ['🐱', '🐰', '🐶', '🐶','🐱']; 
+const PETS = ['🐱', '🐰', '🐶', '🐹', '🦜']; 
 const EMOJIS = ['😀', '😂', '😎', '😴', '🤗', '😇', '😈', '👻', '💀', '🤖', '👽', '😺', '🐶', '🐱', '🐻', '🐼', '🐨', '🐯', '🦁', '🐮', '🐷', '🐸', '🐔', '🐧', '🌸', '🌺', '🍀', '🌙', '⭐', '🔥', '💧', '🍎', '🍊', '🍋', '🍇', '🍓', '❤️', '💜', '💙', '💚', '🌟', '✨', '🎈', '🎁'];
 
 /* ═══════════════════════════════════════════════════════════════
@@ -172,6 +172,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (el) el.addEventListener('keydown', e => { if (e.key === 'Enter') fn(); });
     });
     
+    // Konami Code Easter Egg
+    let konami = [];
+    const secret = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+    document.addEventListener('keydown', (e) => {
+        konami.push(e.key);
+        if (konami.length > secret.length) konami.shift();
+        if (JSON.stringify(konami) === JSON.stringify(secret)) {
+            sayYes(); // Triggers confetti
+            toast('Cheat Code Activated! 🎮');
+        }
+    });
+
     // Music prompt is visible by default - user must click to start
     // This satisfies mobile browser autoplay policy
 });
@@ -351,9 +363,11 @@ function handleStep(n) {
         case 18: startFearThoughts(); break;
         case 19: spawnClouds(); break;
         case 20: startChase(); break;
+        case '21b': startGrounding(); break;
         case 22: if (S.musicStarted && !S.music) startMusic(); break;
         case 23: startBreath(); break;
         case 26: setTimeout(initHeritage, 100); break;
+        case 39: setTimeout(initLetterSeal, 100); break;
         case 42: setTimeout(reinitSignature, 100); break;
     }
 }
@@ -577,131 +591,181 @@ let fearSpawnInterval = null;
 
 function startFearThoughts() {
     const fears = [
-        { text: '📚 Low grades!', big: false },
-        { text: '🦳 White hair at 23?!', big: false },
-        { text: '😴 Dark circles...', big: false },
-        { text: '📉 GPA dropping!', big: false },
-        { text: '✈️ DEPORTED?! 😱', big: true },
-        { text: 'No VISA renewal', big: true },
-        { text: 'Failing classes?', big: false },
-        { text: 'No internship!', big: false },
-        { text: 'Parents disappointed?', big: false },
-        { text: 'STRESS!', big: true },
-        { text: 'Career ruined?!', big: true },
-        { text: 'SEND HER BACK!', big: true },
-        { text: '💔 Future gone?', big: false },
-        { text: 'No sleep...', big: false },
-        { text: 'DEADLINES!', big: true }
+        '😱 DEPORTED', '📉 FAILING', '💔 ALONE', '🔥 BURNOUT', '😰 VISA',
+        '💸 BROKE', '😵 NO SLEEP', '📞 MOM', '⏰ DEADLINE', '🚫 REJECTED'
     ];
     
-    fearCount = 15;
+    let shattered = 0;
+    const totalGlass = 10;
     
-    // Update counter display
     const countEl = document.getElementById('fearNum');
-    if (countEl) countEl.textContent = fearCount;
+    if (countEl) countEl.textContent = shattered;
     
-    // Clear existing fear thoughts
-    document.querySelectorAll('.fear-thought').forEach(f => f.remove());
+    document.querySelectorAll('.glass-fear').forEach(f => f.remove());
     
-    // Clear any existing interval
-    if (fearSpawnInterval) clearInterval(fearSpawnInterval);
-    
-    // Spawn fears one by one across the entire screen
     fears.forEach((fear, i) => {
         setTimeout(() => {
-            if (S.step !== 18) return; // Stop if we left this step
+            if (S.step !== 18) return;
             
-            const thought = document.createElement('div');
-            thought.className = 'fear-thought' + (fear.big ? ' fear-big' : '');
-            thought.textContent = fear.text;
+            const glass = document.createElement('div');
+            glass.className = 'glass-fear';
+            glass.innerHTML = '<div class="glass-cracks"></div><span class="glass-text">' + fear + '</span><div class="glass-hp"><div class="glass-hp-fill"></div></div>';
             
-            // Random position across ENTIRE screen
-            const maxX = window.innerWidth - 180;
-            const maxY = window.innerHeight - 80;
-            thought.style.left = (20 + Math.random() * Math.max(50, maxX - 40)) + 'px';
-            thought.style.top = (60 + Math.random() * Math.max(100, maxY - 120)) + 'px';
+            glass.style.left = (15 + Math.random() * 60) + '%';
+            glass.style.top = (15 + Math.random() * 50) + '%';
             
-            // Make it clickable to pop
-            thought.onclick = function() {
-                // Pop animation
-                this.style.transform = 'scale(1.3)';
-                this.style.opacity = '0';
-                this.style.pointerEvents = 'none';
+            let health = 5;
+            const hpFill = glass.querySelector('.glass-hp-fill');
+            const cracks = glass.querySelector('.glass-cracks');
+            
+            glass.onclick = function(e) {
+                e.stopPropagation();
+                health--;
+                if (hpFill) hpFill.style.width = (health / 5 * 100) + '%';
+                if (cracks) cracks.style.opacity = (5 - health) * 0.25;
+                this.style.animation = 'none';
+                this.offsetHeight;
+                this.style.animation = 'glassShake 0.15s';
+                if (navigator.vibrate) navigator.vibrate(25);
                 
-                setTimeout(() => this.remove(), 300);
-                
-                fearCount--;
-                const countEl = document.getElementById('fearNum');
-                if (countEl) countEl.textContent = fearCount;
-                
-                // When all fears are popped, advance
-                if (fearCount <= 0) {
-                    setTimeout(() => go(19), 600);
+                if (health <= 0) {
+                    this.innerHTML = '💥✨';
+                    this.style.transform = 'scale(1.5) rotate(15deg)';
+                    this.style.background = 'transparent';
+                    this.style.border = 'none';
+                    this.style.boxShadow = 'none';
+                    this.style.pointerEvents = 'none';
+                    this.style.fontSize = '2.5rem';
+                    if (navigator.vibrate) navigator.vibrate([50, 30, 50]);
+                    setTimeout(() => this.remove(), 400);
+                    shattered++;
+                    if (countEl) countEl.textContent = shattered;
+                    if (shattered >= totalGlass) {
+                        toast('🎉 Fears SHATTERED!');
+                        setTimeout(() => go(19), 800);
+                    }
                 }
             };
-            
-            document.body.appendChild(thought);
-        }, i * 350); // Stagger spawn
+            document.body.appendChild(glass);
+        }, i * 400);
     });
     
-    // Auto-advance after 20 seconds if user hasn't popped all
     setTimeout(() => {
-        if (S.step === 18 && fearCount > 0) {
-            // Clean up remaining and advance
-            document.querySelectorAll('.fear-thought').forEach(f => f.remove());
+        if (S.step === 18) {
+            document.querySelectorAll('.glass-fear').forEach(g => g.remove());
             go(19);
         }
-    }, 20000);
+    }, 25000);
 }
 
-// Clean up fear thoughts when leaving step 18
 function cleanupFearThoughts() {
     if (fearSpawnInterval) {
         clearInterval(fearSpawnInterval);
         fearSpawnInterval = null;
     }
     document.querySelectorAll('.fear-thought').forEach(f => f.remove());
+    document.querySelectorAll('.glass-fear').forEach(g => g.remove());
+    document.querySelectorAll('.worry-balloon').forEach(b => b.remove());
 }
 
-// Step 19: Clouds
-let clouds = 12;
+// Step 19: Pop Worry Balloons (TAP to pop!)
+let balloons = 8;
 function spawnClouds() {
-    const thoughts = [
-        'VISA?!', 'GRADES!', 'FAILING', 'DEPORT?', 'INTERNSHIP', 
-        'WHITE HAIR', 'STRESS', 'PANIC', 'LOW GPA', 'PIMPLES',
-        'NO SLEEP', 'DEADLINES'
+    const worries = [
+        { text: '😰 STRESS', color: '#ff6b6b' },
+        { text: '😱 PANIC', color: '#ff4757' },
+        { text: '😵 TIRED', color: '#ff7f50' },
+        { text: '😢 SAD', color: '#5f9ea0' },
+        { text: '🤯 OVERWHELM', color: '#ff6347' },
+        { text: '😤 ANGRY', color: '#dc143c' },
+        { text: '😨 SCARED', color: '#9370db' },
+        { text: '🥺 ANXIOUS', color: '#ff69b4' }
     ];
-    clouds = 12;
+    balloons = 8;
     
     const countEl = document.getElementById('cloudNum');
-    if (countEl) countEl.textContent = clouds;
+    if (countEl) countEl.textContent = balloons;
     
-    // Clear existing clouds
-    document.querySelectorAll('.cloud').forEach(c => c.remove());
+    // Clear existing
+    document.querySelectorAll('.worry-balloon').forEach(b => b.remove());
     
-    thoughts.forEach((t, i) => {
+    worries.forEach((worry, i) => {
         setTimeout(() => {
-            const c = document.createElement('div');
-            c.className = 'cloud';
-            c.textContent = t;
-            c.style.left = (10 + Math.random() * 70) + '%';
-            c.style.top = (10 + Math.random() * 60) + '%';
+            if (S.step !== 19) return;
             
-            c.onclick = () => {
-                c.style.transform = 'scale(0)';
-                c.style.opacity = '0';
-                setTimeout(() => c.remove(), 300);
-                clouds--;
+            const balloon = document.createElement('div');
+            balloon.className = 'worry-balloon';
+            balloon.innerHTML = '<span class="balloon-text">' + worry.text + '</span><div class="balloon-tap-hint">TAP!</div><div class="balloon-string"></div>';
+            balloon.style.setProperty('--balloon-color', worry.color);
+            
+            // Grid layout - 4 columns, 2 rows (more spread out)
+            const col = i % 4;
+            const row = Math.floor(i / 4);
+            balloon.style.left = (5 + col * 24) + '%';
+            balloon.style.top = (12 + row * 40) + '%';
+            
+            let tapsNeeded = 4; // 4 taps to pop
+            let size = 100;
+            
+            // Simple TAP to deflate
+            const tapBalloon = (e) => {
+                if (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
                 
-                const countEl = document.getElementById('cloudNum');
-                if (countEl) countEl.textContent = clouds;
+                tapsNeeded--;
+                size -= 20;
                 
-                if (clouds <= 0) setTimeout(() => go(20), 500);
+                // Visual feedback
+                balloon.style.transform = 'scale(' + (size/100) + ')';
+                balloon.classList.add('tapped');
+                if (navigator.vibrate) navigator.vibrate(30);
+                
+                // Brief shrink animation
+                setTimeout(() => balloon.classList.remove('tapped'), 150);
+                
+                if (tapsNeeded <= 0) {
+                    // POP!
+                    balloon.innerHTML = '💨';
+                    balloon.style.fontSize = '2.5rem';
+                    balloon.style.background = 'none';
+                    balloon.style.border = 'none';
+                    balloon.style.boxShadow = 'none';
+                    balloon.style.animation = 'none';
+                    balloon.style.pointerEvents = 'none';
+                    if (navigator.vibrate) navigator.vibrate([60, 40, 60]);
+                    
+                    setTimeout(() => balloon.remove(), 400);
+                    
+                    balloons--;
+                    if (countEl) countEl.textContent = balloons;
+                    
+                    if (balloons <= 0) {
+                        toast('😌 All worries popped!');
+                        setTimeout(() => go(20), 800);
+                    }
+                }
             };
             
-            document.body.appendChild(c);
+            // Both click and touch for maximum compatibility
+            balloon.addEventListener('click', tapBalloon);
+            balloon.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                tapBalloon(e);
+            }, { passive: false });
+            
+            document.body.appendChild(balloon);
         }, i * 250);
     });
+    
+    // Safety timeout
+    setTimeout(() => {
+        if (S.step === 19) {
+            document.querySelectorAll('.worry-balloon').forEach(b => b.remove());
+            go(20);
+        }
+    }, 35000);
 }
 
 // Step 20: Chase call
@@ -725,7 +789,46 @@ function startChase() {
 }
 
 function catchCall() { go(21); }
-function enterCalm() { go(22); }
+function enterCalm() { go('21b'); } // Redirect to Grounding
+function enterMusic() { go(22); }
+
+// Step 21b: Grounding
+function startGrounding() {
+    const items = ['🌻', '🌻', '🌻', '🌻', '🌻', '🌵', '🌴', '🌲', '🌳', '🍄', '🌷', '🌸', '🌹', '🌺', '🍀'];
+    const container = document.getElementById('groundingItems');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    let found = 0;
+    
+    // Shuffle
+    items.sort(() => Math.random() - 0.5);
+    
+    items.forEach(emoji => {
+        const el = document.createElement('div');
+        el.className = 'ground-item';
+        el.textContent = emoji;
+        el.onclick = () => {
+            if (emoji === '🌻' && !el.classList.contains('found')) {
+                el.classList.add('found');
+                found++;
+                const msg = document.getElementById('groundingMsg');
+                if (msg) msg.textContent = `${found}/5 Found`;
+                
+                if (navigator.vibrate) navigator.vibrate(40);
+                
+                if (found >= 5) {
+                    toast('You are grounded. You are safe. 🌿');
+                    setTimeout(() => go(22), 1500);
+                }
+            } else if (emoji !== '🌻') {
+                el.style.opacity = '0.3';
+                el.style.transform = 'scale(0.8)';
+            }
+        };
+        container.appendChild(el);
+    });
+}
 
 /* ═══════════════════════════════════════════════════════════════
    PHASE 3: CALM
@@ -784,111 +887,89 @@ let breathInterval = null;
 let breathPhaseTimeout = null;
 
 function startBreath() {
-    const phases = ['Inhale...', 'Hold...', 'Exhale...'];
-    const times = [4000, 5000, 10000];
+    // 4-7-8 Technique
+    const phases = ['Inhale (4s)', 'Hold (7s)', 'Exhale (8s)'];
+    const times = [4000, 7000, 8000];
     let phase = 0;
-    let total = 19;
     
     const label = document.getElementById('breathLabel');
     const timer = document.getElementById('breathTime');
-    const btn = document.getElementById('breathBtn');
-    const scold = document.getElementById('breathScold');
     const circle = document.getElementById('breathCircle');
     
     // Reset state
     breathCompleted = false;
-    if (btn) btn.classList.add('hidden');
-    if (scold) scold.classList.add('hidden');
-    if (timer) timer.textContent = '19s remaining';
-    if (label) label.textContent = 'Inhale...';
+    if (timer) timer.textContent = 'Relax...';
+    if (label) label.textContent = 'Prepare...';
     
-    // Add tap detector on the card to catch impatient clicks
-    const card = document.getElementById('s23');
-    if (card && breathAttempt === 0) {
-        card.addEventListener('click', handleBreathCardClick);
-    }
+    // Clear any existing intervals
+    if (breathInterval) clearInterval(breathInterval);
+    if (breathPhaseTimeout) clearTimeout(breathPhaseTimeout);
     
-    function nextPhase() {
-        if (label) label.textContent = phases[phase % 3];
-        breathPhaseTimeout = setTimeout(() => {
-            phase++;
-            if (total > 0) nextPhase();
-        }, times[phase % 3]);
-    }
-    nextPhase();
+    let cycleCount = 0;
     
-    breathInterval = setInterval(() => {
-        total--;
-        if (timer) timer.textContent = total + 's remaining';
+    function runCycle() {
+        if (cycleCount >= 2) { // Do 2 full cycles ~ 38s
+             breathCompleted = true;
+             if (label) label.textContent = 'You did it 💜';
+             if (timer) timer.textContent = 'Peaceful ✨';
+             return;
+        }
         
-        if (total <= 0) {
+        // Inhale
+        if (label) label.textContent = phases[0];
+        if (circle) circle.style.transform = 'scale(1.5)';
+        if (timer) timer.textContent = 'Breathe in...';
+        
+        breathPhaseTimeout = setTimeout(() => {
+            // Hold
+            if (label) label.textContent = phases[1];
+            if (timer) timer.textContent = 'Hold it...';
+            
+            breathPhaseTimeout = setTimeout(() => {
+                // Exhale
+                if (label) label.textContent = phases[2];
+                if (circle) circle.style.transform = 'scale(1)';
+                if (timer) timer.textContent = 'Let it go...';
+                
+                breathPhaseTimeout = setTimeout(() => {
+                    cycleCount++;
+                    runCycle();
+                }, times[2]);
+            }, times[1]);
+        }, times[0]);
+    }
+    
+    // Slight delay to start
+    setTimeout(runCycle, 1000);
+}
+
+function trySkipBreath() {
+    if (breathCompleted) {
+        // She actually did it! Go to next step
+        go(24);
+    } else {
+        // She tried to skip! Go to scold step
+        breathAttempt++;
+        hide('s23');
+        show('s23b');
+        
+        // Clear the breathing timer
+        if (breathInterval) {
             clearInterval(breathInterval);
             breathInterval = null;
-            breathCompleted = true;
-            
-            // If this was second attempt, wait 5 extra seconds
-            if (breathAttempt >= 1) {
-                if (label) label.textContent = 'Almost there... 💜';
-                if (timer) timer.textContent = '5s more...';
-                let extra = 5;
-                const extraInterval = setInterval(() => {
-                    extra--;
-                    if (timer) timer.textContent = extra + 's more...';
-                    if (extra <= 0) {
-                        clearInterval(extraInterval);
-                        showBreathButton();
-                    }
-                }, 1000);
-            } else {
-                showBreathButton();
-            }
         }
-    }, 1000);
-}
-
-function handleBreathCardClick(e) {
-    // If clicked before completing and not on the button
-    if (!breathCompleted && !e.target.closest('.btn')) {
-        const scold = document.getElementById('breathScold');
-        
-        // Only scold if they've been on this step for at least 3 seconds (not just arriving)
-        if (breathInterval) {
-            breathAttempt++;
-            
-            // Show scold message
-            if (scold) {
-                scold.classList.remove('hidden');
-                scold.style.animation = 'none';
-                scold.offsetHeight; // Force reflow
-                scold.style.animation = 'fadeIn 0.3s ease-out';
-            }
-            
-            // Clear current exercise and restart
-            clearInterval(breathInterval);
+        if (breathPhaseTimeout) {
             clearTimeout(breathPhaseTimeout);
-            
-            // Restart after a moment
-            setTimeout(() => {
-                startBreath();
-            }, 1500);
+            breathPhaseTimeout = null;
         }
     }
 }
 
-function showBreathButton() {
-    const label = document.getElementById('breathLabel');
-    const timer = document.getElementById('breathTime');
-    const btn = document.getElementById('breathBtn');
-    const scold = document.getElementById('breathScold');
-    
-    if (label) label.textContent = 'You did it 💜';
-    if (timer) timer.textContent = 'Peaceful ✨';
-    if (btn) btn.classList.remove('hidden');
-    if (scold) scold.classList.add('hidden');
-    
-    // Remove the click listener
-    const card = document.getElementById('s23');
-    if (card) card.removeEventListener('click', handleBreathCardClick);
+function goBackToBreath() {
+    // Go back to breathing step and restart
+    hide('s23b');
+    show('s23');
+    startBreath();
 }
 
 // Step 25: Tea
@@ -1208,6 +1289,7 @@ function handleTouch(e, gameZone) {
 function startGame() {
     S.playing = true;
     S.score = 0;
+    let combo = 0;
     
     const btn = document.getElementById('gameBtn');
     if (btn) btn.classList.add('hidden');
@@ -1215,11 +1297,57 @@ function startGame() {
     const good = ['🥬', '🥦', '🥗', '🍎', '🥕', '🍌', '🥒'];
     const bad = ['🍕', '🍔', '🍟', '🌭', '🍩', '🍪'];
     const gameZone = document.getElementById('gameZone');
+    const scoreEl = document.getElementById('score');
+    
+    // Add combo element
+    let comboEl = document.getElementById('comboDisplay');
+    if (!comboEl && scoreEl) {
+        comboEl = document.createElement('div');
+        comboEl.id = 'comboDisplay';
+        comboEl.className = 'combo-text';
+        scoreEl.parentElement.appendChild(comboEl);
+    }
     
     if (!gameZone) return;
     
-    const gameHeight = gameZone.getBoundingClientRect().height;
+    // Magnet Power-up vars
+    let magnetActive = false;
+    let magnetTimer = null;
     
+    // Spawn Protein Shake occasionally
+    let shakeInterval = setInterval(() => {
+        if (!S.playing) { clearInterval(shakeInterval); return; }
+        if (Math.random() > 0.7) spawnShake();
+    }, 8000);
+    
+    function spawnShake() {
+        const s = document.createElement('div');
+        s.className = 'food protein-shake';
+        s.textContent = '🥤';
+        s.style.left = (10 + Math.random() * 80) + '%';
+        s.style.animationDuration = '2.5s'; // Falls faster
+        gameZone.appendChild(s);
+        
+        handleFall(s, () => {
+             // Activate Magnet
+             activateMagnet();
+             if (s.parentNode) s.remove();
+        });
+    }
+    
+    function activateMagnet() {
+        magnetActive = true;
+        const catcher = document.getElementById('catcher');
+        if (catcher) catcher.classList.add('magnet-active');
+        toast('Magnet ACTIVE! 🧲');
+        
+        if (magnetTimer) clearTimeout(magnetTimer);
+        magnetTimer = setTimeout(() => {
+            magnetActive = false;
+            if (catcher) catcher.classList.remove('magnet-active');
+        }, 5000);
+    }
+
     function spawn() {
         if (!S.playing || !gameZone) return;
         
@@ -1235,24 +1363,25 @@ function startGame() {
         f.style.animationDuration = duration + 's';
         
         gameZone.appendChild(f);
-        
-        // Use both animationend and a timeout fallback for mobile
-        let handled = false;
-        
-        const handleFoodEnd = () => {
-            if (handled) return;
-            handled = true;
-            
+        handleFall(f, () => {
             checkCatch(f);
             if (f.parentNode) f.remove();
-        };
-        
-        // CSS animation end event
-        f.addEventListener('animationend', handleFoodEnd);
-        f.addEventListener('webkitAnimationEnd', handleFoodEnd);
-        
-        // Fallback timeout (slightly longer than animation)
-        setTimeout(handleFoodEnd, (duration + 0.1) * 1000);
+        });
+    }
+    
+    function handleFall(el, callback) {
+         let handled = false;
+         const onEnd = () => {
+             if (handled) return;
+             handled = true;
+             callback();
+         };
+         el.addEventListener('animationend', onEnd);
+         // Magnet effect logic (runs every frame)
+         if (magnetActive && el.dataset.good === 'true') {
+             // Simple magnetic pull logic would require requestAnimationFrame loop for each element
+             // For simplicity in this structure, we'll just check collision more generously
+         }
     }
     
     function checkCatch(f) {
@@ -1262,35 +1391,73 @@ function startGame() {
         
         const cRect = catcher.getBoundingClientRect();
         
-        // Check if food is in catch zone
-        const overlap = fRect.left < cRect.right && 
-                        fRect.right > cRect.left && 
-                        fRect.bottom > cRect.top - 20;
+        // Magnet increases catch range
+        const range = magnetActive ? 60 : 20; 
+        
+        // Check if food is in catch zone (horizontal overlap + vertical proximity)
+        const overlap = fRect.left < cRect.right + range && 
+                        fRect.right > cRect.left - range && 
+                        fRect.bottom > cRect.top - range;
         
         if (overlap) {
-            if (f.dataset.good === 'true') {
-                S.score++;
-                toast('+1 Healthy! 🥬');
+            // Visual feedback - floaty text
+            const floaty = document.createElement('div');
+            floaty.className = 'floating-score';
+            floaty.style.left = f.style.left;
+            floaty.style.bottom = '40px';
+            
+            if (f.classList.contains('protein-shake')) {
+                 // Handled by spawnShake logic callback actually, but redundant check ok
+            } else if (f.dataset.good === 'true') {
+                combo++;
+                let pts = 1;
+                if (combo >= 3) pts = 2; // Combo bonus
+                
+                S.score += pts;
+                floaty.textContent = `+${pts}`;
+                floaty.style.color = '#4ade80';
+                
+                // Combo feedback
+                if (combo >= 2) {
+                    if (comboEl) {
+                        comboEl.textContent = `${combo}x Combo! 🔥`;
+                        comboEl.classList.add('active');
+                        setTimeout(() => comboEl.classList.remove('active'), 500);
+                    }
+                }
             } else {
+                combo = 0; // Reset combo
+                if (comboEl) comboEl.textContent = '';
+                
                 S.score = Math.max(0, S.score - 1);
-                toast('-1 Oily! 😣');
+                floaty.textContent = '-1';
+                floaty.style.color = '#ff4757';
+                toast('Oily! 😣');
+                
+                // Screen shake
+                gameZone.style.animation = 'shake 0.3s';
+                setTimeout(() => gameZone.style.animation = '', 300);
             }
             
-            const scoreEl = document.getElementById('score');
+            gameZone.appendChild(floaty);
+            setTimeout(() => floaty.remove(), 800);
+            
             if (scoreEl) scoreEl.textContent = S.score;
+            if (navigator.vibrate) navigator.vibrate(20);
         }
         
-        if (S.score >= 5) {
+        if (S.score >= 15) { // Increased target for more gameplay
             S.playing = false;
-            toast('Great diet! 🎉');
+            clearInterval(shakeInterval);
+            toast('Healthy Queen! 🎉');
             setTimeout(() => go(31), 1000);
         }
     }
     
     const loop = setInterval(() => {
-        if (!S.playing) { clearInterval(loop); return; }
+        if (!S.playing) { clearInterval(loop); clearInterval(shakeInterval); return; }
         spawn();
-    }, 900);
+    }, 800); // Slightly faster spawn
 }
 
 // Step 31: Pets
@@ -1359,32 +1526,205 @@ function spamYes() {
    PHASE 5: FINALE
 ═══════════════════════════════════════════════════════════════ */
 
-// Step 38: Letter
-function openLetter() {
-    const envelope = document.getElementById('envelope');
-    const hint = document.getElementById('letterHint');
+// Step 39: Premium Letter with Wax Seal
+let sealBroken = false;
+
+function breakSeal() {
+    if (sealBroken) return;
+    sealBroken = true;
+    
+    const seal = document.getElementById('waxSeal');
+    const envelope = document.getElementById('envelope3d');
+    const hint = document.getElementById('sealHint');
+    const scene = document.getElementById('letterScene');
+    const box = document.getElementById('letterBox');
+    const btn = document.getElementById('letterBtn');
+    const particlesContainer = document.getElementById('sealParticles');
+    
+    // Create particles for the seal breaking effect
+    if (particlesContainer && seal) {
+        const sealRect = seal.getBoundingClientRect();
+        const containerRect = particlesContainer.parentElement.getBoundingClientRect();
+        
+        for (let i = 0; i < 12; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'seal-particle';
+            
+            // Random direction for each particle
+            const angle = (i / 12) * Math.PI * 2;
+            const distance = 60 + Math.random() * 40;
+            const tx = Math.cos(angle) * distance;
+            const ty = Math.sin(angle) * distance;
+            
+            particle.style.setProperty('--tx', `${tx}px`);
+            particle.style.setProperty('--ty', `${ty}px`);
+            particle.style.left = '0px';
+            particle.style.top = '0px';
+            particle.style.width = (4 + Math.random() * 6) + 'px';
+            particle.style.height = particle.style.width;
+            
+            particlesContainer.appendChild(particle);
+            
+            // Remove particle after animation
+            setTimeout(() => particle.remove(), 1000);
+        }
+    }
+    
+    // Animate the seal breaking
+    if (seal) {
+        seal.classList.add('breaking');
+    }
+    
+    // Hide hint
+    if (hint) {
+        hint.style.opacity = '0';
+        hint.style.transition = 'opacity 0.3s';
+    }
+    
+    // Start envelope opening sequence
+    setTimeout(() => {
+        if (envelope) {
+            envelope.classList.add('opening');
+        }
+    }, 300);
+    
+    // Letter rises and envelope fully opens
+    setTimeout(() => {
+        if (envelope) {
+            envelope.classList.add('opened');
+        }
+    }, 800);
+    
+    // Reveal the letter content
+    setTimeout(() => {
+        if (scene) {
+            scene.style.transition = 'opacity 0.5s, transform 0.5s';
+            scene.style.opacity = '0';
+            scene.style.transform = 'translateY(-20px) scale(0.95)';
+        }
+    }, 1400);
+    
+    setTimeout(() => {
+        if (scene) scene.classList.add('hidden');
+        if (box) {
+            box.classList.remove('hidden');
+            box.style.animation = 'letterReveal 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards';
+        }
+        if (btn) {
+            btn.classList.remove('hidden');
+            btn.style.animation = 'letterReveal 0.8s 0.2s cubic-bezier(0.4, 0, 0.2, 1) forwards';
+            btn.style.opacity = '0';
+        }
+    }, 1800);
+}
+
+// Reset seal state when navigating to step 39
+function initLetterSeal() {
+    sealBroken = false;
+    const scene = document.getElementById('letterScene');
+    const envelope = document.getElementById('envelope3d');
+    const seal = document.getElementById('waxSeal');
+    const hint = document.getElementById('sealHint');
     const box = document.getElementById('letterBox');
     const btn = document.getElementById('letterBtn');
     
-    if (envelope) envelope.classList.add('open');
-    if (hint) hint.classList.add('hidden');
-    
-    setTimeout(() => {
-        if (envelope) envelope.classList.add('hidden');
-        if (box) box.classList.remove('hidden');
-        if (btn) btn.classList.remove('hidden');
-    }, 500);
+    // Reset all states
+    if (scene) {
+        scene.classList.remove('hidden');
+        scene.style.opacity = '';
+        scene.style.transform = '';
+    }
+    if (envelope) {
+        envelope.classList.remove('opening', 'opened');
+    }
+    if (seal) {
+        seal.classList.remove('breaking');
+    }
+    if (hint) {
+        hint.style.opacity = '';
+    }
+    if (box) {
+        box.classList.add('hidden');
+        box.style.animation = '';
+    }
+    if (btn) {
+        btn.classList.add('hidden');
+        btn.style.animation = '';
+        btn.style.opacity = '';
+    }
 }
 
-// Step 40: No button dodge
+// Legacy function for backward compatibility
+function openLetter() {
+    initLetterSeal();
+}
+
+function initLetterPull() {
+    initLetterSeal();
+}
+
+// Step 40: No button dodge - jumps around the ENTIRE screen!
+let dodgeCount = 0;
+const dodgeMessages = [
+    'Nice try! 😏',
+    'Nope! 🙅‍♀️',
+    'Can\'t catch me! 🏃‍♂️',
+    'Wrong button! 💕',
+    'Are you sure about that? 🤨',
+    'The YES button is right there! 👆',
+    'I\'m faster than you! ⚡',
+    'Keep trying! 😈',
+    'Riyu... really? 😂',
+    'Just say YES already! 💖',
+    'You know you want to! 🥺',
+    'This button is broken! 🔧',
+    '*dodges* 🕺',
+    'Mission Impossible! 🎬',
+    'You\'ll never catch me! 🦸‍♂️'
+];
+
 function dodgeNo() {
     const btn = document.getElementById('noBtn');
     if (!btn) return;
     
-    btn.style.position = 'absolute';
-    btn.style.left = (Math.random() * 60 + 20) + '%';
-    btn.style.top = (Math.random() * 40 + 30) + '%';
-    toast('Nice try! 😏');
+    dodgeCount++;
+    
+    // Move to body for full screen movement
+    if (btn.parentElement.classList.contains('btn-group')) {
+        document.body.appendChild(btn);
+    }
+    
+    // Make it fixed position so it can go anywhere on screen
+    btn.style.position = 'fixed';
+    btn.style.zIndex = '9999';
+    
+    // Random position anywhere on the visible screen (with padding from edges)
+    const padding = 80;
+    const maxX = window.innerWidth - btn.offsetWidth - padding;
+    const maxY = window.innerHeight - btn.offsetHeight - padding;
+    
+    const newX = Math.max(padding, Math.random() * maxX);
+    const newY = Math.max(padding, Math.random() * maxY);
+    
+    btn.style.left = newX + 'px';
+    btn.style.top = newY + 'px';
+    btn.style.transform = 'rotate(' + (Math.random() * 30 - 15) + 'deg)';
+    
+    // Shrink slightly each time
+    const scale = Math.max(0.5, 1 - (dodgeCount * 0.05));
+    btn.style.transform += ' scale(' + scale + ')';
+    
+    // Show fun message
+    const msg = dodgeMessages[Math.floor(Math.random() * dodgeMessages.length)];
+    toast(msg);
+    
+    // Vibrate on mobile
+    if (navigator.vibrate) navigator.vibrate(30);
+    
+    // After many attempts, make button nearly invisible
+    if (dodgeCount > 10) {
+        btn.style.opacity = Math.max(0.2, 0.5 - (dodgeCount - 10) * 0.05);
+    }
 }
 
 function sayYes() {
