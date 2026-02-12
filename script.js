@@ -777,6 +777,11 @@ function toggleAudio() {
 }
 
 // Step 23: Breathing
+let breathAttempt = 0;
+let breathCompleted = false;
+let breathInterval = null;
+let breathPhaseTimeout = null;
+
 function startBreath() {
     const phases = ['Inhale...', 'Hold...', 'Exhale...'];
     const times = [4000, 5000, 10000];
@@ -786,26 +791,103 @@ function startBreath() {
     const label = document.getElementById('breathLabel');
     const timer = document.getElementById('breathTime');
     const btn = document.getElementById('breathBtn');
+    const scold = document.getElementById('breathScold');
+    const circle = document.getElementById('breathCircle');
+    
+    // Reset state
+    breathCompleted = false;
+    if (btn) btn.classList.add('hidden');
+    if (scold) scold.classList.add('hidden');
+    if (timer) timer.textContent = '19s remaining';
+    if (label) label.textContent = 'Inhale...';
+    
+    // Add tap detector on the card to catch impatient clicks
+    const card = document.getElementById('s23');
+    if (card && breathAttempt === 0) {
+        card.addEventListener('click', handleBreathCardClick);
+    }
     
     function nextPhase() {
         if (label) label.textContent = phases[phase % 3];
-        setTimeout(() => {
+        breathPhaseTimeout = setTimeout(() => {
             phase++;
             if (total > 0) nextPhase();
         }, times[phase % 3]);
     }
     nextPhase();
     
-    const countdown = setInterval(() => {
+    breathInterval = setInterval(() => {
         total--;
         if (timer) timer.textContent = total + 's remaining';
         
         if (total <= 0) {
-            clearInterval(countdown);
-            if (btn) btn.classList.remove('hidden');
-            if (label) label.textContent = 'You did it 💜';
+            clearInterval(breathInterval);
+            breathInterval = null;
+            breathCompleted = true;
+            
+            // If this was second attempt, wait 5 extra seconds
+            if (breathAttempt >= 1) {
+                if (label) label.textContent = 'Almost there... 💜';
+                if (timer) timer.textContent = '5s more...';
+                let extra = 5;
+                const extraInterval = setInterval(() => {
+                    extra--;
+                    if (timer) timer.textContent = extra + 's more...';
+                    if (extra <= 0) {
+                        clearInterval(extraInterval);
+                        showBreathButton();
+                    }
+                }, 1000);
+            } else {
+                showBreathButton();
+            }
         }
     }, 1000);
+}
+
+function handleBreathCardClick(e) {
+    // If clicked before completing and not on the button
+    if (!breathCompleted && !e.target.closest('.btn')) {
+        const scold = document.getElementById('breathScold');
+        
+        // Only scold if they've been on this step for at least 3 seconds (not just arriving)
+        if (breathInterval) {
+            breathAttempt++;
+            
+            // Show scold message
+            if (scold) {
+                scold.classList.remove('hidden');
+                scold.style.animation = 'none';
+                scold.offsetHeight; // Force reflow
+                scold.style.animation = 'fadeIn 0.3s ease-out';
+            }
+            
+            // Clear current exercise and restart
+            clearInterval(breathInterval);
+            clearTimeout(breathPhaseTimeout);
+            
+            // Restart after a moment
+            setTimeout(() => {
+                startBreath();
+            }, 1500);
+        }
+    }
+}
+
+function showBreathButton() {
+    const label = document.getElementById('breathLabel');
+    const timer = document.getElementById('breathTime');
+    const btn = document.getElementById('breathBtn');
+    const scold = document.getElementById('breathScold');
+    
+    if (label) label.textContent = 'You did it 💜';
+    if (timer) timer.textContent = 'Peaceful ✨';
+    if (btn) btn.classList.remove('hidden');
+    if (scold) scold.classList.add('hidden');
+    
+    // Remove the click listener
+    const card = document.getElementById('s23');
+    if (card) card.removeEventListener('click', handleBreathCardClick);
 }
 
 // Step 25: Tea
