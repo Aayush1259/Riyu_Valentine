@@ -70,14 +70,10 @@ body {
     -webkit-overflow-scrolling: touch;
 }
 
-/* Screen Shake for Panic Mode - Applied to container for mobile compatibility */
-body.screen-shake #container {
+/* Screen Shake for Panic Mode - Applied directly to card */
+body.screen-shake .card:not(.hidden) {
     -webkit-animation: screenShake 0.5s ease-in-out infinite;
     animation: screenShake 0.5s ease-in-out infinite;
-}
-
-/* Disable backdrop-filter during shake to prevent iOS rendering bugs */
-body.screen-shake .card {
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
     background: linear-gradient(135deg, rgb(60, 10, 10) 0%, rgb(30, 5, 5) 100%) !important;
@@ -411,6 +407,80 @@ body::after {
 @keyframes panicPulse {
     0%, 100% { box-shadow: 0 0 60px -20px rgba(255, 0, 0, 0.4); }
     50% { box-shadow: 0 0 100px -20px rgba(255, 0, 0, 0.7); }
+}
+
+/* Floating Thoughts for "Worst Fears" step */
+.fear-container {
+    position: relative;
+    width: 100%;
+    min-height: 200px;
+    overflow: hidden;
+}
+
+.fear-thought {
+    position: absolute;
+    padding: 10px 16px;
+    background: rgba(255, 50, 50, 0.15);
+    border: 1px solid rgba(255, 50, 50, 0.4);
+    border-radius: 20px;
+    color: #ff6b6b;
+    font-size: clamp(0.75rem, 2.5vw, 0.9rem);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    -webkit-animation: fearFloat 4s ease-in-out forwards;
+    animation: fearFloat 4s ease-in-out forwards;
+    text-shadow: 0 0 10px rgba(255, 50, 50, 0.5);
+    z-index: 10;
+}
+
+.fear-thought.fear-big {
+    font-size: clamp(0.9rem, 3vw, 1.1rem);
+    font-weight: 600;
+    background: rgba(255, 50, 50, 0.25);
+    border-color: rgba(255, 50, 50, 0.6);
+}
+
+@-webkit-keyframes fearFloat {
+    0% { 
+        opacity: 0; 
+        -webkit-transform: scale(0.3) translateY(50px);
+        transform: scale(0.3) translateY(50px);
+    }
+    15% { 
+        opacity: 1; 
+        -webkit-transform: scale(1) translateY(0);
+        transform: scale(1) translateY(0);
+    }
+    85% { 
+        opacity: 1; 
+        -webkit-transform: scale(1) translateY(-10px);
+        transform: scale(1) translateY(-10px);
+    }
+    100% { 
+        opacity: 0; 
+        -webkit-transform: scale(0.8) translateY(-30px);
+        transform: scale(0.8) translateY(-30px);
+    }
+}
+
+@keyframes fearFloat {
+    0% { 
+        opacity: 0; 
+        transform: scale(0.3) translateY(50px);
+    }
+    15% { 
+        opacity: 1; 
+        transform: scale(1) translateY(0);
+    }
+    85% { 
+        opacity: 1; 
+        transform: scale(1) translateY(-10px);
+    }
+    100% { 
+        opacity: 0; 
+        transform: scale(0.8) translateY(-30px);
+    }
 }
 
 .card.calm {

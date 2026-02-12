@@ -24,7 +24,7 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="styles.css?v=3.0">
+    <link rel="stylesheet" href="styles.css?v=3.1">
 </head>
 
 <body>
@@ -309,14 +309,7 @@
     <!-- Step 18: Fear -->
     <div id="s18" class="card panic hidden">
         <h1 class="panic" style="font-size: clamp(1.8rem, 6vw, 2.5rem) !important;">THE WORST FEARS</h1>
-        <div
-            style="background: rgba(255,50,50,0.1); padding: 16px; border-radius: 12px; text-align: left; margin: 12px 0;">
-            <p style="color: #ff6b6b; margin: 8px 0;">📚 Low grades → No internship → No VISA</p>
-            <p style="color: #ff6b6b; margin: 8px 0;">🦳 White hair appearing at 23?!</p>
-            <p style="color: #ff6b6b; margin: 8px 0;">😴 Dark circles from no sleep</p>
-            <p style="color: #ff6b6b; margin: 8px 0;">📉 GPA dropping every semester</p>
-            <p style="color: #ff6b6b; margin: 8px 0;">✈️ DEPORTED BACK TO INDIA?! 😱</p>
-        </div>
+        <div class="fear-container" id="fearContainer"></div>
         <p style="color: #ff6b6b; font-size: 1.1rem; margin-top: 12px;">Everything is falling apart!</p>
         <button class="btn danger" onclick="go(19)"><span>HELP ME!</span></button>
     </div>
@@ -759,7 +752,7 @@
     </div>
 
     <!-- JavaScript -->
-    <script src="script.js?v=3.0"></script>
+    <script src="script.js?v=3.1"></script>
 </body>
 
 </html>

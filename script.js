@@ -348,6 +348,7 @@ function handleStep(n) {
     // Step-specific handlers
     switch (n) {
         case 17: startSpiral(); break;
+        case 18: startFearThoughts(); break;
         case 19: spawnClouds(); break;
         case 20: startChase(); break;
         case 22: if (S.musicStarted && !S.music) startMusic(); break;
@@ -567,6 +568,83 @@ function startSpiral() {
             setTimeout(() => go(18), 1000);
         }
     }, 160);
+}
+
+// Step 18: Floating Fear Thoughts
+let fearInterval = null;
+function startFearThoughts() {
+    const fears = [
+        { text: '📚 Low grades → No internship', big: false },
+        { text: '🦳 White hair at 23?!', big: false },
+        { text: '😴 Dark circles...', big: false },
+        { text: '📉 GPA dropping!', big: false },
+        { text: '✈️ DEPORTED?! 😱', big: true },
+        { text: 'No VISA renewal...', big: true },
+        { text: 'Failing classes?', big: false },
+        { text: 'No internship offer', big: false },
+        { text: 'Parents disappointed?', big: false },
+        { text: 'STRESS OVERLOAD', big: true },
+        { text: 'Career ruined?!', big: true },
+        { text: 'Send her back!', big: true }
+    ];
+    
+    const container = document.getElementById('fearContainer');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    // Clear any existing interval
+    if (fearInterval) clearInterval(fearInterval);
+    
+    let idx = 0;
+    const containerWidth = container.offsetWidth || 280;
+    const containerHeight = container.offsetHeight || 200;
+    
+    function spawnFear() {
+        if (idx >= fears.length) {
+            // Loop back for continuous effect
+            idx = 0;
+        }
+        
+        const fear = fears[idx];
+        const thought = document.createElement('div');
+        thought.className = 'fear-thought' + (fear.big ? ' fear-big' : '');
+        thought.textContent = fear.text;
+        
+        // Random position within container bounds
+        const maxX = Math.max(10, containerWidth - 150);
+        const maxY = Math.max(10, containerHeight - 50);
+        thought.style.left = (Math.random() * maxX) + 'px';
+        thought.style.top = (Math.random() * maxY) + 'px';
+        
+        // Random animation delay for staggered effect
+        thought.style.animationDelay = (Math.random() * 0.3) + 's';
+        
+        container.appendChild(thought);
+        
+        // Remove after animation completes
+        setTimeout(() => {
+            if (thought.parentNode) thought.remove();
+        }, 4500);
+        
+        idx++;
+    }
+    
+    // Spawn initial thoughts
+    spawnFear();
+    setTimeout(spawnFear, 300);
+    setTimeout(spawnFear, 600);
+    
+    // Continue spawning
+    fearInterval = setInterval(spawnFear, 800);
+    
+    // Clean up when leaving this step
+    setTimeout(() => {
+        if (S.step !== 18 && fearInterval) {
+            clearInterval(fearInterval);
+            fearInterval = null;
+        }
+    }, 10000);
 }
 
 // Step 19: Clouds
