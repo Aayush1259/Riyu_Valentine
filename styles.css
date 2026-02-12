@@ -1445,6 +1445,68 @@ p {
     font-weight: bold;
 }
 
+/* Trait Grid - "The Girl I Love" Step */
+.trait-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    width: 100%;
+    max-width: 340px;
+}
+
+.trait-card {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    padding: 12px 8px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    -webkit-transition: transform 0.3s, background 0.3s;
+    transition: transform 0.3s, background 0.3s;
+    text-align: center;
+}
+
+.trait-card:hover {
+    -webkit-transform: translateY(-3px);
+    transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.trait-emoji {
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+}
+
+.trait-title {
+    font-size: clamp(0.75rem, 2.2vw, 0.85rem);
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.trait-desc {
+    font-size: clamp(0.6rem, 1.8vw, 0.7rem);
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.3;
+}
+
+@media (max-width: 380px) {
+    .trait-grid {
+        gap: 8px;
+    }
+    .trait-card {
+        padding: 10px 6px;
+    }
+    .trait-emoji {
+        font-size: 1.3rem;
+    }
+}
+
 /* Toggle */
 .toggle-list {
     display: flex;
