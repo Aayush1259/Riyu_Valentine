@@ -74,10 +74,13 @@ body {
 body.screen-shake #container {
     -webkit-animation: screenShake 0.5s ease-in-out infinite;
     animation: screenShake 0.5s ease-in-out infinite;
-    -webkit-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
+}
+
+/* Disable backdrop-filter during shake to prevent iOS rendering bugs */
+body.screen-shake .card {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    background: linear-gradient(135deg, rgb(60, 10, 10) 0%, rgb(30, 5, 5) 100%) !important;
 }
 
 /* Also shake the background orbs */
@@ -350,13 +353,17 @@ body::after {
 }
 
 .card.panic {
-    background: linear-gradient(135deg, rgba(80, 0, 0, 0.5), rgba(40, 0, 0, 0.7));
-    border-color: rgba(255, 50, 50, 0.3);
-    box-shadow: 0 0 80px -20px rgba(255, 0, 0, 0.4);
+    /* Solid background for iOS compatibility - no backdrop-filter issues */
+    background: linear-gradient(135deg, rgb(60, 10, 10) 0%, rgb(30, 5, 5) 100%) !important;
+    border-color: rgba(255, 50, 50, 0.5);
+    box-shadow: 0 0 80px -20px rgba(255, 0, 0, 0.6);
     -webkit-animation: cardEnter 0.8s ease, panicPulse 1s ease-in-out infinite;
     animation: cardEnter 0.8s ease, panicPulse 1s ease-in-out infinite;
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
+    /* Disable backdrop-filter for panic cards to fix iOS rendering */
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
 }
 
 @-webkit-keyframes panicPulse {
@@ -1769,9 +1776,51 @@ button, .btn, a, input, [onclick] {
         transform: translate3d(-50%, 0, 0);
     }
     
-    /* Force repaint for iOS */
-    body.screen-shake #container {
-        -webkit-transform: translate3d(0, 0, 0);
-        transform: translate3d(0, 0, 0);
+    /* iOS Chrome/Safari panic mode fixes */
+    body.screen-shake .card {
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+        background: linear-gradient(135deg, rgb(60, 10, 10) 0%, rgb(30, 5, 5) 100%) !important;
+        -webkit-transform: none !important;
+        transform: none !important;
     }
+    
+    body.screen-shake .card.panic {
+        background: linear-gradient(135deg, rgb(70, 10, 10) 0%, rgb(35, 5, 5) 100%) !important;
+    }
+    
+    /* Ensure card content is visible on iOS */
+    .card.panic h1,
+    .card.panic p,
+    .card.panic .btn,
+    .card.panic span {
+        position: relative;
+        z-index: 5;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    
+    /* Simpler shake for iOS - just shake the card itself */
+    body.screen-shake #container {
+        -webkit-animation: none !important;
+        animation: none !important;
+    }
+    
+    body.screen-shake .card {
+        -webkit-animation: iosShake 0.3s ease-in-out infinite !important;
+        animation: iosShake 0.3s ease-in-out infinite !important;
+    }
+}
+
+/* Simpler iOS shake animation */
+@-webkit-keyframes iosShake {
+    0%, 100% { margin-left: 0; }
+    25% { margin-left: -5px; }
+    75% { margin-left: 5px; }
+}
+
+@keyframes iosShake {
+    0%, 100% { margin-left: 0; }
+    25% { margin-left: -5px; }
+    75% { margin-left: 5px; }
 }

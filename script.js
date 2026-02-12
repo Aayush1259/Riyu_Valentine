@@ -36,30 +36,24 @@ const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/
 ═══════════════════════════════════════════════════════════════ */
 let shakeInterval = null;
 let shakeFrame = 0;
-const shakeFrames = [
-    { x: 0, r: 0 },
-    { x: -8, r: -0.5 },
-    { x: 8, r: 0.5 },
-    { x: -6, r: -0.3 },
-    { x: 6, r: 0.3 },
-    { x: -4, r: 0 },
-    { x: 4, r: 0 },
-    { x: -2, r: 0 },
-    { x: 2, r: 0 },
-    { x: 0, r: 0 }
-];
+
+// Simpler shake values for iOS compatibility (use margin instead of transform)
+const shakeValues = [0, -5, 5, -5, 5, -3, 3, -2, 2, 0];
 
 function startJSShake() {
     if (shakeInterval) return; // Already shaking
-    const container = document.getElementById('container');
-    if (!container) return;
+    
+    // For iOS, shake the card directly using margin (avoids transform/backdrop-filter conflict)
+    const card = document.querySelector('.card:not(.hidden)');
+    if (!card) return;
     
     shakeFrame = 0;
     shakeInterval = setInterval(() => {
-        const frame = shakeFrames[shakeFrame % shakeFrames.length];
-        container.style.transform = `translate3d(${frame.x}px, 0, 0) rotate(${frame.r}deg)`;
+        const offset = shakeValues[shakeFrame % shakeValues.length];
+        card.style.marginLeft = offset + 'px';
+        card.style.marginRight = (-offset) + 'px';
         shakeFrame++;
-    }, 50); // 20fps for shake
+    }, 40); // 25fps for smooth shake
 }
 
 function stopJSShake() {
@@ -67,18 +61,19 @@ function stopJSShake() {
         clearInterval(shakeInterval);
         shakeInterval = null;
     }
-    const container = document.getElementById('container');
-    if (container) {
-        container.style.transform = '';
-    }
+    // Reset all cards
+    document.querySelectorAll('.card').forEach(card => {
+        card.style.marginLeft = '';
+        card.style.marginRight = '';
+    });
 }
 
 // Helper to trigger shake - uses both CSS class and JS fallback
 function triggerShake(enable) {
     if (enable) {
         document.body.classList.add('screen-shake');
-        // iOS and some mobile browsers need JS fallback
-        if (isMobile) {
+        // Always use JS fallback on mobile for reliability
+        if (isMobile || isIOS) {
             startJSShake();
         }
     } else {
