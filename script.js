@@ -1,7 +1,35 @@
+
 /* ═══════════════════════════════════════════════════════════════
-   💝 Valentine's Day Interactive Experience
-   Full JavaScript - Cross-platform compatible
+   BROWSER COMPATIBILITY POLYFILLS
 ═══════════════════════════════════════════════════════════════ */
+// requestAnimationFrame polyfill for older browsers
+if (!window.requestAnimationFrame) {
+    window.requestAnimationFrame = window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) { return setTimeout(callback, 16); };
+}
+if (!window.cancelAnimationFrame) {
+    window.cancelAnimationFrame = window.webkitCancelAnimationFrame ||
+        window.mozCancelAnimationFrame ||
+        window.msCancelAnimationFrame ||
+        function(id) { clearTimeout(id); };
+}
+
+// classList polyfill for very old browsers
+if (!('classList' in document.documentElement)) {
+    Object.defineProperty(HTMLElement.prototype, 'classList', {
+        get: function() {
+            var self = this;
+            return {
+                contains: function(c) { return self.className.indexOf(c) !== -1; },
+                add: function(c) { if (!this.contains(c)) self.className += ' ' + c; },
+                remove: function(c) { self.className = self.className.replace(new RegExp('(^|\\s)' + c + '(\\s|$)', 'g'), ' ').trim(); },
+                toggle: function(c) { this.contains(c) ? this.remove(c) : this.add(c); }
+            };
+        }
+    });
+}
 
 /* ═══════════════════════════════════════════════════════════════
    STATE MANAGEMENT
@@ -22,8 +50,7 @@ const S = {
 };
 
 const TEA = ['water', 'masala', 'tea', 'milk'];
-const PETS = ['🐱', '🐰', '🐶', '🐶','🐱'];  // Cat, Rabbit (her current fav!), and 2 dogs
-// Using widely-supported emojis only (no complex/newer symbols)
+const PETS = ['🐱', '🐰', '🐶', '🐶','🐱']; 
 const EMOJIS = ['😀', '😂', '😎', '😴', '🤗', '😇', '😈', '👻', '💀', '🤖', '👽', '😺', '🐶', '🐱', '🐻', '🐼', '🐨', '🐯', '🦁', '🐮', '🐷', '🐸', '🐔', '🐧', '🌸', '🌺', '🍀', '🌙', '⭐', '🔥', '💧', '🍎', '🍊', '🍋', '🍇', '🍓', '❤️', '💜', '💙', '💚', '🌟', '✨', '🎈', '🎁'];
 
 /* ═══════════════════════════════════════════════════════════════

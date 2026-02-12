@@ -180,6 +180,7 @@ body::after {
 /* Noise Texture Overlay */
 #noise {
     position: fixed;
+    top: 0; right: 0; bottom: 0; left: 0; /* Fallback for older browsers */
     inset: 0;
     background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
     opacity: 0.03;
@@ -190,6 +191,7 @@ body::after {
 /* Floating Particles */
 #particles {
     position: fixed;
+    top: 0; right: 0; bottom: 0; left: 0; /* Fallback for older browsers */
     inset: 0;
     pointer-events: none;
     z-index: 1;
@@ -226,18 +228,37 @@ body::after {
    📦 CARD CONTAINER - Premium Glass Effect
 ══════════════════════════════════════════════════════════════ */
 .card {
-    width: min(92vw, 520px);
+    /* Fallback for min() */
+    width: 92vw;
+    max-width: 520px;
     min-height: 400px;
     max-height: 90vh;
     overflow-y: auto;
+    /* Fallback padding for older browsers */
+    padding: 36px 26px;
     padding: clamp(24px, 5vw, 48px) clamp(20px, 4vw, 32px);
     position: relative;
     z-index: 10;
+    /* Flexbox with vendor prefixes */
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
     flex-direction: column;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
     justify-content: center;
     text-align: center;
+    /* Gap fallback - use margin on children instead for older browsers */
     gap: var(--space-md);
     
     /* Glass Effect */
@@ -246,11 +267,12 @@ body::after {
         rgba(255, 255, 255, 0.05) 0%,
         rgba(255, 255, 255, 0.02) 100%
     );
-    backdrop-filter: blur(40px) saturate(150%);
     -webkit-backdrop-filter: blur(40px) saturate(150%);
+    backdrop-filter: blur(40px) saturate(150%);
     
-    /* Border */
+    /* Border - fallback for clamp */
     border: 1px solid var(--glass-border);
+    border-radius: 26px;
     border-radius: clamp(20px, 4vw, 32px);
     
     /* Shadow */
@@ -280,6 +302,7 @@ body::after {
 .card::before {
     content: '';
     position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
     inset: 0;
     border-radius: inherit;
     padding: 1px;
@@ -324,6 +347,20 @@ body::after {
 
 .card.hidden {
     display: none !important;
+}
+
+/* Gap fallback for older browsers that don't support gap in flexbox */
+.card > * {
+    margin-bottom: 10px;
+}
+.card > *:last-child {
+    margin-bottom: 0;
+}
+/* Modern browsers: use gap and remove margin */
+@supports (gap: 20px) {
+    .card > * {
+        margin-bottom: 0;
+    }
 }
 
 .card.shake {
@@ -493,6 +530,7 @@ p {
 .btn::before {
     content: '';
     position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
     inset: 0;
     background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
     opacity: 0;
@@ -633,10 +671,28 @@ p {
 }
 
 .btn-group {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
     gap: 12px;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
     justify-content: center;
+}
+
+/* Gap fallback for btn-group on older browsers */
+.btn-group > * {
+    margin: 6px;
+}
+@supports (gap: 12px) {
+    .btn-group > * {
+        margin: 0;
+    }
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -650,16 +706,24 @@ p {
 
 .input {
     width: 100%;
+    /* Fallbacks for clamp() */
+    padding: 14px 18px;
     padding: clamp(12px, 3vw, 16px) clamp(16px, 4vw, 20px);
     font-family: var(--font-body);
+    font-size: 0.95rem;
     font-size: clamp(0.9rem, 2.5vw, 1rem);
     color: #fff;
     background: rgba(255, 255, 255, 0.05);
     border: 2px solid rgba(255, 255, 255, 0.1);
     border-radius: 14px;
     outline: none;
+    -webkit-transition: all 0.3s;
     transition: all 0.3s;
     text-align: center;
+    /* Fix iOS input zoom */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
 
 .input::placeholder {
@@ -708,6 +772,7 @@ p {
 .progress-bar::after {
     content: '';
     position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
     inset: 0;
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
     -webkit-animation: shimmer 2s infinite;
@@ -746,15 +811,37 @@ p {
 }
 
 .emoji-cell {
-    aspect-ratio: 1;
+    /* Fallbacks for older browsers */
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%; /* Aspect ratio fallback */
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
+    font-size: 1.4rem; /* Fallback */
     font-size: clamp(1.2rem, 4vw, 1.6rem);
     cursor: pointer;
     border-radius: 10px;
+    -webkit-transition: all 0.2s;
     transition: all 0.2s;
     background: rgba(255, 255, 255, 0.02);
+}
+
+/* Modern browsers with aspect-ratio support */
+@supports (aspect-ratio: 1) {
+    .emoji-cell {
+        height: auto;
+        padding-bottom: 0;
+        position: static;
+        aspect-ratio: 1;
+    }
 }
 
 .emoji-cell:hover, .emoji-cell:active {
@@ -1451,16 +1538,43 @@ p {
 /* Music Prompt Overlay */
 .music-prompt {
     position: fixed;
+    top: 0; right: 0; bottom: 0; left: 0;
     inset: 0;
     background: rgba(0, 0, 0, 0.9);
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
     flex-direction: column;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
     justify-content: center;
     z-index: 10000;
     gap: 20px;
     padding: 20px;
     text-align: center;
+}
+
+/* Gap fallback for music-prompt */
+.music-prompt > * {
+    margin-bottom: 10px;
+}
+.music-prompt > *:last-child {
+    margin-bottom: 0;
+}
+@supports (gap: 20px) {
+    .music-prompt > * {
+        margin-bottom: 0;
+    }
 }
 
 .music-prompt.hidden {
