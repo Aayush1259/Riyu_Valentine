@@ -353,6 +353,7 @@ function handleStep(n) {
         case 20: startChase(); break;
         case 22: if (S.musicStarted && !S.music) startMusic(); break;
         case 23: startBreath(); break;
+        case 26: setTimeout(initHeritage, 100); break;
         case 42: setTimeout(reinitSignature, 100); break;
     }
 }
@@ -923,19 +924,195 @@ function sipTea() {
    PHASE 4: LIFE
 ═══════════════════════════════════════════════════════════════ */
 
-// Step 26: Map
-function clickMap(el, city) {
-    if (!el.classList.contains('done')) {
-        el.classList.add('done');
-        S.mapClicks++;
+// Step 26: Heritage Drag & Drop
+let heritageConnected = 0;
+let draggedDot = null;
+let dragOffsetX = 0;
+let dragOffsetY = 0;
+
+function initHeritage() {
+    const dots = document.querySelectorAll('.heritage-dot.draggable');
+    const target = document.getElementById('gujaratHeart');
+    const map = document.querySelector('.heritage-map');
+    
+    if (!map || !target) return;
+    
+    dots.forEach(dot => {
+        // Store original position
+        dot.dataset.origLeft = dot.style.left;
+        dot.dataset.origTop = dot.style.top;
         
-        const msg = document.getElementById('mapMsg');
-        if (msg) msg.textContent = S.mapClicks + '/5 connected';
+        // Touch events
+        dot.addEventListener('touchstart', handleDragStart, { passive: false });
+        dot.addEventListener('touchmove', handleDragMove, { passive: false });
+        dot.addEventListener('touchend', handleDragEnd);
         
-        toast(city + ' linked! 💕');
-        
-        if (S.mapClicks >= 5) setTimeout(() => go(27), 1000);
+        // Mouse events
+        dot.addEventListener('mousedown', handleDragStart);
+    });
+    
+    document.addEventListener('mousemove', handleDragMove);
+    document.addEventListener('mouseup', handleDragEnd);
+}
+
+function handleDragStart(e) {
+    if (this.classList.contains('connected')) return;
+    
+    e.preventDefault();
+    draggedDot = this;
+    draggedDot.classList.add('dragging');
+    
+    const rect = draggedDot.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    
+    dragOffsetX = clientX - rect.left - rect.width / 2;
+    dragOffsetY = clientY - rect.top - rect.height / 2;
+}
+
+function handleDragMove(e) {
+    if (!draggedDot) return;
+    
+    e.preventDefault();
+    const map = document.querySelector('.heritage-map');
+    if (!map) return;
+    
+    const mapRect = map.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    
+    let x = ((clientX - mapRect.left - dragOffsetX) / mapRect.width) * 100;
+    let y = ((clientY - mapRect.top - dragOffsetY) / mapRect.height) * 100;
+    
+    // Clamp to map bounds
+    x = Math.max(5, Math.min(95, x));
+    y = Math.max(5, Math.min(95, y));
+    
+    draggedDot.style.left = x + '%';
+    draggedDot.style.top = y + '%';
+}
+
+function handleDragEnd(e) {
+    if (!draggedDot) return;
+    
+    const target = document.getElementById('gujaratHeart');
+    const map = document.querySelector('.heritage-map');
+    if (!target || !map) return;
+    
+    const dotRect = draggedDot.getBoundingClientRect();
+    const targetRect = target.getBoundingClientRect();
+    
+    // Check if dropped on target (with generous hitbox)
+    const dotCenterX = dotRect.left + dotRect.width / 2;
+    const dotCenterY = dotRect.top + dotRect.height / 2;
+    const targetCenterX = targetRect.left + targetRect.width / 2;
+    const targetCenterY = targetRect.top + targetRect.height / 2;
+    
+    const distance = Math.sqrt(
+        Math.pow(dotCenterX - targetCenterX, 2) + 
+        Math.pow(dotCenterY - targetCenterY, 2)
+    );
+    
+    if (distance < 80) {
+        // Success! Connect to heart
+        connectToHeart(draggedDot);
+    } else {
+        // Return to original position
+        draggedDot.style.left = draggedDot.dataset.origLeft;
+        draggedDot.style.top = draggedDot.dataset.origTop;
     }
+    
+    draggedDot.classList.remove('dragging');
+    draggedDot = null;
+}
+
+function connectToHeart(dot) {
+    const culture = dot.dataset.culture;
+    const messages = {
+        'marathi': 'Marathi spirit connected! 🏠',
+        'malayali': 'Mallu magic connected! 🌴', 
+        'bengali': 'Bengali soul connected! 🎶',
+        'odia': 'Odia heart connected! 🌺'
+    };
+    
+    dot.classList.add('connected');
+    heritageConnected++;
+    
+    // Draw line to heart
+    drawConnectionLine(dot);
+    
+    // Update counter
+    const counter = document.getElementById('rootCount');
+    if (counter) counter.textContent = heritageConnected;
+    
+    toast(messages[culture] || 'Connected! 💕');
+    
+    // Pulse the heart
+    const heart = document.getElementById('gujaratHeart');
+    if (heart) {
+        heart.classList.add('pulse-love');
+        setTimeout(() => heart.classList.remove('pulse-love'), 500);
+    }
+    
+    // Check completion
+    if (heritageConnected >= 4) {
+        setTimeout(() => {
+            const complete = document.getElementById('heritageComplete');
+            const msg = document.getElementById('mapMsg');
+            if (complete) complete.classList.remove('hidden');
+            if (msg) msg.style.display = 'none';
+            
+            // Big celebration
+            toast('💖 All your beautiful roots chose ME! 💖');
+            
+            setTimeout(() => go(27), 2500);
+        }, 800);
+    }
+}
+
+function drawConnectionLine(dot) {
+    const svg = document.getElementById('heritageLines');
+    const target = document.getElementById('gujaratHeart');
+    const map = document.querySelector('.heritage-map');
+    if (!svg || !target || !map) return;
+    
+    const mapRect = map.getBoundingClientRect();
+    const dotRect = dot.getBoundingClientRect();
+    const targetRect = target.getBoundingClientRect();
+    
+    const x1 = ((dotRect.left + dotRect.width/2 - mapRect.left) / mapRect.width) * 100;
+    const y1 = ((dotRect.top + dotRect.height/2 - mapRect.top) / mapRect.height) * 100;
+    const x2 = ((targetRect.left + targetRect.width/2 - mapRect.left) / mapRect.width) * 100;
+    const y2 = ((targetRect.top + targetRect.height/2 - mapRect.top) / mapRect.height) * 100;
+    
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', x1 + '%');
+    line.setAttribute('y1', y1 + '%');
+    line.setAttribute('x2', x2 + '%');
+    line.setAttribute('y2', y2 + '%');
+    line.setAttribute('stroke', 'url(#heartGradient)');
+    line.setAttribute('stroke-width', '2');
+    line.setAttribute('stroke-dasharray', '5,5');
+    line.classList.add('connection-line');
+    
+    // Add gradient if not exists
+    if (!svg.querySelector('defs')) {
+        const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+        const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+        gradient.id = 'heartGradient';
+        const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+        stop1.setAttribute('offset', '0%');
+        stop1.setAttribute('stop-color', '#ff2d6a');
+        const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+        stop2.setAttribute('offset', '100%');
+        stop2.setAttribute('stop-color', '#ffd93d');
+        gradient.appendChild(stop1);
+        gradient.appendChild(stop2);
+        defs.appendChild(gradient);
+        svg.appendChild(defs);
+    }
+    
+    svg.appendChild(line);
 }
 
 // Step 28: Book
