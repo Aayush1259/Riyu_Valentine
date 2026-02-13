@@ -54,10 +54,57 @@ const PETS = ['🐱', '🐰', '🐶', '🐹', '🦜'];
 const EMOJIS = ['😀', '😂', '😎', '😴', '🤗', '😇', '😈', '👻', '💀', '🤖', '👽', '😺', '🐶', '🐱', '🐻', '🐼', '🐨', '🐯', '🦁', '🐮', '🐷', '🐸', '🐔', '🐧', '🌸', '🌺', '🍀', '🌙', '⭐', '🔥', '💧', '🍎', '🍊', '🍋', '🍇', '🍓', '❤️', '💜', '💙', '💚', '🌟', '✨', '🎈', '🎁'];
 
 /* ═══════════════════════════════════════════════════════════════
-   DEVICE DETECTION
+   DEVICE DETECTION - Comprehensive for all platforms
 ═══════════════════════════════════════════════════════════════ */
-const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+const ua = navigator.userAgent.toLowerCase();
+const platform = navigator.platform || '';
+
+// iOS detection (including iPad on iOS 13+)
+const isIOS = /ipad|iphone|ipod/.test(ua) || (platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+// Android detection
+const isAndroid = /android/.test(ua);
+
+// Samsung Browser
+const isSamsung = /samsungbrowser/.test(ua);
+
+// Firefox
+const isFirefox = /firefox/.test(ua);
+
+// Edge (Chromium-based)
+const isEdge = /edg\//.test(ua);
+
+// Chrome
+const isChrome = /chrome/.test(ua) && !/edg\//.test(ua) && !/samsungbrowser/.test(ua);
+
+// Safari (not Chrome)
+const isSafari = /safari/.test(ua) && !/chrome/.test(ua);
+
+// Opera
+const isOpera = /opera|opr\//.test(ua);
+
+// Mobile detection
+const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile/i.test(ua);
+
+// Tablet detection
+const isTablet = /ipad|tablet|playbook|silk/i.test(ua) || (isAndroid && !/mobile/.test(ua));
+
+// Touch device
+const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+// Low-end device detection (for performance optimizations)
+const isLowEnd = navigator.hardwareConcurrency <= 2 || (navigator.deviceMemory && navigator.deviceMemory <= 2);
+
+// Screen size categories
+const getScreenCategory = () => {
+    const w = window.innerWidth;
+    if (w <= 320) return 'xs';      // iPhone SE, small phones
+    if (w <= 375) return 'sm';      // iPhone X/11/12 mini
+    if (w <= 428) return 'md';      // iPhone 12/13/14 Pro Max, large phones
+    if (w <= 768) return 'lg';      // Small tablets
+    if (w <= 1024) return 'xl';     // iPad, tablets
+    return 'xxl';                    // Desktop
+};
 
 /* ═══════════════════════════════════════════════════════════════
    MOBILE SHAKE ANIMATION HELPER (JS fallback for iOS/older browsers)
@@ -147,11 +194,66 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', debounce(fixViewportHeight, 100));
     window.addEventListener('orientationchange', () => setTimeout(fixViewportHeight, 100));
     
-    // Detect iOS and add class for simplified rendering
+    // Apply device/browser classes for CSS targeting
+    const html = document.documentElement;
+    const body = document.body;
+    
+    // Device type classes
     if (isIOS) {
-        document.body.classList.add('ios-device');
-        document.documentElement.classList.add('ios-device');
+        html.classList.add('ios-device');
+        body.classList.add('ios-device');
     }
+    if (isAndroid) {
+        html.classList.add('android-device');
+        body.classList.add('android-device');
+    }
+    if (isMobile) {
+        html.classList.add('mobile-device');
+        body.classList.add('mobile-device');
+    }
+    if (isTablet) {
+        html.classList.add('tablet-device');
+        body.classList.add('tablet-device');
+    }
+    if (isTouch) {
+        html.classList.add('touch-device');
+        body.classList.add('touch-device');
+    }
+    if (isLowEnd) {
+        html.classList.add('low-end-device');
+        body.classList.add('low-end-device');
+    }
+    
+    // Browser classes
+    if (isSafari) {
+        html.classList.add('safari-browser');
+        body.classList.add('safari-browser');
+    }
+    if (isFirefox) {
+        html.classList.add('firefox-browser');
+        body.classList.add('firefox-browser');
+    }
+    if (isSamsung) {
+        html.classList.add('samsung-browser');
+        body.classList.add('samsung-browser');
+    }
+    if (isEdge) {
+        html.classList.add('edge-browser');
+        body.classList.add('edge-browser');
+    }
+    if (isChrome) {
+        html.classList.add('chrome-browser');
+        body.classList.add('chrome-browser');
+    }
+    
+    // Screen size class
+    const updateScreenClass = () => {
+        const category = getScreenCategory();
+        html.className = html.className.replace(/screen-(xs|sm|md|lg|xl|xxl)/g, '');
+        html.classList.add(`screen-${category}`);
+    };
+    updateScreenClass();
+    window.addEventListener('resize', debounce(updateScreenClass, 150));
     
     initParticles();
     initEmojis();
