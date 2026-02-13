@@ -1124,8 +1124,8 @@ h1 {
     letter-spacing: -0.02em;
     color: #fff;
     background: linear-gradient(135deg, #fff 30%, rgba(255, 255, 255, 0.7));
-    background-clip: text;
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     text-align: center;
 }
@@ -2093,6 +2093,10 @@ p {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     user-select: none;
+    /* iOS containment fix */
+    isolation: isolate;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
 }
 
 .catcher {
@@ -2104,8 +2108,8 @@ p {
     border-radius: 8px;
     left: 50%;
     margin-left: calc(-0.5 * clamp(50px, 15vw, 70px));
-    -webkit-transform: none;
-    transform: none;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
     -webkit-transition: left 0.05s linear;
     transition: left 0.05s linear;
     display: flex;
@@ -4117,12 +4121,40 @@ input,
         -webkit-transform: none !important;
         transform: none !important;
         margin-left: calc(-0.5 * clamp(50px, 15vw, 70px));
+        position: absolute !important;
+        bottom: 10px !important;
     }
     
     .game-area {
         position: relative !important;
         -webkit-transform: translateZ(0);
         transform: translateZ(0);
+        overflow: hidden !important;
+        isolation: isolate;
+    }
+    
+    /* iOS Tea Cup fixes */
+    .tea-visual {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+    }
+    
+    .cup-body {
+        border-color: rgba(255, 255, 255, 0.9) !important;
+        border-width: 4px !important;
+        border-style: solid !important;
+        border-top: none !important;
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+    }
+    
+    .cup-handle {
+        border-color: rgba(255, 255, 255, 0.9) !important;
+        border-width: 4px !important;
+        border-style: solid !important;
+        border-left: none !important;
+        -webkit-transform: translateY(-50%) translateZ(0);
+        transform: translateY(-50%) translateZ(0);
     }
     
     /* iOS Heart Fill fixes */
@@ -4133,16 +4165,74 @@ input,
     
     .heart-fill {
         background: transparent !important;
+        background-color: transparent !important;
         -webkit-transform: translateX(-50%) translateZ(0);
         transform: translateX(-50%) translateZ(0);
         -webkit-backface-visibility: hidden;
         backface-visibility: hidden;
+        box-shadow: none !important;
     }
     
     .heart-fill span {
         background: transparent !important;
+        background-color: transparent !important;
         -webkit-transform: translateX(-50%);
         transform: translateX(-50%);
+    }
+    
+    /* iOS Love Letter text fixes */
+    .paper-content {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+    }
+    
+    .paper-content p,
+    .paper-content span,
+    .paper-content div,
+    .paper-content h2 {
+        color: inherit !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    
+    .handwritten-body {
+        color: #1a1a2e !important;
+        -webkit-text-fill-color: #1a1a2e !important;
+    }
+    
+    .handwritten-body p {
+        color: #1a1a2e !important;
+        -webkit-text-fill-color: #1a1a2e !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: block !important;
+    }
+    
+    .handwritten-title {
+        color: #c62828 !important;
+        -webkit-text-fill-color: #c62828 !important;
+    }
+    
+    .handwritten-body .highlight {
+        color: #e63946 !important;
+        -webkit-text-fill-color: #e63946 !important;
+    }
+    
+    /* iOS Receipt fixes */
+    .receipt,
+    .receipt * {
+        color: #1a1a1a !important;
+        -webkit-text-fill-color: #1a1a1a !important;
+    }
+    
+    .receipt h3 {
+        color: #ff2d6a !important;
+        -webkit-text-fill-color: #ff2d6a !important;
+    }
+    
+    .receipt-total {
+        color: #ff2d6a !important;
+        -webkit-text-fill-color: #ff2d6a !important;
     }
 
     /* iOS Chrome/Safari panic mode fixes */
