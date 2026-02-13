@@ -2285,6 +2285,9 @@ p {
     position: relative;
     width: clamp(100px, 25vw, 120px);
     height: clamp(100px, 25vw, 120px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .heart-bg {
@@ -2293,6 +2296,7 @@ p {
     position: absolute;
     top: 50%;
     left: 50%;
+    -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
 
@@ -2300,20 +2304,28 @@ p {
     position: absolute;
     bottom: 10%;
     left: 50%;
+    -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
     width: 80%;
     height: 0%;
     overflow: hidden;
+    -webkit-transition: height 0.1s;
     transition: height 0.1s;
+    background: transparent !important;
+    -webkit-background-clip: unset;
+    background-clip: unset;
 }
 
 .heart-fill span {
     position: absolute;
     bottom: 0;
     left: 50%;
+    -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
     font-size: clamp(4rem, 15vw, 6rem);
+    -webkit-filter: drop-shadow(0 0 20px var(--neon-pink));
     filter: drop-shadow(0 0 20px var(--neon-pink));
+    background: transparent !important;
 }
 
 /* Letter - Premium 3D Envelope with Wax Seal */
@@ -4028,6 +4040,26 @@ input,
         -webkit-transform: translateZ(0);
         transform: translateZ(0);
     }
+    
+    /* iOS Heart Fill fixes */
+    .heart-wrap {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+    }
+    
+    .heart-fill {
+        background: transparent !important;
+        -webkit-transform: translateX(-50%) translateZ(0);
+        transform: translateX(-50%) translateZ(0);
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+    }
+    
+    .heart-fill span {
+        background: transparent !important;
+        -webkit-transform: translateX(-50%);
+        transform: translateX(-50%);
+    }
 
     /* iOS Chrome/Safari panic mode fixes */
     body.screen-shake .card {
@@ -4912,6 +4944,16 @@ input,
         font-size: 0.8rem !important;
         padding: 4px 8px !important;
     }
+    
+    .heart-wrap {
+        width: 90px !important;
+        height: 90px !important;
+    }
+    
+    .heart-bg,
+    .heart-fill span {
+        font-size: 3.5rem !important;
+    }
 }
 
 /* Extra small screens */
@@ -4931,6 +4973,16 @@ input,
     
     .food, .protein-shake {
         font-size: 1rem !important;
+    }
+    
+    .heart-wrap {
+        width: 80px !important;
+        height: 80px !important;
+    }
+    
+    .heart-bg,
+    .heart-fill span {
+        font-size: 3rem !important;
     }
 }
 
