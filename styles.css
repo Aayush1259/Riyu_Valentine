@@ -4987,6 +4987,366 @@ input,
 }
 
 /* ══════════════════════════════════════════════════════════════
+   📱 FOLDABLE PHONES (Samsung Z Flip, Z Fold, etc.)
+══════════════════════════════════════════════════════════════ */
+
+/* Z Flip folded mode (~300px width, very tall) */
+@media (max-width: 300px) {
+    .card {
+        padding: 14px 10px !important;
+        width: 98vw !important;
+        max-width: none !important;
+        border-radius: 14px !important;
+        max-height: 85vh;
+        overflow-y: auto;
+    }
+    
+    h1 {
+        font-size: 1.2rem !important;
+        line-height: 1.3 !important;
+    }
+    
+    p {
+        font-size: 0.8rem !important;
+        line-height: 1.4 !important;
+    }
+    
+    .btn {
+        padding: 10px 16px !important;
+        font-size: 0.8rem !important;
+        min-width: 140px !important;
+    }
+    
+    .game-area {
+        height: 180px !important;
+    }
+    
+    .catcher {
+        width: 40px !important;
+        height: 22px !important;
+        font-size: 1rem !important;
+    }
+    
+    .tea-visual {
+        width: 80px !important;
+        height: 80px !important;
+    }
+    
+    .cup-body {
+        width: 50px !important;
+        height: 60px !important;
+    }
+    
+    .envelope-3d {
+        width: 160px !important;
+        height: 110px !important;
+    }
+    
+    .heritage-map {
+        width: 200px !important;
+        height: 280px !important;
+    }
+    
+    .quiz-options {
+        gap: 6px !important;
+    }
+    
+    .quiz-option {
+        padding: 8px 12px !important;
+        font-size: 0.75rem !important;
+    }
+    
+    .emoji-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 6px !important;
+    }
+    
+    .emoji-cell {
+        font-size: 1.4rem !important;
+        padding: 6px !important;
+    }
+    
+    .pet-room {
+        height: 120px !important;
+    }
+    
+    .breath-visual {
+        width: 60px !important;
+        height: 60px !important;
+    }
+}
+
+/* Very tall aspect ratio (Z Flip, some Android phones) */
+@media (min-aspect-ratio: 21/9) and (max-width: 500px) {
+    .card {
+        max-height: 75vh;
+        overflow-y: auto;
+        padding: 18px 16px;
+    }
+    
+    .game-area {
+        height: 200px;
+    }
+    
+    .heritage-map {
+        height: 250px;
+    }
+    
+    .paper-content {
+        max-height: 55vh;
+    }
+}
+
+/* Z Fold unfolded mode (tablet-like square-ish ~768px) */
+@media (min-width: 600px) and (max-width: 900px) and (min-aspect-ratio: 3/4) {
+    .card {
+        width: min(85vw, 520px);
+        padding: clamp(24px, 4vw, 36px);
+    }
+    
+    .game-area {
+        height: 260px;
+    }
+    
+    .heritage-map {
+        width: min(90%, 400px);
+        height: 400px;
+    }
+    
+    .pet-room {
+        height: 180px;
+    }
+    
+    .emoji-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+    }
+    
+    .envelope-3d {
+        width: 280px;
+        height: 180px;
+    }
+}
+
+/* Landscape foldables and short landscape phones */
+@media (orientation: landscape) and (max-height: 450px) {
+    .card {
+        max-height: 90vh;
+        overflow-y: auto;
+        padding: 16px 24px;
+    }
+    
+    h1 {
+        font-size: 1.4rem !important;
+        margin-bottom: 8px !important;
+    }
+    
+    p {
+        margin-bottom: 8px !important;
+    }
+    
+    .game-area {
+        height: 150px !important;
+    }
+    
+    .tea-visual {
+        width: 80px !important;
+        height: 80px !important;
+    }
+    
+    .heritage-map {
+        height: 180px !important;
+    }
+    
+    .breath-visual {
+        width: 60px !important;
+        height: 60px !important;
+    }
+    
+    .envelope-3d {
+        width: 200px !important;
+        height: 130px !important;
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   📱 TABLET ENHANCEMENTS (iPad, iPad Pro, Galaxy Tab, etc.)
+══════════════════════════════════════════════════════════════ */
+
+/* iPad Mini / Standard iPad Portrait */
+@media (min-width: 768px) and (max-width: 834px) {
+    .card {
+        width: min(80vw, 520px);
+        padding: 32px;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .game-area {
+        height: 280px;
+    }
+    
+    .heritage-map {
+        width: 350px;
+        height: 420px;
+    }
+    
+    .emoji-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+    }
+    
+    .emoji-cell {
+        font-size: 2rem;
+        padding: 14px;
+    }
+}
+
+/* iPad Air / iPad Pro 11" */
+@media (min-width: 834px) and (max-width: 1024px) {
+    .card {
+        width: min(75vw, 560px);
+        padding: 36px;
+    }
+    
+    h1 {
+        font-size: 2.1rem;
+    }
+    
+    .btn {
+        padding: 16px 32px;
+        font-size: 1.1rem;
+    }
+    
+    .game-area {
+        height: 300px;
+    }
+    
+    .catcher {
+        width: 80px;
+        height: 40px;
+        font-size: 1.8rem;
+    }
+    
+    .food {
+        font-size: 2rem;
+    }
+    
+    .heritage-map {
+        width: 380px;
+        height: 450px;
+    }
+    
+    .pet-room {
+        height: 200px;
+    }
+    
+    .pet {
+        font-size: 2.5rem;
+    }
+}
+
+/* iPad Pro 12.9" */
+@media (min-width: 1024px) and (max-width: 1400px) {
+    .card {
+        width: min(70vw, 620px);
+        padding: 40px;
+    }
+    
+    h1 {
+        font-size: 2.3rem;
+    }
+    
+    p {
+        font-size: 1.15rem;
+    }
+    
+    .btn {
+        padding: 18px 36px;
+        font-size: 1.15rem;
+    }
+    
+    .game-area {
+        height: 320px;
+    }
+    
+    .catcher {
+        width: 90px;
+        height: 45px;
+        font-size: 2rem;
+    }
+    
+    .food {
+        font-size: 2.2rem;
+    }
+    
+    .heritage-map {
+        width: 400px;
+        height: 480px;
+    }
+    
+    .envelope-3d {
+        width: 320px;
+        height: 210px;
+    }
+    
+    .paper-content {
+        padding: 50px 45px;
+    }
+    
+    .pet-room {
+        height: 220px;
+    }
+    
+    .pet {
+        font-size: 2.8rem;
+    }
+    
+    .tea-visual {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .cup-body {
+        width: 90px;
+        height: 105px;
+    }
+    
+    .breath-visual {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .emoji-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+    }
+    
+    .emoji-cell {
+        font-size: 2.2rem;
+        padding: 16px;
+    }
+}
+
+/* Tablet Landscape Mode */
+@media (min-width: 1024px) and (orientation: landscape) and (max-height: 900px) {
+    .card {
+        max-height: 85vh;
+        overflow-y: auto;
+    }
+    
+    .heritage-map {
+        height: min(50vh, 400px);
+    }
+    
+    .paper-content {
+        max-height: 60vh;
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════
    🌙 DARK MODE / HIGH CONTRAST IMPROVEMENTS
 ══════════════════════════════════════════════════════════════ */
 
