@@ -1871,6 +1871,7 @@ function initSignature() {
     if (!sigCanvas) return;
     
     sigCtx = sigCanvas.getContext('2d');
+    resizeSignatureCanvas();
     setupSignatureEvents();
 }
 
@@ -1879,17 +1880,32 @@ function reinitSignature() {
     if (!sigCanvas) return;
     
     sigCtx = sigCanvas.getContext('2d');
+    resizeSignatureCanvas();
+    setupSignatureEvents();
+}
+
+function resizeSignatureCanvas() {
+    if (!sigCanvas || !sigCtx) return;
     
-    // Ensure canvas has proper size
-    sigCanvas.width = 300;
-    sigCanvas.height = 150;
+    const sigPad = document.getElementById('sigPad');
+    if (!sigPad) return;
     
+    // Get the display size from CSS
+    const rect = sigPad.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    
+    // Set canvas internal resolution to match display size (scaled by DPR for sharp drawing)
+    sigCanvas.width = rect.width * dpr;
+    sigCanvas.height = rect.height * dpr;
+    
+    // Scale context for DPR
+    sigCtx.scale(dpr, dpr);
+    
+    // Set stroke style
     sigCtx.strokeStyle = '#ff2d6a';
     sigCtx.lineWidth = 3;
     sigCtx.lineCap = 'round';
     sigCtx.lineJoin = 'round';
-    
-    setupSignatureEvents();
 }
 
 function setupSignatureEvents() {
@@ -1900,6 +1916,17 @@ function setupSignatureEvents() {
     sigCanvas.parentNode.replaceChild(newCanvas, sigCanvas);
     sigCanvas = newCanvas;
     sigCtx = sigCanvas.getContext('2d');
+    
+    // Re-setup canvas size after cloning
+    const sigPad = document.getElementById('sigPad');
+    if (sigPad) {
+        const rect = sigPad.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        sigCanvas.width = rect.width * dpr;
+        sigCanvas.height = rect.height * dpr;
+        sigCtx.scale(dpr, dpr);
+    }
+    
     sigCtx.strokeStyle = '#ff2d6a';
     sigCtx.lineWidth = 3;
     sigCtx.lineCap = 'round';
@@ -1908,9 +1935,9 @@ function setupSignatureEvents() {
     // Mouse events
     sigCanvas.addEventListener('mousedown', e => {
         drawing = true;
-        const rect = sigCanvas.getBoundingClientRect();
+        const pos = getSignaturePos(e);
         sigCtx.beginPath();
-        sigCtx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+        sigCtx.moveTo(pos.x, pos.y);
     });
     sigCanvas.addEventListener('mouseup', () => { drawing = false; });
     sigCanvas.addEventListener('mouseleave', () => { drawing = false; });
@@ -1920,32 +1947,40 @@ function setupSignatureEvents() {
     sigCanvas.addEventListener('touchstart', e => {
         e.preventDefault();
         drawing = true;
-        const rect = sigCanvas.getBoundingClientRect();
-        const touch = e.touches[0];
+        const pos = getSignaturePos(e.touches[0]);
         sigCtx.beginPath();
-        sigCtx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
+        sigCtx.moveTo(pos.x, pos.y);
     }, { passive: false });
     sigCanvas.addEventListener('touchend', () => { drawing = false; });
+    sigCanvas.addEventListener('touchcancel', () => { drawing = false; });
     sigCanvas.addEventListener('touchmove', drawSig, { passive: false });
+}
+
+function getSignaturePos(e) {
+    const rect = sigCanvas.getBoundingClientRect();
+    return {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
+    };
 }
 
 function drawSig(e) {
     if (!drawing || !sigCanvas || !sigCtx) return;
     e.preventDefault();
     
-    const rect = sigCanvas.getBoundingClientRect();
-    const x = (e.clientX || e.touches[0].clientX) - rect.left;
-    const y = (e.clientY || e.touches[0].clientY) - rect.top;
+    const event = e.touches ? e.touches[0] : e;
+    const pos = getSignaturePos(event);
     
-    sigCtx.lineTo(x, y);
+    sigCtx.lineTo(pos.x, pos.y);
     sigCtx.stroke();
     sigCtx.beginPath();
-    sigCtx.moveTo(x, y);
+    sigCtx.moveTo(pos.x, pos.y);
 }
 
 function clearSig() {
     if (sigCtx && sigCanvas) {
-        sigCtx.clearRect(0, 0, sigCanvas.width, sigCanvas.height);
+        const dpr = window.devicePixelRatio || 1;
+        sigCtx.clearRect(0, 0, sigCanvas.width / dpr, sigCanvas.height / dpr);
     }
 }
 
