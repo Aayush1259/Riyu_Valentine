@@ -1353,46 +1353,50 @@ p {
     100% { transform: scale(1); }
 }
 
-/* Tea Cup */
+/* Tea Cup - Responsive */
 .tea-visual {
     position: relative;
-    width: clamp(100px, 25vw, 120px);
-    height: clamp(100px, 25vw, 120px);
+    width: clamp(120px, 35vw, 160px);
+    height: clamp(120px, 35vw, 160px);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .cup-body {
-    width: 80px;
-    height: 90px;
-    border: 5px solid rgba(255, 255, 255, 0.8);
+    width: clamp(70px, 20vw, 100px);
+    height: clamp(80px, 22vw, 110px);
+    border: clamp(4px, 1.2vw, 6px) solid rgba(255, 255, 255, 0.9);
     border-top: none;
-    border-radius: 0 0 40px 40px;
+    border-radius: 0 0 50% 50%;
     position: relative;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: inset 0 -10px 20px rgba(0,0,0,0.1);
 }
 
 .cup-handle {
     position: absolute;
-    right: 5px;
+    right: clamp(-10px, -3vw, -5px);
     top: 50%;
     transform: translateY(-50%);
-    width: 20px;
-    height: 35px;
-    border: 5px solid rgba(255, 255, 255, 0.8);
-    border-radius: 0 15px 15px 0;
+    width: clamp(18px, 5vw, 25px);
+    height: clamp(30px, 8vw, 45px);
+    border: clamp(4px, 1.2vw, 6px) solid rgba(255, 255, 255, 0.9);
+    border-radius: 0 50% 50% 0;
     border-left: none;
 }
 
 .tea-liquid {
     position: absolute;
     bottom: 0;
+    left: 0;
+    right: 0;
     width: 100%;
     height: 0%;
-    background: linear-gradient(to top, #6b4423, #a0522d, #cd853f);
+    background: linear-gradient(to top, #5d3a1a 0%, #8b5a2b 40%, #cd853f 100%);
     transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 0 0 50% 50%;
 }
 
 .steam-wrap {
@@ -1682,23 +1686,28 @@ p {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: clamp(12px, 4vw, 20px);
+    -webkit-perspective: 1000px;
     perspective: 1000px;
 }
 
 .envelope-3d {
     position: relative;
-    width: clamp(240px, 65vw, 320px);
-    height: clamp(160px, 45vw, 220px);
+    width: clamp(200px, 60vw, 320px);
+    height: clamp(140px, 42vw, 220px);
+    -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
+    -webkit-transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
     transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .envelope-3d:hover {
+    -webkit-transform: rotateX(5deg) rotateY(-2deg);
     transform: rotateX(5deg) rotateY(-2deg);
 }
 
 .envelope-3d.opening {
+    -webkit-transform: rotateX(15deg);
     transform: rotateX(15deg);
 }
 
@@ -1706,6 +1715,7 @@ p {
     position: absolute;
     width: 100%;
     height: 100%;
+    -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
 }
 
@@ -1719,6 +1729,7 @@ p {
         0 15px 40px rgba(0, 0, 0, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.3),
         inset 0 -2px 5px rgba(0, 0, 0, 0.05);
+    -webkit-transform: translateZ(-2px);
     transform: translateZ(-2px);
 }
 
@@ -1726,6 +1737,7 @@ p {
     position: absolute;
     top: 8%;
     left: 50%;
+    -webkit-transform: translateX(-50%) translateZ(0px);
     transform: translateX(-50%) translateZ(0px);
     width: 88%;
     height: 85%;
@@ -1735,11 +1747,13 @@ p {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+    -webkit-transition: transform 1s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s;
+    transition: transform 1s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s;
     z-index: 1;
 }
 
 .envelope-3d.opened .envelope-letter {
+    -webkit-transform: translateX(-50%) translateY(-120%) translateZ(20px);
     transform: translateX(-50%) translateY(-120%) translateZ(20px);
     opacity: 0;
 }
@@ -1779,15 +1793,19 @@ p {
     width: 100%;
     height: 55%;
     background: linear-gradient(180deg, #e8d5c4 0%, #d4c4b0 100%);
+    -webkit-clip-path: polygon(0 0, 50% 100%, 100% 0);
     clip-path: polygon(0 0, 50% 100%, 100% 0);
+    -webkit-transform-origin: top center;
     transform-origin: top center;
     z-index: 3;
-    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    -webkit-transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .envelope-3d.opening .envelope-flap,
 .envelope-3d.opened .envelope-flap {
+    -webkit-transform: rotateX(180deg);
     transform: rotateX(180deg);
 }
 
@@ -1915,29 +1933,49 @@ p {
 .letter-box {
     display: flex;
     justify-content: center;
-    padding: 20px 0;
+    padding: clamp(10px, 3vw, 20px) 0;
     perspective: 1000px;
+    -webkit-perspective: 1000px;
     background: transparent;
     box-shadow: none;
     border: none;
     overflow: visible;
+    width: 100%;
 }
 
 .paper-content {
-    background: #fffdf5;
+    background: linear-gradient(180deg, #fffef8 0%, #fff9eb 100%);
     width: 100%;
-    max-width: 400px;
-    padding: 40px 30px;
+    max-width: min(420px, 92vw);
+    padding: clamp(20px, 5vw, 48px) clamp(16px, 4vw, 36px);
     box-shadow: 
         0 1px 1px rgba(0,0,0,0.15), 
-        0 10px 0 -5px #eee, 
+        0 10px 0 -5px #f5f0e5, 
         0 10px 1px -4px rgba(0,0,0,0.15), 
-        0 20px 0 -10px #eee, 
+        0 20px 0 -10px #ebe6db, 
         0 20px 1px -9px rgba(0,0,0,0.15),
-        0 20px 60px rgba(0,0,0,0.4);
-    transform: rotate(-1deg);
+        0 25px 50px rgba(0,0,0,0.35);
+    transform: rotate(-0.5deg);
+    -webkit-transform: rotate(-0.5deg);
     position: relative;
-    color: #444;
+    color: #222;
+    border-radius: 4px;
+    max-height: clamp(50vh, 60vh, 70vh);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.paper-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.paper-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.paper-content::-webkit-scrollbar-thumb {
+    background: #e63946;
+    border-radius: 3px;
 }
 
 /* Paper Texture */
@@ -1946,10 +1984,10 @@ p {
     position: absolute;
     inset: 0;
     background-image: linear-gradient(#e6e6e6 1px, transparent 1px);
-    background-size: 100% 28px;
+    background-size: 100% clamp(22px, 6vw, 28px);
     opacity: 0.3;
     pointer-events: none;
-    margin-top: 60px; /* Start lines after header */
+    margin-top: clamp(45px, 12vw, 60px); /* Start lines after header */
 }
 
 /* Red margin line */
@@ -1958,85 +1996,96 @@ p {
     position: absolute;
     top: 0;
     bottom: 0;
-    left: 40px;
+    left: clamp(25px, 8vw, 40px);
     width: 2px;
-    background: rgba(255, 45, 106, 0.2);
+    background: rgba(255, 45, 106, 0.25);
     pointer-events: none;
 }
 
 .paper-header {
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
     font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: #888;
-    opacity: 0.8;
+    font-size: clamp(0.7rem, 2vw, 0.85rem);
+    color: #666;
+    opacity: 1;
+    font-weight: 500;
 }
 
 .handwritten-title {
     font-family: var(--font-script);
-    font-size: 2.2rem;
-    color: var(--neon-pink);
-    margin-bottom: 20px;
-    text-shadow: none; /* Clean ink look */
+    font-size: clamp(1.8rem, 5vw, 2.4rem);
+    color: #c62828;
+    margin-bottom: 24px;
+    text-shadow: none;
     -webkit-text-fill-color: initial;
     background: none;
+    font-weight: 700;
 }
 
 .handwritten-body {
     font-family: var(--font-script);
-    font-size: 1.35rem;
-    line-height: 28px; /* Math with grid size */
-    color: #2c3e50;
+    font-size: clamp(1.2rem, 3.5vw, 1.5rem);
+    line-height: 1.9;
+    color: #1a1a2e;
+    font-weight: 500;
 }
 
 .handwritten-body p {
-    margin-bottom: 28px;
+    margin-bottom: 24px;
     text-align: left;
     position: relative;
     z-index: 1;
 }
 
 .handwritten-body .highlight {
-    color: var(--neon-pink);
-    font-weight: bold;
-    background: rgba(255, 255, 0, 0.1);
-    padding: 0 4px;
+    color: #e63946;
+    font-weight: 700;
+    background: rgba(255, 215, 0, 0.25);
+    padding: 2px 8px;
     border-radius: 4px;
 }
 
 .promise-quote {
     font-family: var(--font-display);
-    font-size: 1.1rem;
-    color: #555;
+    font-size: clamp(1rem, 2.8vw, 1.15rem);
+    color: #2c3e50;
     font-style: italic;
-    border-left: 3px solid var(--neon-gold);
-    padding-left: 15px;
-    margin: 30px 0 30px 10px !important;
-    line-height: 1.6;
+    font-weight: 500;
+    border-left: 4px solid #ffd93d;
+    padding-left: 16px;
+    margin: 32px 0 32px 10px !important;
+    line-height: 1.8;
+    background: rgba(255, 215, 0, 0.08);
+    padding: 16px;
+    border-radius: 0 8px 8px 0;
 }
 
 .paper-footer {
-    margin-top: 40px;
+    margin-top: 36px;
     text-align: right;
     position: relative;
+    padding-top: 16px;
+    border-top: 1px dashed rgba(0, 0, 0, 0.1);
 }
 
 .yours {
     display: block;
     font-family: var(--font-script);
-    font-size: 1.2rem;
-    color: #666;
-    margin-bottom: 5px;
+    font-size: clamp(1.1rem, 3vw, 1.3rem);
+    color: #444;
+    margin-bottom: 8px;
+    font-weight: 500;
 }
 
 .signature {
     font-family: var(--font-script);
-    font-size: 2.5rem;
-    color: var(--neon-pink);
-    transform: rotate(-5deg);
+    font-size: clamp(2rem, 6vw, 2.8rem);
+    color: #c62828;
+    transform: rotate(-3deg);
     display: inline-block;
+    font-weight: 700;
 }
 
 .ink-splatter {
@@ -3242,4 +3291,210 @@ button, .btn, a, input, [onclick] {
 
 .ios-device .btn.yes {
     background: linear-gradient(135deg, #fff, #ffe0ea) !important;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   📱 SMALL SCREEN FIXES - Tea Cup & Love Letter
+══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 380px) {
+    /* Tea cup for very small screens */
+    .tea-visual {
+        width: 110px;
+        height: 110px;
+    }
+    
+    .cup-body {
+        width: 65px;
+        height: 75px;
+        border-width: 4px;
+    }
+    
+    .cup-handle {
+        width: 16px;
+        height: 28px;
+        border-width: 4px;
+        right: -8px;
+    }
+    
+    /* Love letter envelope */
+    .envelope-3d {
+        width: 200px;
+        height: 140px;
+    }
+    
+    .wax-seal {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .seal-inner {
+        font-size: 1rem;
+    }
+    
+    .seal-text {
+        font-size: 0.45rem;
+    }
+    
+    /* Paper content */
+    .paper-content {
+        padding: 16px 14px;
+        max-width: 95vw;
+    }
+    
+    .handwritten-title {
+        font-size: 1.4rem;
+        margin-bottom: 16px;
+    }
+    
+    .handwritten-body {
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+    
+    .handwritten-body p {
+        margin-bottom: 16px;
+    }
+    
+    .paper-content::after {
+        left: 18px;
+    }
+    
+    .promise-quote {
+        font-size: 0.9rem;
+        padding: 12px;
+        margin: 20px 0 20px 8px !important;
+    }
+    
+    .signature {
+        font-size: 1.6rem;
+    }
+    
+    .yours {
+        font-size: 1rem;
+    }
+}
+
+/* Medium small screens */
+@media (max-width: 480px) and (min-width: 381px) {
+    .envelope-3d {
+        width: clamp(220px, 60vw, 280px);
+        height: clamp(150px, 40vw, 190px);
+    }
+    
+    .paper-content {
+        padding: 20px 18px;
+    }
+    
+    .handwritten-title {
+        font-size: 1.6rem;
+    }
+    
+    .handwritten-body {
+        font-size: 1.1rem;
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   🍎 iOS - Love Letter & 3D Envelope Fixes
+══════════════════════════════════════════════════════════════ */
+
+/* iOS: Flatten 3D transforms for better compatibility */
+.ios-device .love-letter-scene {
+    -webkit-perspective: none;
+    perspective: none;
+}
+
+.ios-device .envelope-3d {
+    -webkit-transform-style: flat;
+    transform-style: flat;
+    -webkit-transform: none;
+    transform: none;
+}
+
+.ios-device .envelope-3d:hover {
+    -webkit-transform: none;
+    transform: none;
+}
+
+.ios-device .envelope-3d.opening {
+    -webkit-transform: none;
+    transform: none;
+}
+
+.ios-device .envelope-body {
+    -webkit-transform-style: flat;
+    transform-style: flat;
+}
+
+.ios-device .envelope-3d .envelope-flap {
+    -webkit-transition: opacity 0.5s;
+    transition: opacity 0.5s;
+}
+
+.ios-device .envelope-3d.opening .envelope-flap,
+.ios-device .envelope-3d.opened .envelope-flap {
+    -webkit-transform: none;
+    transform: none;
+    opacity: 0;
+}
+
+.ios-device .envelope-3d.opened .envelope-letter {
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    opacity: 0;
+}
+
+/* iOS: Paper content fixes */
+.ios-device .paper-content {
+    -webkit-transform: none;
+    transform: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+.ios-device .letter-box {
+    -webkit-perspective: none;
+    perspective: none;
+}
+
+/* iOS: Wax seal animation fix */
+.ios-device .wax-seal {
+    -webkit-animation: none;
+    animation: none;
+}
+
+.ios-device .wax-seal::before {
+    -webkit-animation: none;
+    animation: none;
+}
+
+.ios-device .wax-seal.breaking {
+    -webkit-animation: iosSealBreak 0.6s forwards;
+    animation: iosSealBreak 0.6s forwards;
+}
+
+@-webkit-keyframes iosSealBreak {
+    0% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
+}
+
+@keyframes iosSealBreak {
+    0% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
+}
+
+/* iOS: Particle animation fix */
+.ios-device .seal-particle {
+    -webkit-animation: iosParticleFly 0.8s forwards;
+    animation: iosParticleFly 0.8s forwards;
+}
+
+@-webkit-keyframes iosParticleFly {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+@keyframes iosParticleFly {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
 }

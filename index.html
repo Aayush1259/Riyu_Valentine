@@ -1,64 +1,74 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="theme-color" content="#030014">
-    <meta name="msapplication-TileColor" content="#030014">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="theme-color" content="#030014" />
+    <meta name="msapplication-TileColor" content="#030014" />
     <title>💝 A Journey For You</title>
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Playfair+Display:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&family=Dancing+Script:wght@500;700&display=swap"
-        rel="stylesheet">
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Playfair+Display:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&family=Dancing+Script:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- Confetti Library -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="styles.css?v=3.1">
-</head>
+    <link rel="stylesheet" href="styles.css?v=3.1" />
+  </head>
 
-<body>
-
+  <body>
     <!-- Background Effects -->
     <div id="noise"></div>
     <div id="particles"></div>
 
     <!-- Audio Tracks -->
     <audio id="introMusic" loop preload="auto">
-        <source src="intro.mp3" type="audio/mpeg">
+      <source src="intro.mp3" type="audio/mpeg" />
     </audio>
     <audio id="panicMusic" loop preload="auto">
-        <source src="panic.mp3" type="audio/mpeg">
+      <source src="panic.mp3" type="audio/mpeg" />
     </audio>
     <audio id="bgMusic" loop preload="auto">
-        <source src="./Perfect (Acoustic).mp3" type="audio/mpeg">
+      <source src="./Perfect (Acoustic).mp3" type="audio/mpeg" />
     </audio>
 
     <!-- Music Prompt (required for mobile) -->
     <div id="musicPrompt" class="music-prompt">
-        <h2>💝 Ready to Begin?</h2>
-        <p>This experience is best with music!</p>
-        <div class="btn-group">
-            <button class="btn yes" onclick="startExperience(true)"><span>🎵 With Music</span></button>
-            <button class="btn" onclick="startExperience(false)"><span>🔇 Without</span></button>
-        </div>
+      <h2>💝 Ready to Begin?</h2>
+      <p>This experience is best with music!</p>
+      <div class="btn-group">
+        <button class="btn yes" onclick="startExperience(true)">
+          <span>🎵 With Music</span>
+        </button>
+        <button class="btn" onclick="startExperience(false)">
+          <span>🔇 Without</span>
+        </button>
+      </div>
     </div>
 
     <!-- Toast -->
     <div id="toast" class="toast"></div>
 
     <!-- Audio Toggle -->
-    <button class="audio-btn hidden" id="audioBtn" onclick="toggleAudio()">🔊</button>
+    <button class="audio-btn hidden" id="audioBtn" onclick="toggleAudio()">
+      🔊
+    </button>
 
     <!-- ═══════════════════════════════════════════════════════════════
      PHASE 1: THE GATEKEEPING (Steps 1-15) - Terminal Theme
@@ -66,229 +76,460 @@
 
     <!-- Step 1: Boot -->
     <div id="s1" class="card terminal hidden">
-        <h1 class="terminal">SYSTEM.BOOT()</h1>
-        <p class="mono">Initializing Riyu_OS v2.0...</p>
-        <div class="progress-wrap">
-            <div class="progress-bar" id="bootBar"></div>
-        </div>
-        <p class="mono" id="bootMsg">Loading core modules...</p>
+      <h1 class="terminal">SYSTEM.BOOT()</h1>
+      <p class="mono">Initializing Riyu_OS v2.0...</p>
+      <div class="progress-wrap">
+        <div class="progress-bar" id="bootBar"></div>
+      </div>
+      <p class="mono" id="bootMsg">Loading core modules...</p>
     </div>
 
     <!-- Step 2: Error -->
     <div id="s2" class="card terminal hidden">
-        <h1 class="terminal">⚠️ FATAL ERROR</h1>
-        <div class="progress-wrap">
-            <div class="progress-bar error" style="width: 99%"></div>
-        </div>
-        <p class="mono" style="color: #ff6b6b;">ERROR 0x8007: Stubbornness.dll overflow</p>
-        <p class="mono" style="color: #ff6b6b;">System cannot proceed until resolved.</p>
-        <button class="btn terminal" onclick="go(3)"><span>Debug Mode →</span></button>
+      <h1 class="terminal">⚠️ FATAL ERROR</h1>
+      <div class="progress-wrap">
+        <div class="progress-bar error" style="width: 99%"></div>
+      </div>
+      <p class="mono" style="color: #ff6b6b">
+        ERROR 0x8007: Stubbornness.dll overflow
+      </p>
+      <p class="mono" style="color: #ff6b6b">
+        System cannot proceed until resolved.
+      </p>
+      <button class="btn terminal" onclick="go(3)">
+        <span>Debug Mode →</span>
+      </button>
     </div>
 
     <!-- Step 3: Remove Stubbornness -->
     <div id="s3" class="card terminal hidden">
-        <h1 class="terminal">🔧 PATCH REQUIRED</h1>
-        <p class="mono">Quarantine the Stubbornness module.</p>
-        <p class="mono">Clicks needed: <span class="gold" id="stubCount">10</span></p>
-        <button class="btn terminal" id="stubBtn" onclick="clickStub()"><span>[ DELETE STUBBORNNESS ]</span></button>
+      <h1 class="terminal">🔧 PATCH REQUIRED</h1>
+      <p class="mono">Quarantine the Stubbornness module.</p>
+      <p class="mono">
+        Clicks needed: <span class="gold" id="stubCount">10</span>
+      </p>
+      <button class="btn terminal" id="stubBtn" onclick="clickStub()">
+        <span>[ DELETE STUBBORNNESS ]</span>
+      </button>
     </div>
 
     <!-- Step 4: Identity Check -->
     <div id="s4" class="card terminal hidden">
-        <h1 class="terminal">🔐 IDENTITY SCAN</h1>
-        <p class="mono">Analyzing behavioral patterns...</p>
-        <p class="mono text-lg" style="margin: 16px 0;">"The crown fits perfectly on this head"</p>
-        <p class="mono">Who does this describe?</p>
-        <div class="btn-group">
-            <button class="btn terminal" onclick="admitQueen(true)"><span>Me, obviously 👑</span></button>
-            <button class="btn terminal" id="denyBtn" onclick="admitQueen(false)"><span>Someone else 🤷</span></button>
-        </div>
-        <p class="mono" id="queenMsg" style="color: #ff6b6b; min-height: 24px;"></p>
+      <h1 class="terminal">🔐 IDENTITY SCAN</h1>
+      <p class="mono">Analyzing behavioral patterns...</p>
+      <p class="mono text-lg" style="margin: 16px 0">
+        "The crown fits perfectly on this head"
+      </p>
+      <p class="mono">Who does this describe?</p>
+      <div class="btn-group">
+        <button class="btn terminal" onclick="admitQueen(true)">
+          <span>Me, obviously 👑</span>
+        </button>
+        <button class="btn terminal" id="denyBtn" onclick="admitQueen(false)">
+          <span>Someone else 🤷</span>
+        </button>
+      </div>
+      <p
+        class="mono"
+        id="queenMsg"
+        style="color: #ff6b6b; min-height: 24px"
+      ></p>
     </div>
 
     <!-- Step 5: Lie Detected -->
     <div id="s5" class="card terminal hidden shake">
-        <h1 class="terminal" style="color: #ff6b6b;">🚨 DECEPTION ALERT</h1>
-        <p class="mono" style="color: #ff6b6b;">Biometric scan detected FALSE statement.</p>
-        <p class="mono" style="color: #ff6b6b;">Honesty protocol enforced.</p>
-        <button class="btn danger" onclick="go(6)"><span>Fine... I AM the Drama Queen 👑</span></button>
+      <h1 class="terminal" style="color: #ff6b6b">🚨 DECEPTION ALERT</h1>
+      <p class="mono" style="color: #ff6b6b">
+        Biometric scan detected FALSE statement.
+      </p>
+      <p class="mono" style="color: #ff6b6b">Honesty protocol enforced.</p>
+      <button class="btn danger" onclick="go(6)">
+        <span>Fine... I AM the Drama Queen 👑</span>
+      </button>
     </div>
 
     <!-- Step 6: Twisted CAPTCHA -->
     <div id="s6" class="card terminal hidden">
-        <h1 class="terminal">🤖 HUMAN VERIFICATION</h1>
-        <p class="mono">Complete the phrase (case sensitive):</p>
-        <p class="gold text-lg" style="font-family: var(--font-mono);">"The minion who is ___ ___"</p>
-        <p class="mono" style="font-size: 0.85rem; opacity: 0.6;">Hint: Round + Silly nursery rhyme character</p>
-        <div class="input-wrap">
-            <input type="text" class="input terminal" id="captchaIn" placeholder="??? ???" autocomplete="off">
-        </div>
-        <button class="btn terminal" onclick="checkCaptcha()"><span>Verify →</span></button>
+      <h1 class="terminal">🤖 HUMAN VERIFICATION</h1>
+      <p class="mono">Complete the phrase (case sensitive):</p>
+      <p class="gold text-lg" style="font-family: var(--font-mono)">
+        "The minion who is ___ ___"
+      </p>
+      <p class="mono" style="font-size: 0.85rem; opacity: 0.6">
+        Hint: Round + Silly nursery rhyme character
+      </p>
+      <div class="input-wrap">
+        <input
+          type="text"
+          class="input terminal"
+          id="captchaIn"
+          placeholder="??? ???"
+          autocomplete="off"
+        />
+      </div>
+      <button class="btn terminal" onclick="checkCaptcha()">
+        <span>Verify →</span>
+      </button>
     </div>
 
     <!-- Step 7: Twisted Q1 -->
     <div id="s7" class="card terminal hidden">
-        <h1 class="terminal">🔒 SECURITY LAYER 1/5</h1>
-        <p class="mono">When the timezone changed from IST to PST,</p>
-        <p class="mono">what number did the calendar show?</p>
-        <p class="mono" style="font-size: 0.85rem; opacity: 0.6;">(The day dreams became addresses)</p>
-        <div class="input-wrap">
-            <input type="text" class="input terminal" id="q1In" placeholder="Month + Day" autocomplete="off">
-        </div>
-        <button class="btn terminal" onclick="checkQ(1)"><span>Submit</span></button>
-        <p class="mono gold hidden" id="h1">💡 Taylor's birth month + single digit</p>
+      <h1 class="terminal">🔒 SECURITY LAYER 1/5</h1>
+      <p class="mono">When the timezone changed from IST to PST,</p>
+      <p class="mono">what number did the calendar show?</p>
+      <p class="mono" style="font-size: 0.85rem; opacity: 0.6">
+        (The day dreams became addresses)
+      </p>
+      <div class="input-wrap">
+        <input
+          type="text"
+          class="input terminal"
+          id="q1In"
+          placeholder="Month + Day"
+          autocomplete="off"
+        />
+      </div>
+      <button class="btn terminal" onclick="checkQ(1)">
+        <span>Submit</span>
+      </button>
+      <p class="mono gold hidden" id="h1">
+        💡 Taylor's birth month + single digit
+      </p>
     </div>
 
     <!-- Step 8: Twisted Q2 -->
     <div id="s8" class="card terminal hidden">
-        <h1 class="terminal">🔒 SECURITY LAYER 2/5</h1>
-        <p class="mono">The sacred syllable. The first sound.</p>
-        <p class="mono">The name whispered at home, not in class.</p>
-        <p class="mono" style="font-size: 0.85rem; opacity: 0.6;">(2 letters. Universal vibration.)</p>
-        <div class="input-wrap">
-            <input type="text" class="input terminal" id="q2In" placeholder="???" autocomplete="off">
-        </div>
-        <button class="btn terminal" onclick="checkQ(2)"><span>Submit</span></button>
-        <p class="mono gold hidden" id="h2">💡 🕉️ = ?</p>
+      <h1 class="terminal">🔒 SECURITY LAYER 2/5</h1>
+      <p class="mono">The sacred syllable. The first sound.</p>
+      <p class="mono">The name whispered at home, not in class.</p>
+      <p class="mono" style="font-size: 0.85rem; opacity: 0.6">
+        (2 letters. Universal vibration.)
+      </p>
+      <div class="input-wrap">
+        <input
+          type="text"
+          class="input terminal"
+          id="q2In"
+          placeholder="???"
+          autocomplete="off"
+        />
+      </div>
+      <button class="btn terminal" onclick="checkQ(2)">
+        <span>Submit</span>
+      </button>
+      <p class="mono gold hidden" id="h2">💡 🕉️ = ?</p>
     </div>
 
     <!-- Step 9: Twisted Q3 - Favorite Show -->
     <div id="s9" class="card terminal hidden">
-        <h1 class="terminal">🔒 SECURITY LAYER 3/5</h1>
-        <p class="mono">Coffee, books, small-town drama...</p>
-        <p class="mono">Stars Hollow is home to which show?</p>
-        <p class="mono" style="font-size: 0.85rem; opacity: 0.6;">(Your comfort English show)</p>
-        <div class="input-wrap">
-            <input type="text" class="input terminal" id="q3In" placeholder="The show name" autocomplete="off">
-        </div>
-        <button class="btn terminal" onclick="checkQ(3)"><span>Submit</span></button>
-        <p class="mono gold hidden" id="h3">💡 Lorelai & Rory's last name?</p>
+      <h1 class="terminal">🔒 SECURITY LAYER 3/5</h1>
+      <p class="mono">Coffee, books, small-town drama...</p>
+      <p class="mono">Stars Hollow is home to which show?</p>
+      <p class="mono" style="font-size: 0.85rem; opacity: 0.6">
+        (Your comfort English show)
+      </p>
+      <div class="input-wrap">
+        <input
+          type="text"
+          class="input terminal"
+          id="q3In"
+          placeholder="The show name"
+          autocomplete="off"
+        />
+      </div>
+      <button class="btn terminal" onclick="checkQ(3)">
+        <span>Submit</span>
+      </button>
+      <p class="mono gold hidden" id="h3">💡 Lorelai & Rory's last name?</p>
     </div>
 
     <!-- Step 9b: Twisted Q4 - Her Tendency -->
     <div id="s9b" class="card terminal hidden">
-        <h1 class="terminal">🔒 SECURITY LAYER 4/5</h1>
-        <p class="mono">"Pahar out of silly things"</p>
-        <p class="mono">You make mountains out of molehills...</p>
-        <p class="mono" style="font-size: 0.85rem; opacity: 0.6;">(Your adorable tendency)</p>
-        <div class="input-wrap">
-            <input type="text" class="input terminal" id="q4In" placeholder="What do you do?" autocomplete="off">
-        </div>
-        <button class="btn terminal" onclick="checkQ(4)"><span>Submit</span></button>
-        <p class="mono gold hidden" id="h4">💡 Over + think = ?</p>
+      <h1 class="terminal">🔒 SECURITY LAYER 4/5</h1>
+      <p class="mono">"Pahar out of silly things"</p>
+      <p class="mono">You make mountains out of molehills...</p>
+      <p class="mono" style="font-size: 0.85rem; opacity: 0.6">
+        (Your adorable tendency)
+      </p>
+      <div class="input-wrap">
+        <input
+          type="text"
+          class="input terminal"
+          id="q4In"
+          placeholder="What do you do?"
+          autocomplete="off"
+        />
+      </div>
+      <button class="btn terminal" onclick="checkQ(4)">
+        <span>Submit</span>
+      </button>
+      <p class="mono gold hidden" id="h4">💡 Over + think = ?</p>
     </div>
 
     <!-- Step 9c: Twisted Q5 -->
     <div id="s9c" class="card terminal hidden">
-        <h1 class="terminal">🔒 SECURITY LAYER 5/5</h1>
-        <p class="mono">"Read this!" he says. "It'll change your life!"</p>
-        <p class="mono">She nods, then opens Instagram instead.</p>
-        <p class="mono" style="font-size: 0.85rem; opacity: 0.6;">(The book with 700 verses of wisdom)</p>
-        <div class="input-wrap">
-            <input type="text" class="input terminal" id="q5In" placeholder="The ignored text" autocomplete="off">
-        </div>
-        <button class="btn terminal" onclick="checkQ(5)"><span>Submit</span></button>
-        <p class="mono gold hidden" id="h5">💡 Arjuna's battlefield reading material</p>
+      <h1 class="terminal">🔒 SECURITY LAYER 5/5</h1>
+      <p class="mono">"Read this!" he says. "It'll change your life!"</p>
+      <p class="mono">She nods, then opens Instagram instead.</p>
+      <p class="mono" style="font-size: 0.85rem; opacity: 0.6">
+        (The book with 700 verses of wisdom)
+      </p>
+      <div class="input-wrap">
+        <input
+          type="text"
+          class="input terminal"
+          id="q5In"
+          placeholder="The ignored text"
+          autocomplete="off"
+        />
+      </div>
+      <button class="btn terminal" onclick="checkQ(5)">
+        <span>Submit</span>
+      </button>
+      <p class="mono gold hidden" id="h5">
+        💡 Arjuna's battlefield reading material
+      </p>
     </div>
 
     <!-- Step 10: Charlie Trap -->
     <div id="s10" class="card hidden">
-        <h1>👀 Anomaly Detected</h1>
-        <p>Heart rate spike detected... Processing...</p>
-        <div style="position: relative; width: min(180px, 40vw); height: min(180px, 40vw); margin: 16px auto;">
-            <div id="charlieImg"
-                style="width: 100%; height: 100%; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 4rem; cursor: pointer; transition: all 0.8s;"
-                onclick="fadeCharlie()">
-                🎤
-            </div>
-            <div id="charlieText"
-                style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.9); border-radius: 16px; opacity: 0; transition: opacity 0.5s; padding: 16px; text-align: center; pointer-events: none;">
-                <span class="gold font-display">But does he make you broccoli soup? Does he call you Drama Queen?
-                    💛</span>
-            </div>
+      <h1>👀 Anomaly Detected</h1>
+      <p>Heart rate spike detected... Processing...</p>
+      <div
+        style="
+          position: relative;
+          width: min(180px, 40vw);
+          height: min(180px, 40vw);
+          margin: 16px auto;
+        "
+      >
+        <div
+          id="charlieImg"
+          style="
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            cursor: pointer;
+            transition: all 0.8s;
+          "
+          onclick="fadeCharlie()"
+        >
+          🎤
         </div>
-        <p style="font-size: 0.85rem; opacity: 0.6;">Tap the musician to reveal truth...</p>
-        <button class="btn gold" onclick="go(11)"><span>Fair point. TimTim wins. 💛</span></button>
+        <div
+          id="charlieText"
+          style="
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 16px;
+            opacity: 0;
+            transition: opacity 0.5s;
+            padding: 16px;
+            text-align: center;
+            pointer-events: none;
+          "
+        >
+          <span class="gold font-display"
+            >But does he make you broccoli soup? Does he call you Drama Queen?
+            💛</span
+          >
+        </div>
+      </div>
+      <p style="font-size: 0.85rem; opacity: 0.6">
+        Tap the musician to reveal truth...
+      </p>
+      <button class="btn gold" onclick="go(11)">
+        <span>Fair point. TimTim wins. 💛</span>
+      </button>
     </div>
 
     <!-- Step 11: Find Makkar -->
     <div id="s11" class="card hidden">
-        <h1>🔍 Loyalty Matrix</h1>
-        <p>Your "Makkar" is hiding. Find the 🐵 among imposters!</p>
-        <div class="emoji-grid" id="emojiGrid"></div>
-        <p class="gold" id="findMsg"></p>
+      <h1>🔍 Loyalty Matrix</h1>
+      <p>Your "Makkar" is hiding. Find the 🐵 among imposters!</p>
+      <div class="emoji-grid" id="emojiGrid"></div>
+      <p class="gold" id="findMsg"></p>
     </div>
 
     <!-- Step 12: Couple References -->
     <div id="s12" class="card hidden">
-        <h1>📺 Couple Compatibility</h1>
-        <p>Famous couples that are literally US:</p>
-        <div
-            style="background: rgba(0,0,0,0.2); padding: 20px; border-radius: 16px; margin: 16px 0; text-align: left; width: 100%;">
-            <label style="display: flex; align-items: center; gap: 12px; margin: 12px 0; cursor: pointer;">
-                <input type="checkbox" class="couple-check" checked
-                    style="width: 20px; height: 20px; accent-color: var(--neon-pink);">
-                <span><strong>Dhruv & Kavya</strong> (Little Things) — She overthinks, he calms her 💭</span>
-            </label>
-            <label style="display: flex; align-items: center; gap: 12px; margin: 12px 0; cursor: pointer;">
-                <input type="checkbox" class="couple-check" checked
-                    style="width: 20px; height: 20px; accent-color: var(--neon-pink);">
-                <span><strong>Jim & Pam</strong> (The Office) — Best friends first 💕</span>
-            </label>
-            <label style="display: flex; align-items: center; gap: 12px; margin: 12px 0; cursor: pointer;">
-                <input type="checkbox" class="couple-check" checked
-                    style="width: 20px; height: 20px; accent-color: var(--neon-pink);">
-                <span><strong>Monica & Chandler</strong> (Friends) — Chaos meets calm 😂</span>
-            </label>
-            <label style="display: flex; align-items: center; gap: 12px; margin: 12px 0; cursor: pointer;">
-                <input type="checkbox" class="couple-check" checked
-                    style="width: 20px; height: 20px; accent-color: var(--neon-pink);">
-                <span><strong>Bunny & Naina</strong> (YJHD) — Adventure seekers ✈️</span>
-            </label>
-        </div>
-        <p class="gold" style="font-size: 0.9rem;">22/36 Kundli match — Dosha Samyam ✔️</p>
-        <button class="btn" onclick="go(13)"><span>We're all of them! 💑</span></button>
+      <h1>📺 Couple Compatibility</h1>
+      <p>Famous couples that are literally US:</p>
+      <div
+        style="
+          background: rgba(0, 0, 0, 0.2);
+          padding: 20px;
+          border-radius: 16px;
+          margin: 16px 0;
+          text-align: left;
+          width: 100%;
+        "
+      >
+        <label
+          style="
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 12px 0;
+            cursor: pointer;
+          "
+        >
+          <input
+            type="checkbox"
+            class="couple-check"
+            checked
+            style="width: 20px; height: 20px; accent-color: var(--neon-pink)"
+          />
+          <span
+            ><strong>Dhruv & Kavya</strong> (Little Things) — She overthinks, he
+            calms her 💭</span
+          >
+        </label>
+        <label
+          style="
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 12px 0;
+            cursor: pointer;
+          "
+        >
+          <input
+            type="checkbox"
+            class="couple-check"
+            checked
+            style="width: 20px; height: 20px; accent-color: var(--neon-pink)"
+          />
+          <span
+            ><strong>Jim & Pam</strong> (The Office) — Best friends first
+            💕</span
+          >
+        </label>
+        <label
+          style="
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 12px 0;
+            cursor: pointer;
+          "
+        >
+          <input
+            type="checkbox"
+            class="couple-check"
+            checked
+            style="width: 20px; height: 20px; accent-color: var(--neon-pink)"
+          />
+          <span
+            ><strong>Monica & Chandler</strong> (Friends) — Chaos meets calm
+            😂</span
+          >
+        </label>
+        <label
+          style="
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 12px 0;
+            cursor: pointer;
+          "
+        >
+          <input
+            type="checkbox"
+            class="couple-check"
+            checked
+            style="width: 20px; height: 20px; accent-color: var(--neon-pink)"
+          />
+          <span
+            ><strong>Bunny & Naina</strong> (YJHD) — Adventure seekers ✈️</span
+          >
+        </label>
+      </div>
+      <p class="gold" style="font-size: 0.9rem">
+        22/36 Kundli match — Dosha Samyam ✔️
+      </p>
+      <button class="btn" onclick="go(13)">
+        <span>We're all of them! 💑</span>
+      </button>
     </div>
 
     <!-- Step 13: Personality Decode -->
     <div id="s13" class="card hidden">
-        <h1>📊 Personality Decode</h1>
-        <p>Running deep analysis...</p>
-        <div
-            style="background: rgba(0,0,0,0.2); padding: clamp(16px, 4vw, 24px); border-radius: 16px; margin: 16px 0; text-align: left; width: 100%;">
-            <p style="margin: 10px 0;"><span style="opacity: 0.6;">Sweetness Index:</span> <span
-                    class="mint">47.3%</span></p>
-            <p style="margin: 10px 0;"><span style="opacity: 0.6;">Chaos Factor:</span> <span class="pink">52.7%</span>
-            </p>
-            <p style="margin: 10px 0;"><span style="opacity: 0.6;">Drama Coefficient:</span> <span class="gold">∞
-                    (overflow)</span></p>
-            <p style="margin: 10px 0;"><span style="opacity: 0.6;">Lovability:</span> <span class="purple">OFF THE
-                    CHARTS 💜</span></p>
-        </div>
-        <button class="btn" onclick="go(14)"><span>Accurate. Continue →</span></button>
+      <h1>📊 Personality Decode</h1>
+      <p>Running deep analysis...</p>
+      <div
+        style="
+          background: rgba(0, 0, 0, 0.2);
+          padding: clamp(16px, 4vw, 24px);
+          border-radius: 16px;
+          margin: 16px 0;
+          text-align: left;
+          width: 100%;
+        "
+      >
+        <p style="margin: 10px 0">
+          <span style="opacity: 0.6">Sweetness Index:</span>
+          <span class="mint">47.3%</span>
+        </p>
+        <p style="margin: 10px 0">
+          <span style="opacity: 0.6">Chaos Factor:</span>
+          <span class="pink">52.7%</span>
+        </p>
+        <p style="margin: 10px 0">
+          <span style="opacity: 0.6">Drama Coefficient:</span>
+          <span class="gold">∞ (overflow)</span>
+        </p>
+        <p style="margin: 10px 0">
+          <span style="opacity: 0.6">Lovability:</span>
+          <span class="purple">OFF THE CHARTS 💜</span>
+        </p>
+      </div>
+      <button class="btn" onclick="go(14)">
+        <span>Accurate. Continue →</span>
+      </button>
     </div>
 
     <!-- Step 14: Denial -->
     <div id="s14" class="card hidden">
-        <h1>⚡ Final Test</h1>
-        <p>One statement to verify:</p>
-        <p class="text-lg pink" style="margin: 20px 0;">"I can be a little... annoying."</p>
-        <button class="btn danger" id="annoyBtn" onclick="denyAnnoying()"><span>LIES! I am PERFECT! 😤</span></button>
-        <div id="truthReveal" class="hidden" style="margin-top: 20px;">
-            <p style="font-size: 1.3rem; animation: glitchText 0.2s infinite;">ADORABLY ANNOYING 🥰</p>
-            <p style="font-size: 1.3rem; animation: glitchText 0.25s infinite;">PERFECTLY IMPERFECT 💕</p>
-            <button class="btn success" onclick="go(15)" style="margin-top: 16px;"><span>Okay fine... maybe a little
-                    🙄</span></button>
-        </div>
+      <h1>⚡ Final Test</h1>
+      <p>One statement to verify:</p>
+      <p class="text-lg pink" style="margin: 20px 0">
+        "I can be a little... annoying."
+      </p>
+      <button class="btn danger" id="annoyBtn" onclick="denyAnnoying()">
+        <span>LIES! I am PERFECT! 😤</span>
+      </button>
+      <div id="truthReveal" class="hidden" style="margin-top: 20px">
+        <p style="font-size: 1.3rem; animation: glitchText 0.2s infinite">
+          ADORABLY ANNOYING 🥰
+        </p>
+        <p style="font-size: 1.3rem; animation: glitchText 0.25s infinite">
+          PERFECTLY IMPERFECT 💕
+        </p>
+        <button class="btn success" onclick="go(15)" style="margin-top: 16px">
+          <span>Okay fine... maybe a little 🙄</span>
+        </button>
+      </div>
     </div>
 
     <!-- Step 15: Access -->
     <div id="s15" class="card terminal hidden">
-        <h1 class="terminal">✅ ACCESS GRANTED</h1>
-        <p class="mono">User: Riyu (Drama Queen Edition™)</p>
-        <p class="mono">Status: Verified Annoying-But-Loved™</p>
-        <p class="mono">Clearance: ❤️ MAXIMUM ❤️</p>
-        <button class="btn terminal" onclick="enterPanic()"><span>[ ENTER SYSTEM ]</span></button>
+      <h1 class="terminal">✅ ACCESS GRANTED</h1>
+      <p class="mono">User: Riyu (Drama Queen Edition™)</p>
+      <p class="mono">Status: Verified Annoying-But-Loved™</p>
+      <p class="mono">Clearance: ❤️ MAXIMUM ❤️</p>
+      <button class="btn terminal" onclick="enterPanic()">
+        <span>[ ENTER SYSTEM ]</span>
+      </button>
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════
@@ -297,61 +538,105 @@
 
     <!-- Step 16: Red Alert -->
     <div id="s16" class="card panic hidden">
-        <h1 class="panic">🚨 SYSTEM BREACH 🚨</h1>
-        <p style="color: #ff6b6b; font-size: 1.2rem;">ANXIETY MODULE ACTIVATED</p>
-        <p style="color: #ff6b6b;">Threat Level: CRITICAL</p>
-        <button class="btn danger" onclick="go(17)"><span>What's happening?!</span></button>
+      <h1 class="panic">🚨 SYSTEM BREACH 🚨</h1>
+      <p style="color: #ff6b6b; font-size: 1.2rem">ANXIETY MODULE ACTIVATED</p>
+      <p style="color: #ff6b6b">Threat Level: CRITICAL</p>
+      <button class="btn danger" onclick="go(17)">
+        <span>What's happening?!</span>
+      </button>
     </div>
 
     <!-- Step 17: Spiral -->
     <div id="s17" class="card panic hidden">
-        <h1 class="panic">THOUGHT SPIRAL</h1>
-        <div id="spiralBox" style="font-size: clamp(1rem, 3vw, 1.3rem); color: #ff6b6b; min-height: 100px;"></div>
+      <h1 class="panic">THOUGHT SPIRAL</h1>
+      <div
+        id="spiralBox"
+        style="
+          font-size: clamp(1rem, 3vw, 1.3rem);
+          color: #ff6b6b;
+          min-height: 100px;
+        "
+      ></div>
     </div>
 
     <!-- Step 18: Fear - Shatter the glass fears! -->
     <div id="s18" class="card panic hidden">
-        <h1 class="panic" style="font-size: clamp(1.8rem, 6vw, 2.5rem) !important;">🔨 SHATTER!</h1>
-        <p style="color: #ff6b6b; font-size: 1rem;">Your fears are trapped in glass!</p>
-        <p style="color: #ffd93d; font-size: 0.9rem;">👊 TAP RAPIDLY to crack & break them!</p>
-        <p class="gold" style="font-size: 1.2rem; margin-top: 8px;">Shattered: <span id="fearNum">0</span>/10</p>
+      <h1
+        class="panic"
+        style="font-size: clamp(1.8rem, 6vw, 2.5rem) !important"
+      >
+        🔨 SHATTER!
+      </h1>
+      <p style="color: #ff6b6b; font-size: 1rem">
+        Your fears are trapped in glass!
+      </p>
+      <p style="color: #ffd93d; font-size: 0.9rem">
+        👊 TAP RAPIDLY to crack & break them!
+      </p>
+      <p class="gold" style="font-size: 1.2rem; margin-top: 8px">
+        Shattered: <span id="fearNum">0</span>/10
+      </p>
     </div>
 
     <!-- Step 19: Pop Worries -->
     <div id="s19" class="card panic hidden">
-        <h1 class="panic">🎈 POP!</h1>
-        <p style="color: #ff6b6b;">Anxiety balloons everywhere!</p>
-        <p style="color: #ffd93d; font-size: 0.9rem;">👆 TAP each balloon 4x to pop it!</p>
-        <p class="gold">Remaining: <span id="cloudNum">8</span></p>
+      <h1 class="panic">🎈 POP!</h1>
+      <p style="color: #ff6b6b">Anxiety balloons everywhere!</p>
+      <p style="color: #ffd93d; font-size: 0.9rem">
+        👆 TAP each balloon 4x to pop it!
+      </p>
+      <p class="gold">Remaining: <span id="cloudNum">8</span></p>
     </div>
 
     <!-- Step 20: Call -->
     <div id="s20" class="card panic hidden">
-        <h1 class="panic">📞 EMERGENCY</h1>
-        <p style="color: #ff6b6b;">Quick! Call for backup!</p>
-        <p style="color: #ff6b6b; font-size: 0.9rem;">Catch the moving button!</p>
-        <button class="btn success calling" id="callBtn" onclick="catchCall()"><span>📱 Call Aayush</span></button>
-        <p class="gold" id="callMsg" style="min-height: 24px;"></p>
+      <h1 class="panic">📞 EMERGENCY</h1>
+      <p style="color: #ff6b6b">Quick! Call for backup!</p>
+      <p style="color: #ff6b6b; font-size: 0.9rem">Catch the moving button!</p>
+      <button class="btn success calling" id="callBtn" onclick="catchCall()">
+        <span>📱 Call Aayush</span>
+      </button>
+      <p class="gold" id="callMsg" style="min-height: 24px"></p>
     </div>
 
     <!-- Step 21: Caught -->
     <div id="s21" class="card calm hidden">
-        <h1 style="color: var(--hydrangea); -webkit-text-fill-color: var(--hydrangea);">💜 Caught You</h1>
-        <p style="color: var(--hydrangea);">I stopped running.</p>
-        <p>I'm not going anywhere. Ever.</p>
-        <button class="btn" style="background: var(--hydrangea);" onclick="enterCalm()"><span>Let's breathe together
-                →</span></button>
+      <h1
+        style="
+          color: var(--hydrangea);
+          -webkit-text-fill-color: var(--hydrangea);
+        "
+      >
+        💜 Caught You
+      </h1>
+      <p style="color: var(--hydrangea)">I stopped running.</p>
+      <p>I'm not going anywhere. Ever.</p>
+      <button
+        class="btn"
+        style="background: var(--hydrangea)"
+        onclick="enterCalm()"
+      >
+        <span>Let's breathe together →</span>
+      </button>
     </div>
 
     <!-- Step 21b: Grounding (New) -->
     <div id="s21b" class="card calm hidden">
-        <h1 style="color: var(--hydrangea); -webkit-text-fill-color: var(--hydrangea);">🌿 Ground Yourself</h1>
-        <div class="grounding-box">
-            <p style="color: var(--hydrangea); margin-bottom: 15px;">Tap the 5 <span class="mint">Sunflowers</span> 🌻
-            </p>
-            <div class="grounding-items" id="groundingItems"></div>
-        </div>
-        <p class="gold" id="groundingMsg">0/5 Found</p>
+      <h1
+        style="
+          color: var(--hydrangea);
+          -webkit-text-fill-color: var(--hydrangea);
+        "
+      >
+        🌿 Ground Yourself
+      </h1>
+      <div class="grounding-box">
+        <p style="color: var(--hydrangea); margin-bottom: 15px">
+          Tap the 5 <span class="mint">Sunflowers</span> 🌻
+        </p>
+        <div class="grounding-items" id="groundingItems"></div>
+      </div>
+      <p class="gold" id="groundingMsg">0/5 Found</p>
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════
@@ -360,82 +645,180 @@
 
     <!-- Step 22: Music -->
     <div id="s22" class="card calm hidden">
-        <h1 style="color: var(--hydrangea); -webkit-text-fill-color: var(--hydrangea);">🎵 Our Song</h1>
-        <p>Let the music hold us...</p>
-        <p
-            style="font-style: italic; color: var(--hydrangea); margin: 20px 0; font-size: clamp(0.95rem, 2.8vw, 1.1rem);">
-            "Don't you worry your pretty little mind,<br>
-            People throw rocks at things that shine..."
-        </p>
-        <p style="opacity: 0.7;">— Taylor Swift, "Ours"</p>
-        <button class="btn" style="background: var(--hydrangea);" onclick="go(23)"><span>🎶 Continue</span></button>
+      <h1
+        style="
+          color: var(--hydrangea);
+          -webkit-text-fill-color: var(--hydrangea);
+        "
+      >
+        🎵 Our Song
+      </h1>
+      <p>Let the music hold us...</p>
+      <p
+        style="
+          font-style: italic;
+          color: var(--hydrangea);
+          margin: 20px 0;
+          font-size: clamp(0.95rem, 2.8vw, 1.1rem);
+        "
+      >
+        "Don't you worry your pretty little mind,<br />
+        People throw rocks at things that shine..."
+      </p>
+      <p style="opacity: 0.7">— Taylor Swift, "Ours"</p>
+      <button class="btn" style="background: var(--hydrangea)" onclick="go(23)">
+        <span>🎶 Continue</span>
+      </button>
     </div>
 
     <!-- Step 23: Breathe -->
     <div id="s23" class="card calm hidden">
-        <h1 style="color: var(--hydrangea); -webkit-text-fill-color: var(--hydrangea);">🧘 Breathe</h1>
-        <div class="breath-visual" id="breathCircle"></div>
-        <p class="text-lg" id="breathLabel" style="color: var(--hydrangea); margin-top: 24px;">Inhale...</p>
-        <p style="opacity: 0.6; font-size: 0.9rem;">4s inhale → 5s hold → 10s exhale</p>
-        <p class="gold" id="breathTime">19s remaining</p>
-        <button class="btn" id="breathBtn" style="background: var(--hydrangea);" onclick="trySkipBreath()"><span>I feel
-                calmer 💜</span></button>
+      <h1
+        style="
+          color: var(--hydrangea);
+          -webkit-text-fill-color: var(--hydrangea);
+        "
+      >
+        🧘 Breathe
+      </h1>
+      <div class="breath-visual" id="breathCircle"></div>
+      <p
+        class="text-lg"
+        id="breathLabel"
+        style="color: var(--hydrangea); margin-top: 24px"
+      >
+        Inhale...
+      </p>
+      <p style="opacity: 0.6; font-size: 0.9rem">
+        4s inhale → 5s hold → 10s exhale
+      </p>
+      <p class="gold" id="breathTime">19s remaining</p>
+      <button
+        class="btn"
+        id="breathBtn"
+        style="background: var(--hydrangea)"
+        onclick="trySkipBreath()"
+      >
+        <span>I feel calmer 💜</span>
+      </button>
     </div>
 
     <!-- Step 23b: Scold for skipping -->
     <div id="s23b" class="card calm hidden">
-        <h1 style="color: #ff6b6b; -webkit-text-fill-color: #ff6b6b;">😤 Riyu...</h1>
-        <div style="font-size: 3rem; margin: 16px 0;">🙄</div>
-        <p class="text-lg" style="color: #ff6b6b;">I KNOW you didn't actually do it.</p>
-        <p style="margin-top: 12px; opacity: 0.8;">You just clicked the button without breathing, didn't you?</p>
-        <p style="margin-top: 20px; font-style: italic; opacity: 0.9;">Please... for me... actually breathe this time.
-            🥺</p>
-        <p style="margin-top: 8px; font-size: 0.85rem; opacity: 0.7;">I'll know if you skip again!</p>
-        <button class="btn" style="background: var(--hydrangea); margin-top: 20px;"
-            onclick="goBackToBreath()"><span>Okay fine... I'll do it properly 😔</span></button>
+      <h1 style="color: #ff6b6b; -webkit-text-fill-color: #ff6b6b">
+        😤 Riyu...
+      </h1>
+      <div style="font-size: 3rem; margin: 16px 0">🙄</div>
+      <p class="text-lg" style="color: #ff6b6b">
+        I KNOW you didn't actually do it.
+      </p>
+      <p style="margin-top: 12px; opacity: 0.8">
+        You just clicked the button without breathing, didn't you?
+      </p>
+      <p style="margin-top: 20px; font-style: italic; opacity: 0.9">
+        Please... for me... actually breathe this time. 🥺
+      </p>
+      <p style="margin-top: 8px; font-size: 0.85rem; opacity: 0.7">
+        I'll know if you skip again!
+      </p>
+      <button
+        class="btn"
+        style="background: var(--hydrangea); margin-top: 20px"
+        onclick="goBackToBreath()"
+      >
+        <span>Okay fine... I'll do it properly 😔</span>
+      </button>
     </div>
 
     <!-- Step 24: Affirmations -->
     <div id="s24" class="card calm hidden">
-        <h1 style="color: var(--hydrangea); -webkit-text-fill-color: var(--hydrangea);">💫 Truth</h1>
-        <div style="background: rgba(167, 139, 250, 0.1); padding: clamp(20px, 5vw, 28px); border-radius: 20px;">
-            <p class="text-lg" style="color: #fff; margin: 14px 0;">You are <span class="gold">BRILLIANT</span>.</p>
-            <p class="text-lg" style="color: #fff; margin: 14px 0;">You are <span class="mint">UNSTOPPABLE</span>.</p>
-            <p class="text-lg" style="color: #fff; margin: 14px 0;">You are <span class="pink">MY FUTURE STAR</span>.
-            </p>
-            <p class="text-lg" style="color: #fff; margin: 14px 0;">You are <span class="purple">LOVED</span>.</p>
-        </div>
-        <p style="font-size: 0.85rem; margin-top: 16px; opacity: 0.7; font-style: italic;">And yes, even when you say
-            "ehh ehh" 😊</p>
-        <button class="btn" style="background: var(--hydrangea);" onclick="go(25)"><span>Thank you, TimTim
-                🥺</span></button>
+      <h1
+        style="
+          color: var(--hydrangea);
+          -webkit-text-fill-color: var(--hydrangea);
+        "
+      >
+        💫 Truth
+      </h1>
+      <div
+        style="
+          background: rgba(167, 139, 250, 0.1);
+          padding: clamp(20px, 5vw, 28px);
+          border-radius: 20px;
+        "
+      >
+        <p class="text-lg" style="color: #fff; margin: 14px 0">
+          You are <span class="gold">BRILLIANT</span>.
+        </p>
+        <p class="text-lg" style="color: #fff; margin: 14px 0">
+          You are <span class="mint">UNSTOPPABLE</span>.
+        </p>
+        <p class="text-lg" style="color: #fff; margin: 14px 0">
+          You are <span class="pink">MY FUTURE STAR</span>.
+        </p>
+        <p class="text-lg" style="color: #fff; margin: 14px 0">
+          You are <span class="purple">LOVED</span>.
+        </p>
+      </div>
+      <p
+        style="
+          font-size: 0.85rem;
+          margin-top: 16px;
+          opacity: 0.7;
+          font-style: italic;
+        "
+      >
+        And yes, even when you say "ehh ehh" 😊
+      </p>
+      <button class="btn" style="background: var(--hydrangea)" onclick="go(25)">
+        <span>Thank you, TimTim 🥺</span>
+      </button>
     </div>
 
     <!-- Step 25: Tea -->
     <div id="s25" class="card calm hidden">
-        <h1 style="color: var(--hydrangea); -webkit-text-fill-color: var(--hydrangea);">☕ Our Ritual</h1>
-        <p>Make my special brew. Correct order only!</p>
-        <p style="font-size: 0.85rem; opacity: 0.6;">(This is the only acceptable chai reference 😉)</p>
-        <div class="tea-visual" style="margin: 20px auto;">
-            <div class="cup-body">
-                <div class="tea-liquid" id="teaLevel"></div>
-            </div>
-            <div class="cup-handle"></div>
-            <div class="steam-wrap" id="steamWrap">
-                <span class="steam">~</span>
-                <span class="steam">~</span>
-                <span class="steam">~</span>
-            </div>
+      <h1
+        style="
+          color: var(--hydrangea);
+          -webkit-text-fill-color: var(--hydrangea);
+        "
+      >
+        ☕ Our Ritual
+      </h1>
+      <p>Make my special brew. Correct order only!</p>
+      <p style="font-size: 0.85rem; opacity: 0.6">
+        (This is the only acceptable chai reference 😉)
+      </p>
+      <div class="tea-visual" style="margin: 20px auto">
+        <div class="cup-body">
+          <div class="tea-liquid" id="teaLevel"></div>
         </div>
-        <div class="ingredient-grid" id="teaGrid">
-            <div class="ingredient" onclick="addTea('water', this)">💧 Water</div>
-            <div class="ingredient" onclick="addTea('masala', this)">✨ Mom's Masala</div>
-            <div class="ingredient" onclick="addTea('tea', this)">🍵 Tea Leaves</div>
-            <div class="ingredient" onclick="addTea('milk', this)">🥛 Milk</div>
+        <div class="cup-handle"></div>
+        <div class="steam-wrap" id="steamWrap">
+          <span class="steam">~</span>
+          <span class="steam">~</span>
+          <span class="steam">~</span>
         </div>
-        <p class="gold" id="teaMsg" style="min-height: 24px;"></p>
-        <button class="btn hidden" id="sipBtn" style="background: var(--hydrangea);" onclick="sipTea()"><span>☕
-                Sip</span></button>
+      </div>
+      <div class="ingredient-grid" id="teaGrid">
+        <div class="ingredient" onclick="addTea('water', this)">💧 Water</div>
+        <div class="ingredient" onclick="addTea('masala', this)">
+          ✨ Mom's Masala
+        </div>
+        <div class="ingredient" onclick="addTea('tea', this)">
+          🍵 Tea Leaves
+        </div>
+        <div class="ingredient" onclick="addTea('milk', this)">🥛 Milk</div>
+      </div>
+      <p class="gold" id="teaMsg" style="min-height: 24px"></p>
+      <button
+        class="btn hidden"
+        id="sipBtn"
+        style="background: var(--hydrangea)"
+        onclick="sipTea()"
+      >
+        <span>☕ Sip</span>
+      </button>
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════
@@ -444,242 +827,365 @@
 
     <!-- Step 26: Heritage -->
     <div id="s26" class="card dream hidden">
-        <h1>🇮🇳 Your Beautiful Roots</h1>
-        <p style="font-size: 0.9rem; opacity: 0.8;">Drag your heritage to connect with me 💕</p>
-        <div class="heritage-map">
-            <!-- Her roots (draggable) -->
-            <div class="heritage-dot draggable" data-culture="marathi" style="left: 18%; top: 45%;">
-                <span class="dot-label">MH</span>
-                <span class="dot-name">Marathi</span>
-            </div>
-            <div class="heritage-dot draggable" data-culture="malayali" style="left: 35%; top: 78%;">
-                <span class="dot-label">KL</span>
-                <span class="dot-name">Mallu</span>
-            </div>
-            <div class="heritage-dot draggable" data-culture="bengali" style="left: 72%; top: 35%;">
-                <span class="dot-label">WB</span>
-                <span class="dot-name">Bengali</span>
-            </div>
-            <div class="heritage-dot draggable" data-culture="odia" style="left: 65%; top: 52%;">
-                <span class="dot-label">OD</span>
-                <span class="dot-name">Odisha</span>
-            </div>
-            <!-- Me - Gujarat (drop target) -->
-            <div class="heritage-target" id="gujaratHeart">
-                <span class="target-heart">💖</span>
-                <span class="target-label">GJ</span>
-                <span class="target-name">Your Gujju Boy</span>
-            </div>
-            <!-- Connection lines (will be drawn dynamically) -->
-            <svg class="heritage-lines" id="heritageLines"></svg>
+      <h1>🇮🇳 Your Beautiful Roots</h1>
+      <p style="font-size: 0.9rem; opacity: 0.8">
+        Drag your heritage to connect with me 💕
+      </p>
+      <div class="heritage-map">
+        <!-- Her roots (draggable) -->
+        <div
+          class="heritage-dot draggable"
+          data-culture="marathi"
+          style="left: 18%; top: 45%"
+        >
+          <span class="dot-label">MH</span>
+          <span class="dot-name">Marathi</span>
         </div>
-        <p class="gold" id="mapMsg"><span id="rootCount">0</span>/4 roots connected to 💛</p>
-        <p id="heritageComplete" class="hidden" style="color: var(--neon-mint); font-size: 0.95rem;">All your
-            cultures... chose to love me 🥺💕</p>
+        <div
+          class="heritage-dot draggable"
+          data-culture="malayali"
+          style="left: 35%; top: 78%"
+        >
+          <span class="dot-label">KL</span>
+          <span class="dot-name">Mallu</span>
+        </div>
+        <div
+          class="heritage-dot draggable"
+          data-culture="bengali"
+          style="left: 72%; top: 35%"
+        >
+          <span class="dot-label">WB</span>
+          <span class="dot-name">Bengali</span>
+        </div>
+        <div
+          class="heritage-dot draggable"
+          data-culture="odia"
+          style="left: 65%; top: 52%"
+        >
+          <span class="dot-label">OD</span>
+          <span class="dot-name">Odisha</span>
+        </div>
+        <!-- Me - Gujarat (drop target) -->
+        <div class="heritage-target" id="gujaratHeart">
+          <span class="target-heart">💖</span>
+          <span class="target-label">GJ</span>
+          <span class="target-name">Your Gujju Boy</span>
+        </div>
+        <!-- Connection lines (will be drawn dynamically) -->
+        <svg class="heritage-lines" id="heritageLines"></svg>
+      </div>
+      <p class="gold" id="mapMsg">
+        <span id="rootCount">0</span>/4 roots connected to 💛
+      </p>
+      <p
+        id="heritageComplete"
+        class="hidden"
+        style="color: var(--neon-mint); font-size: 0.95rem"
+      >
+        All your cultures... chose to love me 🥺💕
+      </p>
     </div>
 
     <!-- Step 27: Dream Destinations -->
     <div id="s27" class="card dream hidden">
-        <h1>🌍 Dream Destinations</h1>
-        <p>Toggle ON the places you want to visit with me!</p>
-        <div class="toggle-list" id="travelToggles">
-            <div class="toggle-row">
-                <div class="dest-info">
-                    <span class="dest-name">🗽 NYC, USA</span>
-                    <span class="dest-reason">Shopping & apartment near Times Square 💫</span>
-                </div>
-                <div class="toggle-switch" onclick="toggleDestination(this)"></div>
-            </div>
-            <div class="toggle-row">
-                <div class="dest-info">
-                    <span class="dest-name">🌃 Seattle</span>
-                    <span class="dest-reason">Space Needle & quality time together 💜</span>
-                </div>
-                <div class="toggle-switch" onclick="toggleDestination(this)"></div>
-            </div>
-            <div class="toggle-row">
-                <div class="dest-info">
-                    <span class="dest-name">🏖️ Beverly Hills</span>
-                    <span class="dest-reason">Tour & our future dream house 🏠</span>
-                </div>
-                <div class="toggle-switch" onclick="toggleDestination(this)"></div>
-            </div>
-            <div class="toggle-row">
-                <div class="dest-info">
-                    <span class="dest-name">🏔️ Darjeeling</span>
-                    <span class="dest-reason">Tea gardens & mountain views ☕</span>
-                </div>
-                <div class="toggle-switch" onclick="toggleDestination(this)"></div>
-            </div>
+      <h1>🌍 Dream Destinations</h1>
+      <p>Toggle ON the places you want to visit with me!</p>
+      <div class="toggle-list" id="travelToggles">
+        <div class="toggle-row">
+          <div class="dest-info">
+            <span class="dest-name">🗽 NYC, USA</span>
+            <span class="dest-reason"
+              >Shopping & apartment near Times Square 💫</span
+            >
+          </div>
+          <div class="toggle-switch" onclick="toggleDestination(this)"></div>
         </div>
-        <p id="travelStatus" class="gold">0/4 destinations selected</p>
-        <p id="travelHint" class="hidden" style="color: #ff6b6b; font-size: 0.85rem;">Select ALL destinations! We're
-            visiting everywhere! 😊</p>
-        <button class="btn hidden" id="travelBtn" onclick="go(28)"><span>We'll visit ALL! ✈️</span></button>
+        <div class="toggle-row">
+          <div class="dest-info">
+            <span class="dest-name">🌃 Seattle</span>
+            <span class="dest-reason"
+              >Space Needle & quality time together 💜</span
+            >
+          </div>
+          <div class="toggle-switch" onclick="toggleDestination(this)"></div>
+        </div>
+        <div class="toggle-row">
+          <div class="dest-info">
+            <span class="dest-name">🏖️ Beverly Hills</span>
+            <span class="dest-reason">Tour & our future dream house 🏠</span>
+          </div>
+          <div class="toggle-switch" onclick="toggleDestination(this)"></div>
+        </div>
+        <div class="toggle-row">
+          <div class="dest-info">
+            <span class="dest-name">🏔️ Darjeeling</span>
+            <span class="dest-reason">Tea gardens & mountain views ☕</span>
+          </div>
+          <div class="toggle-switch" onclick="toggleDestination(this)"></div>
+        </div>
+      </div>
+      <p id="travelStatus" class="gold">0/4 destinations selected</p>
+      <p
+        id="travelHint"
+        class="hidden"
+        style="color: #ff6b6b; font-size: 0.85rem"
+      >
+        Select ALL destinations! We're visiting everywhere! 😊
+      </p>
+      <button class="btn hidden" id="travelBtn" onclick="go(28)">
+        <span>We'll visit ALL! ✈️</span>
+      </button>
     </div>
 
     <!-- Step 28: Why I Love You -->
     <div id="s28" class="card dream hidden">
-        <h1
-            style="color: var(--neon-pink); -webkit-text-fill-color: var(--neon-pink); background: none; text-shadow: 0 0 20px rgba(255,45,106,0.5); margin-bottom: 4px;">
-            💖 The Girl I Love</h1>
-        <p style="opacity: 0.8; font-size: 0.95rem; color: #fff;">Every facet of you shines ✨</p>
-        <div class="trait-grid">
-            <div class="trait-card">
-                <span class="trait-emoji">🎤</span>
-                <span class="trait-title gold">The Singer</span>
-                <span class="trait-desc">Voice so pure, Billboard won't know what hit them</span>
-            </div>
-            <div class="trait-card">
-                <span class="trait-emoji">💃</span>
-                <span class="trait-title pink">The Dancer</span>
-                <span class="trait-desc">Indian classical moves that steal every show</span>
-            </div>
-            <div class="trait-card">
-                <span class="trait-emoji">✍️</span>
-                <span class="trait-title purple">The Writer</span>
-                <span class="trait-desc">Words flow like poetry from her soul</span>
-            </div>
-            <div class="trait-card">
-                <span class="trait-emoji">👑</span>
-                <span class="trait-title gold">Drama Queen</span>
-                <span class="trait-desc">Makes every moment unforgettable</span>
-            </div>
-            <div class="trait-card">
-                <span class="trait-emoji">🤗</span>
-                <span class="trait-title mint">The Caregiver</span>
-                <span class="trait-desc">Heart so big, love overflows to everyone</span>
-            </div>
-            <div class="trait-card">
-                <span class="trait-emoji">☀️</span>
-                <span class="trait-title pink">The Sunshine</span>
-                <span class="trait-desc">Spreads positivity wherever she goes</span>
-            </div>
-            <div class="trait-card">
-                <span class="trait-emoji">🚀</span>
-                <span class="trait-title gold">The Dreamer</span>
-                <span class="trait-desc">Ambition that inspires me daily</span>
-            </div>
-            <div class="trait-card">
-                <span class="trait-emoji">🥺</span>
-                <span class="trait-title purple">My Baby</span>
-                <span class="trait-desc">Those dreamy eyes when she's with me</span>
-            </div>
+      <h1
+        style="
+          color: var(--neon-pink);
+          -webkit-text-fill-color: var(--neon-pink);
+          background: none;
+          text-shadow: 0 0 20px rgba(255, 45, 106, 0.5);
+          margin-bottom: 4px;
+        "
+      >
+        💖 The Girl I Love
+      </h1>
+      <p style="opacity: 0.8; font-size: 0.95rem; color: #fff">
+        Every facet of you shines ✨
+      </p>
+      <div class="trait-grid">
+        <div class="trait-card">
+          <span class="trait-emoji">🎤</span>
+          <span class="trait-title gold">The Singer</span>
+          <span class="trait-desc"
+            >Voice so pure, Billboard won't know what hit them</span
+          >
         </div>
-        <p style="font-size: 0.95rem; opacity: 0.9; font-style: italic;">"She's not just talented. She's <span
-                class="gold">magic</span>." ✨</p>
-        <button class="btn gold" onclick="go(29)"><span>You see all that in me? 🥺</span></button>
+        <div class="trait-card">
+          <span class="trait-emoji">💃</span>
+          <span class="trait-title pink">The Dancer</span>
+          <span class="trait-desc"
+            >Indian classical moves that steal every show</span
+          >
+        </div>
+        <div class="trait-card">
+          <span class="trait-emoji">✍️</span>
+          <span class="trait-title purple">The Writer</span>
+          <span class="trait-desc">Words flow like poetry from her soul</span>
+        </div>
+        <div class="trait-card">
+          <span class="trait-emoji">👑</span>
+          <span class="trait-title gold">Drama Queen</span>
+          <span class="trait-desc">Makes every moment unforgettable</span>
+        </div>
+        <div class="trait-card">
+          <span class="trait-emoji">🤗</span>
+          <span class="trait-title mint">The Caregiver</span>
+          <span class="trait-desc"
+            >Heart so big, love overflows to everyone</span
+          >
+        </div>
+        <div class="trait-card">
+          <span class="trait-emoji">☀️</span>
+          <span class="trait-title pink">The Sunshine</span>
+          <span class="trait-desc">Spreads positivity wherever she goes</span>
+        </div>
+        <div class="trait-card">
+          <span class="trait-emoji">🚀</span>
+          <span class="trait-title gold">The Dreamer</span>
+          <span class="trait-desc">Ambition that inspires me daily</span>
+        </div>
+        <div class="trait-card">
+          <span class="trait-emoji">🥺</span>
+          <span class="trait-title purple">My Weirdo</span>
+          <span class="trait-desc">Those dreamy eyes when she's with me</span>
+        </div>
+      </div>
+      <p style="font-size: 0.95rem; opacity: 0.9; font-style: italic">
+        "She's not just talented. She's <span class="gold">magic</span>." ✨
+      </p>
+      <button class="btn gold" onclick="go(29)">
+        <span>You see all that in me? 🥺</span>
+      </button>
     </div>
 
     <!-- Step 29: Book -->
     <div id="s29" class="card dream hidden">
-        <h1>📚 Currently Reading</h1>
-        <p style="font-style: italic; color: var(--hydrangea);">"Why Has Nobody Told Me This Before"</p>
-        <p style="font-size: 0.9rem; opacity: 0.7;">by Dr. Julie Smith</p>
-        <p style="margin-top: 16px;">Self-help books hit different when you're growing 💜</p>
-        <button class="btn" onclick="go(30)"><span>We grow together 📖</span></button>
+      <h1>📚 Currently Reading</h1>
+      <p style="font-style: italic; color: var(--hydrangea)">
+        "Why Has Nobody Told Me This Before"
+      </p>
+      <p style="font-size: 0.9rem; opacity: 0.7">by Dr. Julie Smith</p>
+      <p style="margin-top: 16px">
+        Self-help books hit different when you're growing 💜
+      </p>
+      <button class="btn" onclick="go(30)">
+        <span>We grow together 📖</span>
+      </button>
     </div>
 
     <!-- Step 30: Food Game -->
     <div id="s30" class="card dream hidden">
-        <h1>🥗 Diet Challenge</h1>
-        <p>Catch healthy food! Avoid oily stuff!</p>
-        <p style="font-size: 0.85rem; opacity: 0.6;">Arrow keys or touch to move</p>
-        <div class="game-area" id="gameZone">
-            <div class="catcher" id="catcher">🧺</div>
-            <div class="score-display">Score: <span id="score">0</span>/5</div>
-        </div>
-        <button class="btn" id="gameBtn" onclick="startGame()"><span>Start 🎮</span></button>
+      <h1>🥗 Diet Challenge</h1>
+      <p>Catch healthy food! Avoid oily stuff!</p>
+      <p style="font-size: 0.85rem; opacity: 0.6">
+        Arrow keys or touch to move
+      </p>
+      <div class="game-area" id="gameZone">
+        <div class="catcher" id="catcher">🧺</div>
+        <div class="score-display">Score: <span id="score">0</span>/5</div>
+      </div>
+      <button class="btn" id="gameBtn" onclick="startGame()">
+        <span>Start 🎮</span>
+      </button>
     </div>
 
     <!-- Step 31: Pets -->
     <div id="s31" class="card dream hidden">
-        <h1>🏙️ Beverly Hills Mansion</h1>
-        <p>Build our dream home! Add fur babies:</p>
-        <p style="font-size: 0.85rem; opacity: 0.6;">(Cats, Dogs, and yes... a Rabbit! 🐰)</p>
-        <div class="pet-room" id="petZone"></div>
-        <p class="gold" id="petMsg">Pets: 0/4</p>
-        <button class="btn" id="petBtn" onclick="addPet()"><span>Add Pet 🐾</span></button>
+      <h1>🏙️ Beverly Hills Mansion</h1>
+      <p>Build our dream home! Add fur babies:</p>
+      <p style="font-size: 0.85rem; opacity: 0.6">
+        (Cats, Dogs, and yes... a Rabbit! 🐰)
+      </p>
+      <div class="pet-room" id="petZone"></div>
+      <p class="gold" id="petMsg">Pets: 0/4</p>
+      <button class="btn" id="petBtn" onclick="addPet()">
+        <span>Add Pet 🐾</span>
+      </button>
     </div>
 
     <!-- Step 32: Insecurity -->
     <div id="s32" class="card dream hidden">
-        <h1>😔 The Fear</h1>
-        <p style="font-size: clamp(1rem, 2.8vw, 1.2rem); color: var(--neon-pink);">"When you're topping Billboard
-            charts..."</p>
-        <p style="font-size: clamp(1rem, 2.8vw, 1.2rem); color: var(--neon-pink);">"Playing glass piano in sold-out
-            shows..."</p>
-        <p style="font-size: clamp(1.1rem, 3vw, 1.3rem); color: var(--neon-pink); margin-top: 12px;">"...will you still
-            have time for me?"</p>
-        <button class="btn" onclick="go(33)"><span>Let me answer that →</span></button>
+      <h1>😔 The Fear</h1>
+      <p style="font-size: clamp(1rem, 2.8vw, 1.2rem); color: var(--neon-pink)">
+        "When you're topping Billboard charts..."
+      </p>
+      <p style="font-size: clamp(1rem, 2.8vw, 1.2rem); color: var(--neon-pink)">
+        "Playing glass piano in sold-out shows..."
+      </p>
+      <p
+        style="
+          font-size: clamp(1.1rem, 3vw, 1.3rem);
+          color: var(--neon-pink);
+          margin-top: 12px;
+        "
+      >
+        "...will you still have time for me?"
+      </p>
+      <button class="btn" onclick="go(33)">
+        <span>Let me answer that →</span>
+      </button>
     </div>
 
     <!-- Step 33: Answer -->
     <div id="s33" class="card dream hidden">
-        <h1>💬 The Promise</h1>
-        <p>Complete the sentence to unlock:</p>
-        <p class="gold font-display" style="font-size: clamp(1rem, 3vw, 1.2rem);">"I am your ___ of ___"</p>
-        <p style="font-size: 0.85rem; opacity: 0.6;">(Two words — what I'll always be for you)</p>
-        <div class="input-wrap">
-            <input type="text" class="input" id="ansIn" placeholder="___ of ___" autocomplete="off">
-        </div>
-        <button class="btn" onclick="checkAns()"><span>Submit 💕</span></button>
-        <p id="ansHint" class="gold hidden" style="font-size: 0.9rem;">💡 Your anchor, your _____ of _____</p>
+      <h1>💬 The Promise</h1>
+      <p>Complete the sentence to unlock:</p>
+      <p class="gold font-display" style="font-size: clamp(1rem, 3vw, 1.2rem)">
+        "I am your ___ of ___"
+      </p>
+      <p style="font-size: 0.85rem; opacity: 0.6">
+        (Two words — what I'll always be for you)
+      </p>
+      <div class="input-wrap">
+        <input
+          type="text"
+          class="input"
+          id="ansIn"
+          placeholder="___ of ___"
+          autocomplete="off"
+        />
+      </div>
+      <button class="btn" onclick="checkAns()"><span>Submit 💕</span></button>
+      <p id="ansHint" class="gold hidden" style="font-size: 0.9rem">
+        💡 Your anchor, your _____ of _____
+      </p>
     </div>
 
     <!-- Step 34: Dinner -->
     <div id="s34" class="card dream hidden">
-        <h1>🍽️ Your Favourite Dishes</h1>
-        <p>Choose wisely:</p>
-        <div class="btn-group" style="flex-direction: column; gap: 10px; width: 100%;">
-            <button class="btn ghost" style="pointer-events: none; width: 100%;">🍕 Pizza (pimple risk: HIGH)</button>
-            <button class="btn ghost" style="pointer-events: none; width: 100%;">🍔 Manchurian (tempting
-                but...)</button>
-            <button class="btn gold" onclick="go('34b')" style="width: 100%;"><span>🍽️ Spinach Pasta + Broccoli Soup
-                    ⭐</span></button>
-            <button class="btn ghost" style="pointer-events: none; width: 100%;">☕ Starbucks (later for
-                dessert)</button>
-        </div>
+      <h1>🍽️ Your Favourite Dishes</h1>
+      <p>Choose wisely:</p>
+      <div
+        class="btn-group"
+        style="flex-direction: column; gap: 10px; width: 100%"
+      >
+        <button class="btn ghost" style="pointer-events: none; width: 100%">
+          🍕 Pizza (pimple risk: HIGH)
+        </button>
+        <button class="btn ghost" style="pointer-events: none; width: 100%">
+          🍔 Manchurian (tempting but...)
+        </button>
+        <button class="btn gold" onclick="go('34b')" style="width: 100%">
+          <span>🍽️ Spinach Pasta + Broccoli Soup ⭐</span>
+        </button>
+        <button class="btn ghost" style="pointer-events: none; width: 100%">
+          ☕ Starbucks (later for dessert)
+        </button>
+      </div>
     </div>
 
     <!-- Step 34b: Handmade Food Sad -->
     <div id="s34b" class="card dream hidden">
-        <h1>😢 oh wait...</h1>
-        <p class="text-lg" style="margin-bottom: 16px;">I thought you like my <span class="gold">handmade food</span>...
-        </p>
-        <p style="opacity: 0.7;">*sad chef noises* 👨‍🍳💔</p>
-        <button class="btn" onclick="go('34c')"><span>Aww no no! I do! 🥺</span></button>
+      <h1>😢 oh wait...</h1>
+      <p class="text-lg" style="margin-bottom: 16px">
+        I thought you like my <span class="gold">handmade food</span>...
+      </p>
+      <p style="opacity: 0.7">*sad chef noises* 👨‍🍳💔</p>
+      <button class="btn" onclick="go('34c')">
+        <span>Aww no no! I do! 🥺</span>
+      </button>
     </div>
 
     <!-- Step 34c: Soft Transition -->
     <div id="s34c" class="card dream hidden">
-        <h1>🥰 That's better!</h1>
-        <p class="text-lg">Okay fine... I'll cook <span class="pink">both</span>!</p>
-        <p style="margin-top: 12px; opacity: 0.8;">Restaurant food + TimTim's special recipes 👨‍🍳✨</p>
-        <button class="btn" onclick="go(35)"><span>Best of both worlds 💝</span></button>
+      <h1>🥰 That's better!</h1>
+      <p class="text-lg">
+        Okay fine... I'll cook <span class="pink">both</span>!
+      </p>
+      <p style="margin-top: 12px; opacity: 0.8">
+        Restaurant food + TimTim's special recipes 👨‍🍳✨
+      </p>
+      <button class="btn" onclick="go(35)">
+        <span>Best of both worlds 💝</span>
+      </button>
     </div>
 
     <!-- Step 35: Promise -->
     <div id="s35" class="card dream hidden">
-        <h1>🤝 My Oath</h1>
-        <div style="background: rgba(255, 45, 106, 0.1); padding: clamp(20px, 5vw, 28px); border-radius: 20px;">
-            <p class="text-lg">"I will <span class="gold">NEVER</span> let you go back..."</p>
-            <p style="margin-top: 16px; opacity: 0.8;">(Unless for vacation. Then I'm coming too. 🏖️)</p>
-        </div>
-        <button class="btn" onclick="go(36)"><span>I trust you completely 💜</span></button>
+      <h1>🤝 My Oath</h1>
+      <div
+        style="
+          background: rgba(255, 45, 106, 0.1);
+          padding: clamp(20px, 5vw, 28px);
+          border-radius: 20px;
+        "
+      >
+        <p class="text-lg">
+          "I will <span class="gold">NEVER</span> let you go back..."
+        </p>
+        <p style="margin-top: 16px; opacity: 0.8">
+          (Unless for vacation. Then I'm coming too. 🏖️)
+        </p>
+      </div>
+      <button class="btn" onclick="go(36)">
+        <span>I trust you completely 💜</span>
+      </button>
     </div>
 
     <!-- Step 36: Heart Fill -->
     <div id="s36" class="card dream hidden">
-        <h1>😰 Plot Twist!</h1>
-        <p>Now I'm the anxious one...</p>
-        <p class="text-lg pink">DO YOU LOVE ME?!</p>
-        <div class="heart-wrap" style="margin: 20px auto;">
-            <span class="heart-bg">❤️</span>
-            <div class="heart-fill" id="heartFill"><span>❤️</span></div>
-        </div>
-        <button class="btn yes" id="spamBtn" onclick="spamYes()"><span>YES! 💕</span></button>
-        <p class="gold" id="heartPct">0%</p>
+      <h1>😰 Plot Twist!</h1>
+      <p>Now I'm the anxious one...</p>
+      <p class="text-lg pink">DO YOU LOVE ME?!</p>
+      <div class="heart-wrap" style="margin: 20px auto">
+        <span class="heart-bg">❤️</span>
+        <div class="heart-fill" id="heartFill"><span>❤️</span></div>
+      </div>
+      <button class="btn yes" id="spamBtn" onclick="spamYes()">
+        <span>YES! 💕</span>
+      </button>
+      <p class="gold" id="heartPct">0%</p>
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════
@@ -688,213 +1194,405 @@
 
     <!-- Step 37: Flower -->
     <div id="s37" class="card dream hidden">
-        <h1 class="romantic">🌸 For You</h1>
-        <div style="font-size: clamp(4rem, 15vw, 6rem); margin: 24px 0;" class="bloom-emoji">💐</div>
-        <p style="font-style: italic; color: var(--hydrangea);">Hydrangeas... your favorite 💜</p>
-        <button class="btn" onclick="go(38)"><span>They're beautiful 🥺</span></button>
+      <h1 class="romantic">🌸 For You</h1>
+      <div
+        style="font-size: clamp(4rem, 15vw, 6rem); margin: 24px 0"
+        class="bloom-emoji"
+      >
+        💐
+      </div>
+      <p style="font-style: italic; color: var(--hydrangea)">
+        Hydrangeas... your favorite 💜
+      </p>
+      <button class="btn" onclick="go(38)">
+        <span>They're beautiful 🥺</span>
+      </button>
     </div>
 
     <!-- Step 38: Photo -->
     <div id="s38" class="card dream hidden">
-        <h1 class="romantic">📸 Us</h1>
-        <div class="photo-frame"
-            style="width: min(240px, 60vw); height: min(280px, 70vw); background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple)); border-radius: 20px; margin: 20px auto; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: 0 20px 50px rgba(255,45,106,0.3), 0 0 0 3px rgba(255,255,255,0.1);">
-            <img src="image.jpeg" style="width:100%;height:100%;object-fit:cover;border-radius:17px;">
-        </div>
-        <p style="font-style: italic; opacity: 0.8; color: var(--hydrangea);">My favorite human 💜</p>
-        <button class="btn" onclick="go(39)"><span>We look adorable 🥰</span></button>
+      <h1 class="romantic">📸 Us</h1>
+      <div
+        class="photo-frame"
+        style="
+          width: min(240px, 60vw);
+          height: min(280px, 70vw);
+          background: linear-gradient(
+            135deg,
+            var(--neon-pink),
+            var(--neon-purple)
+          );
+          border-radius: 20px;
+          margin: 20px auto;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          overflow: hidden;
+          box-shadow:
+            0 20px 50px rgba(255, 45, 106, 0.3),
+            0 0 0 3px rgba(255, 255, 255, 0.1);
+        "
+      >
+        <img
+          src="image.jpeg"
+          style="
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 17px;
+          "
+        />
+      </div>
+      <p style="font-style: italic; opacity: 0.8; color: var(--hydrangea)">
+        My favorite human 💜
+      </p>
+      <button class="btn" onclick="go(39)">
+        <span>We look adorable 🥰</span>
+      </button>
     </div>
 
     <!-- Step 39: Letter -->
     <div id="s39" class="card dream hidden">
-        <h1 class="romantic">A Letter For You</h1>
+      <h1 class="romantic">A Letter For You</h1>
 
-        <div class="love-letter-scene" id="letterScene">
-            <!-- The Envelope -->
-            <div class="envelope-3d" id="envelope3d">
-                <div class="envelope-body">
-                    <div class="envelope-back"></div>
-                    <div class="envelope-letter" id="envelopeLetter">
-                        <div class="letter-teaser">💌</div>
-                    </div>
-                    <div class="envelope-front-left"></div>
-                    <div class="envelope-front-right"></div>
-                    <div class="envelope-flap" id="envelopeFlap"></div>
-                </div>
-
-                <!-- Wax Seal -->
-                <div class="wax-seal" id="waxSeal" onclick="breakSeal()">
-                    <div class="seal-inner">💕</div>
-                    <div class="seal-text">TAP</div>
-                </div>
+      <div class="love-letter-scene" id="letterScene">
+        <!-- The Envelope -->
+        <div class="envelope-3d" id="envelope3d">
+          <div class="envelope-body">
+            <div class="envelope-back"></div>
+            <div class="envelope-letter" id="envelopeLetter">
+              <div class="letter-teaser">💌</div>
             </div>
+            <div class="envelope-front-left"></div>
+            <div class="envelope-front-right"></div>
+            <div class="envelope-flap" id="envelopeFlap"></div>
+          </div>
 
-            <p class="seal-hint" id="sealHint">✨ Tap the seal to open ✨</p>
+          <!-- Wax Seal -->
+          <div class="wax-seal" id="waxSeal" onclick="breakSeal()">
+            <div class="seal-inner">💕</div>
+            <div class="seal-text">TAP</div>
+          </div>
         </div>
 
-        <!-- Particles container -->
-        <div class="seal-particles" id="sealParticles"></div>
+        <p class="seal-hint" id="sealHint">✨ Tap the seal to open ✨</p>
+      </div>
 
-        <div class="letter-box hidden" id="letterBox">
-            <div class="paper-content">
-                <div class="paper-header">
-                    <span class="paper-date">February 14, 2026</span>
-                </div>
+      <!-- Particles container -->
+      <div class="seal-particles" id="sealParticles"></div>
 
-                <h2 class="handwritten-title">My Dearest Riyu,</h2>
+      <div class="letter-box hidden" id="letterBox">
+        <div class="paper-content">
+          <div class="paper-header">
+            <span class="paper-date">February 14, 2026</span>
+          </div>
 
-                <div class="handwritten-body">
-                    <p>I am not a poet like you.<br>
-                        I cannot spin pain into beautiful verses,<br>
-                        Or make the ink bleed with emotion the way you do.<br>
-                        I am not a dancer who moves with grace,<br>
-                        Nor a singer who can carry a tune.</p>
+          <h2 class="handwritten-title">My Dearest Riyu,</h2>
 
-                    <p>I am just a simple guy from <span class="highlight">Vadodara</span>,<br>
-                        Just a common international student,<br>
-                        Just "TimTim" from your phone screen.</p>
+          <div class="handwritten-body">
+            <p>
+              I am not a poet like you.<br />
+              I cannot spin pain into beautiful verses,<br />
+              Or make the ink bleed with emotion the way you do.<br />
+              I am not a dancer who moves with grace,<br />
+              Nor a singer who can carry a tune.
+            </p>
 
-                    <p>But when I look at you...<br>
-                        I see <span class="highlight">Everything</span>.</p>
+            <p>
+              I am just a simple guy from
+              <span class="highlight">Vadodara</span>,<br />
+              Just a common international student,<br />
+              Just "TimTim" from your phone screen.
+            </p>
 
-                    <p>I see the girl who fights her own mind and wins everyday.<br>
-                        I see the artist who colors my grey world.<br>
-                        I see the future I want to wake up to.</p>
+            <p>
+              But when I look at you...<br />
+              I see <span class="highlight">Everything</span>.
+            </p>
 
-                    <p>You worry you're "too much".<br>
-                        Too emotional. Too chaotic. Too needy.<br>
-                        But baby...<br>
-                        <span class="highlight">You are just enough.</span>
-                    </p>
+            <p>
+              I see the girl who fights her own mind and wins everyday.<br />
+              I see the artist who colors my grey world.<br />
+              I see the future I want to wake up to.
+            </p>
 
-                    <p>So here is my promise, in writing,<br>
-                        sealed with a digital kiss:</p>
+            <p>
+              You worry you're "too much".<br />
+              Too emotional. Too chaotic. Too needy.<br />
+              But baby...<br />
+              <span class="highlight">You are just enough.</span>
+            </p>
 
-                    <p class="promise-quote">"I will hold your chaos as gently as I hold your hands.<br>
-                        I will be your calm in the panic.<br>
-                        And I will love you...<br>
-                        Even when you don't love yourself."</p>
-                </div>
+            <p>
+              So here is my promise, in writing,<br />
+              sealed with a digital kiss:
+            </p>
 
-                <div class="paper-footer">
-                    <span class="yours">Forever Yours,</span>
-                    <span class="signature">Aayush</span>
-                    <div class="ink-splatter"></div>
-                </div>
-            </div>
+            <p class="promise-quote">
+              "I will hold your chaos as gently as I hold your hands.<br />
+              I will be your calm in the panic.<br />
+              And I will love you...<br />
+              Even when you don't love yourself."
+            </p>
+          </div>
+
+          <div class="paper-footer">
+            <span class="yours">Forever Yours,</span>
+            <span class="signature">Aayush</span>
+            <div class="ink-splatter"></div>
+          </div>
         </div>
+      </div>
 
-        <button class="btn hidden" id="letterBtn" onclick="go(40)" style="margin-top: 20px;"><span>I'm Crying 🥺
-                (Continue)</span></button>
+      <button
+        class="btn hidden"
+        id="letterBtn"
+        onclick="go(40)"
+        style="margin-top: 20px"
+      >
+        <span>I'm Crying 🥺 (Continue)</span>
+      </button>
     </div>
 
     <!-- Step 40: Buildup -->
     <div id="s40" class="card dream hidden">
-        <h1 class="romantic">💫 Ready?</h1>
-        <p class="text-lg">The moment is here...</p>
-        <div style="font-size: clamp(3rem, 10vw, 4rem); margin: 30px 0;" class="pulse">💝</div>
-        <button class="btn yes" onclick="go(41)"><span>I'm Ready 💕</span></button>
+      <h1 class="romantic">💫 Ready?</h1>
+      <p class="text-lg">The moment is here...</p>
+      <div
+        style="font-size: clamp(3rem, 10vw, 4rem); margin: 30px 0"
+        class="pulse"
+      >
+        💝
+      </div>
+      <button class="btn yes" onclick="go(41)">
+        <span>I'm Ready 💕</span>
+      </button>
     </div>
 
     <!-- Step 41: THE QUESTION -->
     <div id="s41" class="card dream hidden">
-        <h1 class="romantic" style="font-size: clamp(2rem, 6vw, 2.5rem);">Riyu...</h1>
-        <p class="text-xl pink" style="margin: 28px 0;">Will you be my Valentine? 💝</p>
-        <div class="btn-group" style="position: relative; min-height: 80px;">
-            <button class="btn yes" onclick="sayYes()"><span>YES! 💕</span></button>
-            <button class="btn no" id="noBtn" onmouseenter="dodgeNo()" ontouchstart="dodgeNo()"
-                onclick="dodgeNo(); return false;"><span>No</span></button>
-        </div>
+      <h1 class="romantic" style="font-size: clamp(2rem, 6vw, 2.5rem)">
+        Riyu...
+      </h1>
+      <p class="text-xl pink" style="margin: 28px 0">
+        Will you be my Valentine? 💝
+      </p>
+      <div class="btn-group" style="position: relative; min-height: 80px">
+        <button class="btn yes" onclick="sayYes()"><span>YES! 💕</span></button>
+        <button
+          class="btn no"
+          id="noBtn"
+          onmouseenter="dodgeNo()"
+          ontouchstart="dodgeNo()"
+          onclick="
+            dodgeNo();
+            return false;
+          "
+        >
+          <span>No</span>
+        </button>
+      </div>
     </div>
 
     <!-- Step 42: Contract -->
     <div id="s42" class="card dream hidden">
-        <h1>📜 Terms of Love</h1>
-        <div class="contract-box">
-            <div class="contract-item"><input type="checkbox" checked disabled><span>I will love TimTim (that's you,
-                    Aayush!) unconditionally</span></div>
-            <div class="contract-item"><input type="checkbox" checked disabled><span>I will watch Gilmore Girls & Little
-                    Things on loop together</span></div>
-            <div class="contract-item"><input type="checkbox" checked disabled><span>I accept my Drama Queen title
-                    👑</span></div>
-            <div class="contract-item"><input type="checkbox" checked disabled><span>I will let him make Nani's broccoli
-                    soup</span></div>
-            <div class="contract-item"><input type="checkbox" checked disabled><span>I will say "ehh ehh" forever
-                    😊</span></div>
-            <div class="contract-item"><input type="checkbox" checked disabled><span>NYC apartment near Times Square:
-                    Confirmed 🗽</span></div>
-            <div class="contract-item"><input type="checkbox" checked disabled><span>Seattle Space Needle date:
-                    Confirmed 🌆</span></div>
-            <div class="contract-item"><input type="checkbox" checked disabled><span>Beverly Hills dream house:
-                    Confirmed 🏠</span></div>
-            <div class="contract-item"><input type="checkbox" checked disabled><span>We will chase Billboard charts
-                    together ✨</span></div>
+      <h1>📜 Terms of Love</h1>
+      <div class="contract-box">
+        <div class="contract-item">
+          <input type="checkbox" checked disabled /><span
+            >I will love TimTim (that's you, Aayush!) unconditionally</span
+          >
         </div>
-        <button class="btn" onclick="go(43)"><span>I Accept All Terms 💕</span></button>
+        <div class="contract-item">
+          <input type="checkbox" checked disabled /><span
+            >I will watch Gilmore Girls & Little Things on loop together</span
+          >
+        </div>
+        <div class="contract-item">
+          <input type="checkbox" checked disabled /><span
+            >I accept my Drama Queen title 👑</span
+          >
+        </div>
+        <div class="contract-item">
+          <input type="checkbox" checked disabled /><span
+            >I will let him make Nani's broccoli soup</span
+          >
+        </div>
+        <div class="contract-item">
+          <input type="checkbox" checked disabled /><span
+            >I will say "ehh ehh" forever 😊</span
+          >
+        </div>
+        <div class="contract-item">
+          <input type="checkbox" checked disabled /><span
+            >NYC apartment near Times Square: Confirmed 🗽</span
+          >
+        </div>
+        <div class="contract-item">
+          <input type="checkbox" checked disabled /><span
+            >Seattle Space Needle date: Confirmed 🌆</span
+          >
+        </div>
+        <div class="contract-item">
+          <input type="checkbox" checked disabled /><span
+            >Beverly Hills dream house: Confirmed 🏠</span
+          >
+        </div>
+        <div class="contract-item">
+          <input type="checkbox" checked disabled /><span
+            >We will chase Billboard charts together ✨</span
+          >
+        </div>
+      </div>
+      <button class="btn" onclick="go(43)">
+        <span>I Accept All Terms 💕</span>
+      </button>
     </div>
 
     <!-- Step 43: Sign -->
     <div id="s43" class="card dream hidden">
-        <h1>✍️ Sign Here</h1>
-        <p>Draw your signature below!</p>
-        <div class="sig-pad" id="sigPad"
-            style="background: #fff; border-radius: 12px; margin: 16px auto; touch-action: none;">
-            <canvas id="sigCanvas" width="300" height="150" style="display: block; cursor: crosshair;"></canvas>
-        </div>
-        <p style="font-size: 0.8rem; opacity: 0.6;">Use mouse or finger to draw</p>
-        <div class="btn-group">
-            <button class="btn small" onclick="clearSig()"><span>Clear</span></button>
-            <button class="btn" onclick="submitSig()"><span>Submit 💕</span></button>
-        </div>
+      <h1>✍️ Sign Here</h1>
+      <p>Draw your signature below!</p>
+      <div
+        class="sig-pad"
+        id="sigPad"
+        style="
+          background: #fff;
+          border-radius: 12px;
+          margin: 16px auto;
+          touch-action: none;
+        "
+      >
+        <canvas
+          id="sigCanvas"
+          width="300"
+          height="150"
+          style="display: block; cursor: crosshair"
+        ></canvas>
+      </div>
+      <p style="font-size: 0.8rem; opacity: 0.6">Use mouse or finger to draw</p>
+      <div class="btn-group">
+        <button class="btn small" onclick="clearSig()">
+          <span>Clear</span>
+        </button>
+        <button class="btn" onclick="submitSig()">
+          <span>Submit 💕</span>
+        </button>
+      </div>
     </div>
 
     <!-- Step 44: Receipt -->
     <div id="s44" class="card dream hidden">
-        <h1
-            style="color: #ff2d6a; -webkit-text-fill-color: #ff2d6a; background: none; text-shadow: 0 0 20px rgba(255,45,106,0.5); font-size: clamp(1.5rem, 5vw, 2rem);">
-            🧾 Official Receipt</h1>
-        <div class="receipt">
-            <h3>💕 LOVE RECEIPT 💕</h3>
-            <div class="receipt-row"><span>📅 Date:</span><span>Feb 14, 2026</span></div>
-            <div class="receipt-row"><span>📍 Location:</span><span>Beverly Hills</span></div>
-            <div class="receipt-row"><span>👑 Customer:</span><span>Riyu ♫</span></div>
-            <div class="receipt-row"><span>🐒 Server:</span><span>TimTim</span></div>
-            <hr style="margin: 8px 0; border-style: dashed; border-color: #ff2d6a60;">
-            <div class="receipt-row"><span>∞ Spinach Pasta</span><span>🍽️</span></div>
-            <div class="receipt-row"><span>∞ Broccoli Soup</span><span>🍲</span></div>
-            <div class="receipt-row"><span>1x Starbucks date</span><span>☕</span></div>
-            <div class="receipt-row"><span>1x NYC apartment</span><span>🗽</span></div>
-            <div class="receipt-row"><span>1x Seattle Needle</span><span>🌆</span></div>
-            <div class="receipt-row"><span>∞ Late night talks</span><span>🌙</span></div>
-            <div class="receipt-row"><span>∞ Gilmore Girls</span><span>📺</span></div>
-            <div class="receipt-row"><span>∞ "ehh ehh" moments</span><span>😊</span></div>
-            <div class="receipt-row"><span>1x Beverly Hills house</span><span>🏠</span></div>
-            <div class="receipt-row"><span>∞ Billboard prayers</span><span>🎵</span></div>
-            <div class="receipt-row"><span>1x Piano concert</span><span>🎹</span></div>
-            <div class="receipt-row"><span>1x Forever</span><span>❤️</span></div>
-            <hr style="margin: 8px 0; border-style: dashed; border-color: #ff2d6a60;">
-            <div class="receipt-row receipt-total"><span>💝 TOTAL:</span><span>PRICELESS</span></div>
-            <p style="font-size: 0.6rem; opacity: 0.6; margin-top: 8px; text-align: center; color: #666;">Valid:
-                Lifetime • No refunds</p>
+      <h1
+        style="
+          color: #ff2d6a;
+          -webkit-text-fill-color: #ff2d6a;
+          background: none;
+          text-shadow: 0 0 20px rgba(255, 45, 106, 0.5);
+          font-size: clamp(1.5rem, 5vw, 2rem);
+        "
+      >
+        🧾 Official Receipt
+      </h1>
+      <div class="receipt">
+        <h3>💕 LOVE RECEIPT 💕</h3>
+        <div class="receipt-row">
+          <span>📅 Date:</span><span>Feb 14, 2026</span>
         </div>
-        <button class="btn" onclick="go(45)"><span>Best Receipt Ever 🥺</span></button>
+        <div class="receipt-row">
+          <span>📍 Location:</span><span>Beverly Hills</span>
+        </div>
+        <div class="receipt-row">
+          <span>👑 Customer:</span><span>Riyu ♫</span>
+        </div>
+        <div class="receipt-row">
+          <span>🐒 Server:</span><span>TimTim</span>
+        </div>
+        <hr
+          style="margin: 8px 0; border-style: dashed; border-color: #ff2d6a60"
+        />
+        <div class="receipt-row">
+          <span>∞ Spinach Pasta</span><span>🍽️</span>
+        </div>
+        <div class="receipt-row">
+          <span>∞ Broccoli Soup</span><span>🍲</span>
+        </div>
+        <div class="receipt-row">
+          <span>1x Starbucks date</span><span>☕</span>
+        </div>
+        <div class="receipt-row">
+          <span>1x NYC apartment</span><span>🗽</span>
+        </div>
+        <div class="receipt-row">
+          <span>1x Seattle Needle</span><span>🌆</span>
+        </div>
+        <div class="receipt-row">
+          <span>∞ Late night talks</span><span>🌙</span>
+        </div>
+        <div class="receipt-row">
+          <span>∞ Gilmore Girls</span><span>📺</span>
+        </div>
+        <div class="receipt-row">
+          <span>∞ "ehh ehh" moments</span><span>😊</span>
+        </div>
+        <div class="receipt-row">
+          <span>1x Beverly Hills house</span><span>🏠</span>
+        </div>
+        <div class="receipt-row">
+          <span>∞ Billboard prayers</span><span>🎵</span>
+        </div>
+        <div class="receipt-row">
+          <span>1x Piano concert</span><span>🎹</span>
+        </div>
+        <div class="receipt-row"><span>1x Forever</span><span>❤️</span></div>
+        <hr
+          style="margin: 8px 0; border-style: dashed; border-color: #ff2d6a60"
+        />
+        <div class="receipt-row receipt-total">
+          <span>💝 TOTAL:</span><span>PRICELESS</span>
+        </div>
+        <p
+          style="
+            font-size: 0.6rem;
+            opacity: 0.6;
+            margin-top: 8px;
+            text-align: center;
+            color: #666;
+          "
+        >
+          Valid: Lifetime • No refunds
+        </p>
+      </div>
+      <button class="btn" onclick="go(45)">
+        <span>Best Receipt Ever 🥺</span>
+      </button>
     </div>
 
     <!-- Step 45: THE END -->
     <div id="s45" class="card dream hidden">
-        <h1 class="romantic" style="font-size: clamp(2.5rem, 8vw, 3rem);">I Love You</h1>
-        <p class="text-xl">My Drama Queen 👑</p>
-        <div style="font-size: clamp(3.5rem, 12vw, 5rem); margin: 24px 0;" class="pulse">💕</div>
-        <p style="font-style: italic; color: var(--hydrangea); max-width: 100%;">
-            "Don't you worry your pretty little mind,<br>
-            People throw rocks at things that shine..."
-        </p>
-        <p style="margin-top: 20px;">Forever Yours,<br><span class="gold font-display">Your TimTim (Makkar 🐒)</span>
-        </p>
+      <h1 class="romantic" style="font-size: clamp(2.5rem, 8vw, 3rem)">
+        I Love You
+      </h1>
+      <p class="text-xl">My Drama Queen 👑</p>
+      <div
+        style="font-size: clamp(3.5rem, 12vw, 5rem); margin: 24px 0"
+        class="pulse"
+      >
+        💕
+      </div>
+      <p style="font-style: italic; color: var(--hydrangea); max-width: 100%">
+        "Don't you worry your pretty little mind,<br />
+        People throw rocks at things that shine..."
+      </p>
+      <p style="margin-top: 20px">
+        Forever Yours,<br /><span class="gold font-display"
+          >Your TimTim (Makkar 🐒)</span
+        >
+      </p>
     </div>
 
     <!-- JavaScript -->
     <script src="script.js?v=3.1"></script>
-</body>
-
+  </body>
 </html>
