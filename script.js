@@ -1214,8 +1214,7 @@ function connectToHeart(dot) {
     const messages = {
         'marathi': 'Marathi spirit connected! 🏠',
         'malayali': 'Mallu magic connected! 🌴', 
-        'bengali': 'Bengali soul connected! 🎶',
-        'odia': 'Odia heart connected! 🌺'
+        'bengali': 'Bengali soul connected! 🎶'
     };
     
     dot.classList.add('connected');
