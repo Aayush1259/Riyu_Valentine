@@ -37,7 +37,7 @@ if (!('classList' in document.documentElement)) {
 const S = {
     step: 1,
     stubClicks: 10,
-    fails: { 1: 0, 2: 0, 3: 0 },
+    fails: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
     teaIdx: 0,
     mapClicks: 0,
     pets: 0,
@@ -437,7 +437,7 @@ function handleStep(n) {
             }
             triggerShake(true);
         }
-        // Steps 21+: Calm/Dream phase - play ours.mp3
+        // Steps 21+: Calm/Dream phase - play Perfect (Acoustic).mp3
         else if (n >= 21) {
             // Stop other music
             if (introMusic && !introMusic.paused) introMusic.pause();
@@ -1257,9 +1257,8 @@ function connectToHeart(dot) {
         heart.classList.add('pulse-love');
         setTimeout(() => heart.classList.remove('pulse-love'), 500);
     }
-    
-    // Check completion (3 roots: Marathi, Malayali, Bengali)
-    if (heritageConnected >= 3) {
+
+    if (heritageConnected == 3) {
         setTimeout(() => {
             const complete = document.getElementById('heritageComplete');
             const msg = document.getElementById('mapMsg');
