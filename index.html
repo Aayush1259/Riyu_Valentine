@@ -580,12 +580,15 @@
 
     <!-- Step 19: Pop Worries -->
     <div id="s19" class="card panic hidden">
-      <h1 class="panic">🎈 POP!</h1>
-      <p style="color: #ff6b6b">Anxiety balloons everywhere!</p>
+      <h1 class="panic">🫧 POP THE THOUGHTS!</h1>
+      <p style="color: #ff6b6b">Anxious thoughts keep coming...</p>
       <p style="color: #ffd93d; font-size: 0.9rem">
-        👆 TAP each balloon 4x to pop it!
+        👆 TAP bubbles to pop them! They won't stop!
       </p>
-      <p class="gold">Remaining: <span id="cloudNum">8</span></p>
+      <p class="gold">Popped: <span id="cloudNum">0</span></p>
+      <button class="btn panic-btn" id="callForHelpBtn" onclick="callForHelp()" style="margin-top: 16px; background: linear-gradient(135deg, #ff6b6b, #ff4757);">
+        <span>😰 I need help! Call someone!</span>
+      </button>
     </div>
 
     <!-- Step 20: Call -->
@@ -857,6 +860,14 @@
           <span class="dot-label">WB</span>
           <span class="dot-name">Bengali</span>
         </div>
+        <!-- <div
+          class="heritage-dot draggable"
+          data-culture="odia"
+          style="left: 65%; top: 52%"
+        >
+          <span class="dot-label">OD</span>
+          <span class="dot-name">Odisha</span>
+        </div> -->
         <!-- Me - Gujarat (drop target) -->
         <div class="heritage-target" id="gujaratHeart">
           <span class="target-heart">💖</span>

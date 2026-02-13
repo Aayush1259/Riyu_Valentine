@@ -970,103 +970,136 @@ body::after {
     }
 }
 
-/* Step 19: Worry Balloons (TAP to pop!) */
-.worry-balloon {
+/* Step 19: Thought Bubbles (TAP to pop!) */
+.thought-bubble {
     position: fixed;
-    width: 75px;
-    height: 90px;
+    min-width: 80px;
+    max-width: 140px;
+    padding: 12px 16px;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: var(--balloon-color, #ff6b6b);
-    background: radial-gradient(ellipse at 30% 20%, rgba(255, 255, 255, 0.5), var(--balloon-color, #ff6b6b) 50%);
-    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(240, 240, 255, 0.9));
+    border-radius: 20px;
     cursor: pointer;
     z-index: 1000;
     box-shadow:
-        inset -8px -8px 15px rgba(0, 0, 0, 0.25),
-        0 8px 25px rgba(0, 0, 0, 0.35);
-    -webkit-transition: transform 0.15s ease-out;
-    transition: transform 0.15s ease-out;
+        0 4px 20px rgba(0, 0, 0, 0.15),
+        inset 0 -2px 10px rgba(0, 0, 0, 0.05),
+        0 0 0 2px rgba(255, 107, 107, 0.3);
+    -webkit-transition: transform 0.15s ease-out, opacity 0.3s;
+    transition: transform 0.15s ease-out, opacity 0.3s;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
-    -webkit-animation: balloonFloat 3s ease-in-out infinite;
-    animation: balloonFloat 3s ease-in-out infinite;
+    -webkit-animation: bubbleFloat 2s ease-in-out infinite;
+    animation: bubbleFloat 2s ease-in-out infinite;
 }
 
-.worry-balloon.tapped {
-    filter: brightness(1.3);
-}
-
-.worry-balloon .balloon-text {
-    color: #fff;
-    font-size: 0.6rem;
-    font-weight: bold;
-    text-align: center;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
-    padding: 4px;
-    pointer-events: none;
-}
-
-.worry-balloon .balloon-tap-hint {
-    position: absolute;
-    bottom: 12px;
-    font-size: 0.5rem;
-    color: rgba(255, 255, 255, 0.8);
-    font-weight: bold;
-    pointer-events: none;
-}
-
-.worry-balloon .balloon-string {
-    position: absolute;
-    bottom: -18px;
-    width: 2px;
-    height: 18px;
-    background: linear-gradient(to bottom, var(--balloon-color, #ff6b6b), transparent);
-    pointer-events: none;
-}
-
-.worry-balloon::after {
+.thought-bubble::before {
     content: '';
     position: absolute;
-    bottom: -3px;
+    bottom: -8px;
+    left: 20px;
+    width: 16px;
+    height: 16px;
+    background: inherit;
+    border-radius: 50%;
+    box-shadow: inherit;
+}
+
+.thought-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -14px;
+    left: 14px;
     width: 10px;
     height: 10px;
-    background: var(--balloon-color, #ff6b6b);
-    border-radius: 0 0 50% 50%;
-    -webkit-clip-path: polygon(0 0, 100% 0, 50% 100%);
-    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    background: inherit;
+    border-radius: 50%;
+}
+
+.thought-bubble .bubble-text {
+    color: #333;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
     pointer-events: none;
 }
 
-@-webkit-keyframes balloonFloat {
+.thought-bubble.popping {
+    -webkit-animation: bubblePop 0.3s ease-out forwards !important;
+    animation: bubblePop 0.3s ease-out forwards !important;
+}
 
-    0%,
-    100% {
-        -webkit-transform: translateY(0) rotate(-2deg);
-        transform: translateY(0) rotate(-2deg);
+@-webkit-keyframes bubbleFloat {
+    0%, 100% {
+        -webkit-transform: translateY(0) scale(1);
+        transform: translateY(0) scale(1);
     }
-
     50% {
-        -webkit-transform: translateY(-8px) rotate(2deg);
-        transform: translateY(-8px) rotate(2deg);
+        -webkit-transform: translateY(-6px) scale(1.02);
+        transform: translateY(-6px) scale(1.02);
     }
 }
 
-@keyframes balloonFloat {
-
-    0%,
-    100% {
-        transform: translateY(0) rotate(-2deg);
+@keyframes bubbleFloat {
+    0%, 100% {
+        transform: translateY(0) scale(1);
     }
-
     50% {
-        transform: translateY(-8px) rotate(2deg);
+        transform: translateY(-6px) scale(1.02);
     }
+}
+
+@-webkit-keyframes bubblePop {
+    0% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        -webkit-transform: scale(1.3);
+        transform: scale(1.3);
+        opacity: 0.5;
+    }
+    100% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+@keyframes bubblePop {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.3);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+.panic-btn {
+    -webkit-animation: panicPulse 0.5s ease-in-out infinite;
+    animation: panicPulse 0.5s ease-in-out infinite;
+}
+
+@-webkit-keyframes panicPulse {
+    0%, 100% { -webkit-transform: scale(1); transform: scale(1); }
+    50% { -webkit-transform: scale(1.05); transform: scale(1.05); }
+}
+
+@keyframes panicPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
 }
 
 .card.calm {
@@ -4932,7 +4965,7 @@ input,
 }
 
 /* Prevent text selection on interactive elements */
-.btn, .ingredient, .trait-card, .map-dot, .emoji-cell, .fear-thought, .worry-balloon, .glass-fear {
+.btn, .ingredient, .trait-card, .map-dot, .emoji-cell, .fear-thought, .thought-bubble, .glass-fear {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;

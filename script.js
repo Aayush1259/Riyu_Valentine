@@ -767,107 +767,129 @@ function cleanupFearThoughts() {
     }
     document.querySelectorAll('.fear-thought').forEach(f => f.remove());
     document.querySelectorAll('.glass-fear').forEach(g => g.remove());
-    document.querySelectorAll('.worry-balloon').forEach(b => b.remove());
+    document.querySelectorAll('.thought-bubble').forEach(b => b.remove());
+    if (bubbleSpawnInterval) {
+        clearInterval(bubbleSpawnInterval);
+        bubbleSpawnInterval = null;
+    }
 }
 
-// Step 19: Pop Worry Balloons (TAP to pop!)
-let balloons = 8;
+// Step 19: Pop Thought Bubbles (continuous spawning!)
+let poppedCount = 0;
+let bubbleSpawnInterval = null;
+
+const anxiousThoughts = [
+    '😰 What if they leave?',
+    '😱 Am I too much?',
+    '😵 So exhausted...',
+    '😢 Nobody cares',
+    '🤯 Can\'t handle this',
+    '😤 Why me?!',
+    '😨 Something bad will happen',
+    '🥺 I\'m not good enough',
+    '😰 They\'re mad at me',
+    '😱 I messed up',
+    '💔 They\'ll forget me',
+    '😵 Too overwhelming',
+    '😢 I\'m alone',
+    '🤯 Mind won\'t stop',
+    '😤 Everything is wrong',
+    '😨 What if I fail?',
+    '🥺 Am I annoying?',
+    '😰 They don\'t like me',
+    '😱 Can\'t breathe',
+    '💭 Overthinking again...'
+];
+
 function spawnClouds() {
-    const worries = [
-        { text: '😰 STRESS', color: '#ff6b6b' },
-        { text: '😱 PANIC', color: '#ff4757' },
-        { text: '😵 TIRED', color: '#ff7f50' },
-        { text: '😢 SAD', color: '#5f9ea0' },
-        { text: '🤯 OVERWHELM', color: '#ff6347' },
-        { text: '😤 ANGRY', color: '#dc143c' },
-        { text: '😨 SCARED', color: '#9370db' },
-        { text: '🥺 ANXIOUS', color: '#ff69b4' }
-    ];
-    balloons = 8;
-    
+    poppedCount = 0;
     const countEl = document.getElementById('cloudNum');
-    if (countEl) countEl.textContent = balloons;
+    if (countEl) countEl.textContent = poppedCount;
     
     // Clear existing
-    document.querySelectorAll('.worry-balloon').forEach(b => b.remove());
+    document.querySelectorAll('.thought-bubble').forEach(b => b.remove());
     
-    worries.forEach((worry, i) => {
-        setTimeout(() => {
-            if (S.step !== 19) return;
-            
-            const balloon = document.createElement('div');
-            balloon.className = 'worry-balloon';
-            balloon.innerHTML = '<span class="balloon-text">' + worry.text + '</span><div class="balloon-tap-hint">TAP!</div><div class="balloon-string"></div>';
-            balloon.style.setProperty('--balloon-color', worry.color);
-            
-            // Grid layout - 4 columns, 2 rows (more spread out)
-            const col = i % 4;
-            const row = Math.floor(i / 4);
-            balloon.style.left = (5 + col * 24) + '%';
-            balloon.style.top = (12 + row * 40) + '%';
-            
-            let tapsNeeded = 4; // 4 taps to pop
-            let size = 100;
-            
-            // Simple TAP to deflate
-            const tapBalloon = (e) => {
-                if (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                }
-                
-                tapsNeeded--;
-                size -= 20;
-                
-                // Visual feedback
-                balloon.style.transform = 'scale(' + (size/100) + ')';
-                balloon.classList.add('tapped');
-                if (navigator.vibrate) navigator.vibrate(30);
-                
-                // Brief shrink animation
-                setTimeout(() => balloon.classList.remove('tapped'), 150);
-                
-                if (tapsNeeded <= 0) {
-                    // POP!
-                    balloon.innerHTML = '💨';
-                    balloon.style.fontSize = '2.5rem';
-                    balloon.style.background = 'none';
-                    balloon.style.border = 'none';
-                    balloon.style.boxShadow = 'none';
-                    balloon.style.animation = 'none';
-                    balloon.style.pointerEvents = 'none';
-                    if (navigator.vibrate) navigator.vibrate([60, 40, 60]);
-                    
-                    setTimeout(() => balloon.remove(), 400);
-                    
-                    balloons--;
-                    if (countEl) countEl.textContent = balloons;
-                    
-                    if (balloons <= 0) {
-                        toast('😌 All worries popped!');
-                        setTimeout(() => go(20), 800);
-                    }
-                }
-            };
-            
-            // Both click and touch for maximum compatibility
-            balloon.addEventListener('click', tapBalloon);
-            balloon.addEventListener('touchend', (e) => {
-                e.preventDefault();
-                tapBalloon(e);
-            }, { passive: false });
-            
-            document.body.appendChild(balloon);
-        }, i * 250);
+    // Spawn initial bubbles
+    for (let i = 0; i < 5; i++) {
+        setTimeout(() => spawnSingleBubble(), i * 300);
+    }
+    
+    // Continuously spawn new bubbles
+    bubbleSpawnInterval = setInterval(() => {
+        if (S.step !== 19) {
+            clearInterval(bubbleSpawnInterval);
+            return;
+        }
+        spawnSingleBubble();
+    }, 1200);
+}
+
+function spawnSingleBubble() {
+    if (S.step !== 19) return;
+    
+    const thought = anxiousThoughts[Math.floor(Math.random() * anxiousThoughts.length)];
+    
+    const bubble = document.createElement('div');
+    bubble.className = 'thought-bubble';
+    bubble.innerHTML = '<span class="bubble-text">' + thought + '</span>';
+    
+    // Random position avoiding the center card area
+    const side = Math.random() > 0.5;
+    const x = side ? (5 + Math.random() * 25) : (70 + Math.random() * 25);
+    const y = 10 + Math.random() * 70;
+    
+    bubble.style.left = x + '%';
+    bubble.style.top = y + '%';
+    bubble.style.animationDelay = (Math.random() * 0.5) + 's';
+    
+    const popBubble = (e) => {
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        bubble.classList.add('popping');
+        if (navigator.vibrate) navigator.vibrate(30);
+        
+        poppedCount++;
+        const countEl = document.getElementById('cloudNum');
+        if (countEl) countEl.textContent = poppedCount;
+        
+        setTimeout(() => bubble.remove(), 300);
+    };
+    
+    bubble.addEventListener('click', popBubble);
+    bubble.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        popBubble(e);
+    }, { passive: false });
+    
+    document.body.appendChild(bubble);
+    
+    // Auto-remove after 8 seconds if not popped
+    setTimeout(() => {
+        if (bubble.parentNode && !bubble.classList.contains('popping')) {
+            bubble.classList.add('popping');
+            setTimeout(() => bubble.remove(), 300);
+        }
+    }, 8000);
+}
+
+function callForHelp() {
+    // Stop spawning
+    if (bubbleSpawnInterval) {
+        clearInterval(bubbleSpawnInterval);
+        bubbleSpawnInterval = null;
+    }
+    
+    // Clear all remaining bubbles
+    document.querySelectorAll('.thought-bubble').forEach(b => {
+        b.classList.add('popping');
+        setTimeout(() => b.remove(), 300);
     });
     
-    // Safety timeout
-    setTimeout(() => {
-        if (S.step === 19) {
-            document.querySelectorAll('.worry-balloon').forEach(b => b.remove());
-            go(20);
-        }
-    }, 35000);
+    toast('Getting help! 📞');
+    setTimeout(() => go(20), 500);
 }
 
 // Step 20: Chase call
