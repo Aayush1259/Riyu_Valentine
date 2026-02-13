@@ -542,7 +542,7 @@ function checkCaptcha() {
     if (!input) return;
     
     const v = input.value;
-    if (v === 'Humpy Dumpy') {
+    if (v === 'Humpy Dumpy' || v === 'HumpyDumpy' || v === 'HumptyDumpty' || v === 'Humpty Dumpty') {
         toast('Identity confirmed! 👑');
         go(7);
     } else {
@@ -560,10 +560,10 @@ function checkQ(q) {
     const value = input.value.toLowerCase().trim();
     
     const answers = {
-        1: ['sept 2', 'september 2', 'sep 2', '2 sept', '2 september', 'sept2', 'september2', '2nd september', '2nd sept'],
-        2: ['om'],
+        1: ['sept 3', 'september 3', 'sep 3', '3 sept', '3 september', 'sept3', 'september', '3rd september', '3rd sept'],
+        2: ['Sona','sona baby','sona','sonababy'],
         3: ['gilmore girls', 'gilmore', 'gilmoregirls'],
-        4: ['overthink', 'overthinking', 'over think', 'over thinking', 'overanalyze', 'over analyze'],
+        4: ['overthink', 'overthinking', 'over think', 'over thinking', 'overanalyze', 'over analyze', 'overanalyzing', 'over analyzing','panic', 'anxiety', 'stress', 'worry', 'overwhelm', 'overwhelmed'],
         5: ['bhagavad gita', 'gita', 'bhagavadgita', 'bhagvad gita', 'geeta', 'bhagwad gita', 'bhagwat gita']
     };
     
