@@ -1258,8 +1258,8 @@ function connectToHeart(dot) {
         setTimeout(() => heart.classList.remove('pulse-love'), 500);
     }
     
-    // Check completion
-    if (heritageConnected >= 4) {
+    // Check completion (3 roots: Marathi, Malayali, Bengali)
+    if (heritageConnected >= 3) {
         setTimeout(() => {
             const complete = document.getElementById('heritageComplete');
             const msg = document.getElementById('mapMsg');
