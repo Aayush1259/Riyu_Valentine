@@ -77,7 +77,7 @@ In `index.html`, find Step 38 (Photo) and replace the emoji with an `<img>` tag
 
 ## 💕 Made With Love
 
-For Riyu, from TimTim 🐒
+For Riyu, from Weirdoo 🐒
 
 ---
 
