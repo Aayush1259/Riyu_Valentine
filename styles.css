@@ -2645,11 +2645,22 @@ p {
     transform: rotate(-0.5deg);
     -webkit-transform: rotate(-0.5deg);
     position: relative;
-    color: #222;
+    color: #1a1a1a !important;
     border-radius: 4px;
     max-height: clamp(50vh, 60vh, 70vh);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+}
+
+/* Ensure all text inside paper is dark */
+.paper-content * {
+    -webkit-text-fill-color: initial !important;
+}
+
+.paper-content p,
+.paper-content span,
+.paper-content div {
+    color: inherit;
 }
 
 .paper-content::-webkit-scrollbar {
@@ -2696,9 +2707,15 @@ p {
     margin-bottom: 24px;
     font-family: var(--font-mono);
     font-size: clamp(0.7rem, 2vw, 0.85rem);
-    color: #666;
+    color: #555 !important;
+    -webkit-text-fill-color: #555 !important;
     opacity: 1;
     font-weight: 500;
+}
+
+.paper-date {
+    color: #555 !important;
+    -webkit-text-fill-color: #555 !important;
 }
 
 .handwritten-title {
@@ -2716,8 +2733,15 @@ p {
     font-family: var(--font-script);
     font-size: clamp(1.2rem, 3.5vw, 1.5rem);
     line-height: 1.9;
-    color: #1a1a2e;
+    color: #1a1a2e !important;
+    -webkit-text-fill-color: #1a1a2e !important;
     font-weight: 500;
+}
+
+.handwritten-body p,
+.handwritten-body br {
+    color: #1a1a2e !important;
+    -webkit-text-fill-color: #1a1a2e !important;
 }
 
 .handwritten-body p {
@@ -2844,7 +2868,8 @@ p {
 /* Receipt */
 .receipt {
     background: linear-gradient(180deg, #fffef5 0%, #fff8e8 100%);
-    color: #1a1a1a;
+    color: #1a1a1a !important;
+    -webkit-text-fill-color: #1a1a1a !important;
     padding: clamp(16px, 4vw, 24px);
     border-radius: 8px;
     font-family: 'Courier New', monospace;
@@ -2861,6 +2886,17 @@ p {
         inset 0 0 20px rgba(255, 200, 150, 0.1);
     position: relative;
     -webkit-overflow-scrolling: touch;
+}
+
+/* Ensure all receipt text is dark */
+.receipt * {
+    -webkit-text-fill-color: inherit !important;
+}
+
+.receipt-row,
+.receipt-row span {
+    color: #1a1a1a !important;
+    -webkit-text-fill-color: #1a1a1a !important;
 }
 
 .receipt::-webkit-scrollbar {
@@ -2919,6 +2955,8 @@ p {
 
 .receipt-row span:last-child {
     flex-shrink: 0;
+    color: #333 !important;
+    -webkit-text-fill-color: #333 !important;
 }
 
 .receipt-total {
