@@ -561,7 +561,7 @@ function checkQ(q) {
     
     const answers = {
         1: ['sept 3', 'september 3', 'sep 3', '3 sept', '3 september', 'sept3', 'september', '3rd september', '3rd sept'],
-        2: ['Sona','sona baby','sona','sonababy'],
+        2: ['Om'],
         3: ['gilmore girls', 'gilmore', 'gilmoregirls'],
         4: ['overthink', 'overthinking', 'over think', 'over thinking', 'overanalyze', 'over analyze', 'overanalyzing', 'over analyzing','panic', 'anxiety', 'stress', 'worry', 'overwhelm', 'overwhelmed'],
         5: ['bhagavad gita', 'gita', 'bhagavadgita', 'bhagvad gita', 'geeta', 'bhagwad gita', 'bhagwat gita']
