@@ -75,13 +75,3 @@ Replace the MP3 files with your own
 ### Add Your Photo
 In `index.html`, find Step 38 (Photo) and replace the emoji with an `<img>` tag
 
-## 💕 Made With Love
-
-For Riyu, from Weirdoo 🐒
-
----
-
-*Built with HTML, CSS, JavaScript, and lots of love* ❤️
-4.  Go to **Settings** -> **Pages**.
-5.  Select **Source** -> `main` branch.
-6.  Send her the link!
