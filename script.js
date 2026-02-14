@@ -665,7 +665,7 @@ function startSpiral() {
         'Internship?', 'VISA expiring?', 'Low scores!', 'Pimples?!',
         'Future?', 'Career?', 'Money?', 'Failing class?', 
         'Hair falling?', 'Dark circles!', 'No sleep?', 'Deadline?!',
-        'Professor mad?', 'Assignment?', 'Presentation?', 'Anxiety!'
+        'Professor mad?', 'Assignment?', 'Presentation?', 'Anxiety!', 'Failure'
     ];
     const box = document.getElementById('spiralBox');
     if (!box) return;
