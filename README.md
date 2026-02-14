@@ -13,7 +13,7 @@ An interactive Valentine's Day web experience — a 45-step journey of love, des
 
 ## 🚀 Live Demo
 
-[View Live Site](https://your-site.netlify.app)
+[View Live Site](https://speciallink1989.netlify.app/)
 
 ## 📁 Project Structure
 
