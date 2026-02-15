@@ -33,7 +33,7 @@ val/
 Add these MP3 files to the root folder:
 - `intro.mp3` - Mysterious/electronic vibe for the hacker theme
 - `panic.mp3` - Intense/anxious music for the panic phase  
-- `ours.mp3` - Romantic song for the calm/dream phases
+- `ours.mp3` or `Perfect.mp3` or `Your_Choice Song` - Romantic song for the calm/dream phases
 
 ## 🛠️ Local Setup
 
